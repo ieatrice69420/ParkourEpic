@@ -44,20 +44,12 @@ public class Push : MonoBehaviour
 
     void Update()
     {
-    	if (jumpSpeed > 0f)
-    	{
-	    	jumpSpeed -= Time.deltaTime * 2.5f;
-	    }
+    	if (jumpSpeed > 0f) jumpSpeed -= Time.deltaTime * 2.5f;
 
-	    if (jumpSpeed < 0f)
-	    {
-	    	jumpSpeed = 0f;
-	    }
+	    if (jumpSpeed < 0f) jumpSpeed = 0f;
 
     	if (!isSwinging)
-    	{
 	    	CharacterController.Move(ropeNewPos * jumpSpeed * Time.deltaTime);
-    	}
     	else if (Input.GetKeyDown(KeyCode.Space))
     	{
     		if (Input.GetKey(interact))
@@ -68,8 +60,7 @@ public class Push : MonoBehaviour
     			letGo.SetActive(false);
     		}
     	}
-	    if (move.isGrounded)
-	    	jumpSpeed = 0f;
+	    if (move.isGrounded) jumpSpeed = 0f;
     }
 
     void FixedUpdate()
@@ -83,12 +74,8 @@ public class Push : MonoBehaviour
 
     void LateUpdate()
     {
-    	if (isSwinging)
-    	{
-    		Swing();
-    	}
-    	if (isSwinging)
-	    	move.velocity = new Vector3 (0f, -2f, 0f);
+    	if (isSwinging) Swing();
+    	if (isSwinging) move.velocity = new Vector3 (0f, -2f, 0f);
     }
 
     void Detach()
