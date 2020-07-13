@@ -1514,7 +1514,6 @@ GameObject:
   - component: {fileID: 6776612804596698124}
   - component: {fileID: 8019970153497810741}
   - component: {fileID: 1432413448231542923}
-  - component: {fileID: 7901265757937424915}
   - component: {fileID: 7396581202373785104}
   m_Layer: 13
   m_Name: Player
@@ -1626,7 +1625,7 @@ MonoBehaviour:
   speed: 10
   ropeSpeed: 50
   jumpSpeed: 0
-  maxJumpSpeed: 50
+  maxJumpSpeed: 30
   isSwinging: 0
   player: {fileID: 7722510120855694964}
   rope: {fileID: 0}
@@ -1720,20 +1719,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &7901265757937424915
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7722510120855694926}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  m_Radius: 0.4
-  m_Height: 1.1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &7396581202373785104
 CapsuleCollider:
   m_ObjectHideFlags: 0
