@@ -44,10 +44,8 @@ public class EnemyFollowPlayer : MonoBehaviour
         {
             RaycastHit hit;
             if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit, 10))
-            {
                 if (hit.transform.CompareTag("Player"))
                     isSeeingPlayer = true;
-            }
         }
         else
             transform.LookAt(target);
