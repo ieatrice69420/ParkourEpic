@@ -37,10 +37,7 @@ public class Movement : MonoBehaviour
     /// Start is called on the frame when a script is enabled just before
     /// any of the Update methods is called the first time.
     /// </summary>
-    void Start()
-    {
-        verticalJumpDir = (float)(Math.Sqrt((double)(JumpHight * -2f * gravity)));
-    }
+    void Start() => verticalJumpDir = (float)(Math.Sqrt((double)(JumpHight * -2f * gravity)));
 
     void Update()
     {
@@ -65,41 +62,23 @@ public class Movement : MonoBehaviour
         x = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
         move = Vector3.ClampMagnitude(transform.right * x + transform.forward * z, 1f);
-        CharacterController.Move(move * speed * Time.deltaTime);
+        if (move.magnitude != 0f) CharacterController.Move(move * speed * Time.deltaTime);
     }
 
     void Sprint()
     {
         if (Input.GetKey(sprint))
-        {
-            x = Input.GetAxis("Horizontal");
-            z = Input.GetAxis("Vertical");
-            move = Vector3.ClampMagnitude(transform.right * x + transform.forward * z, 1f);
-            CharacterController.Move(move * speed / 3 * Time.deltaTime);
-        }
+            if (move.magnitude != 0f) CharacterController.Move(move * speed / 3 * Time.deltaTime);
     }
 
     void Slide()
     {
-        if (Input.GetKeyDown(crouch))
-        {
-            CharacterController.height = crouchHeight;
-        }
-
-        if (Input.GetKeyUp(crouch))
-        {
-            CharacterController.height = unCrouchHeight;
-        }
+        if (Input.GetKeyDown(crouch)) CharacterController.height = crouchHeight;
+        if (Input.GetKeyUp(crouch)) CharacterController.height = unCrouchHeight;
 
         isSliding = isGrounded && Input.GetKey(crouch) && slideDuration > 0f;
-        if (slideDuration < 0f)
-        {
-            slideDuration = 0f;
-        }
-        if (slideDuration > maxSlideDuration)
-        {
-            slideDuration = maxSlideDuration;
-        }
+        if (slideDuration < 0f) slideDuration = 0f;
+        if (slideDuration > maxSlideDuration) slideDuration = maxSlideDuration;
 
         if (isSliding)
         {
@@ -137,16 +116,9 @@ public class Movement : MonoBehaviour
 
     void Cannon()
     {
-        CharacterController.Move(knockBackDir * knockBackSpeed * Time.deltaTime);
-        if (knockBackSpeed > 0f)
-        {
-            knockBackSpeed -= knockBackSlowSpeed * Time.deltaTime;
-        }
-
-        if (knockBackSpeed < 0f)
-        {
-            knockBackSpeed = 0f;
-        }
+        if (knockBackDir.magnitude != 0f) CharacterController.Move(knockBackDir * knockBackSpeed * Time.deltaTime);
+        if (knockBackSpeed > 0f) knockBackSpeed -= knockBackSlowSpeed * Time.deltaTime;
+        if (knockBackSpeed < 0f) knockBackSpeed = 0f;
     }
 
     void WallRun()
@@ -159,7 +131,7 @@ public class Movement : MonoBehaviour
             if (Input.GetKey(sprint)) CharacterController.Move(wallRunDir * wallRunSpeed * Time.deltaTime);
         }
         else wallRunDir = move;
-        CharacterController.Move(wallJumpMainDir * wallJumpSpeed * Time.deltaTime);
+        if (wallJumpMainDir.magnitude != 0f) CharacterController.Move(wallJumpMainDir * wallJumpSpeed * Time.deltaTime);
         if (wallJumpSpeed > 0f) wallJumpSpeed -= 4f * Time.deltaTime;
         if (wallJumpSpeed < 0f || isGrounded) wallJumpSpeed = 0f;
         if (wallJumpSpeed > 0f) speed = 1.5f; else speed = 6f;
@@ -171,7 +143,6 @@ public class Movement : MonoBehaviour
         {
             wallJumpSpeed = 7f;
             velocity.y = verticalJumpDir;
-            Debug.Log("fadfafasf");
         }
     }
 
@@ -183,14 +154,10 @@ public class Movement : MonoBehaviour
                 if (Input.GetKeyDown(interact))
                     isVaultingForward = true;
         isVaulting = isVaultingUp || isVaultingForward;
-        if (isVaulting)
-            VaultUp();
+        if (isVaulting) VaultUp();
     }
 
-    void VaultUp()
-    {
-        CharacterController.Move(Vector3.up * vaultSpeed * Time.deltaTime);
-    }
+    void VaultUp() => CharacterController.Move(Vector3.up * vaultSpeed * Time.deltaTime);
 
     void Climb()
     {
@@ -204,11 +171,9 @@ public class Movement : MonoBehaviour
                 if (isClimbing)
                     CharacterController.Move(Vector3.up * climbSpeed * Time.deltaTime);
             }
-            else
-                isClimbing = false;
+            else isClimbing = false;
         }
-        else
-            isClimbing = false;
+        else isClimbing = false;
     }
 
     /// <summary>
@@ -221,8 +186,9 @@ public class Movement : MonoBehaviour
         touchingWall = true;
         Debug.Log("TOUCHING WALL");
         RaycastHit wallHit;
-        if (Physics.Raycast(transform.position, (other.transform.position - transform.position), out wallHit))
-            wallJumpMainDir = Vector3.Reflect(wallRunDir, wallHit.normal).normalized;
+        if (Physics.Raycast(transform.position, (other.ClosestPointOnBounds(transform.position) - transform.position), out wallHit))
+            if (wallRunDir.magnitude >= .05f)
+                wallJumpMainDir = Vector3.Reflect(wallRunDir, wallHit.normal).normalized;
     }
 
     /// <summary>
@@ -230,8 +196,5 @@ public class Movement : MonoBehaviour
     /// stopped touching another rigidbody/collider.
     /// </summary>
     /// <param name="other">The Collision data associated with this collision.</param>
-    void OnTriggerExit(Collider other)
-    {
-        touchingWall = false;
-    }
+    void OnTriggerExit(Collider other) => touchingWall = false;
 }

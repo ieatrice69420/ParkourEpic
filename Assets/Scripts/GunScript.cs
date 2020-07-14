@@ -37,11 +37,12 @@ public class GunScript : MonoBehaviour
         ReloadInput();
         UpdateAmmoIcon();
         ml.Recoil(10f);
-        if (moveSpeed > 0f)
+        if (moveSpeed > 0f) 
+        {
             moveSpeed -= slowSpeed * Time.deltaTime;
-        if (moveSpeed < 0f)
-            moveSpeed = 0f;
-        charCon.Move(knockBackDir * moveSpeed * Time.deltaTime);
+            charCon.Move(knockBackDir * moveSpeed * Time.deltaTime);
+        }
+        if (moveSpeed < 0f) moveSpeed = 0f;
     }
 
     void Fire()
@@ -123,8 +124,5 @@ public class GunScript : MonoBehaviour
         isReloading = false;
     }
 
-    void UpdateAmmoIcon()
-    {
-        ammoIcon.text = currentMagSize.ToString() + "/" + ammo.ToString();
-    }
+    void UpdateAmmoIcon() => ammoIcon.text = currentMagSize.ToString() + "/" + ammo.ToString();
 }

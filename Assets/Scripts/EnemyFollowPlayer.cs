@@ -44,10 +44,8 @@ public class EnemyFollowPlayer : MonoBehaviour
         {
             RaycastHit hit;
             if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit, 10))
-            {
                 if (hit.transform.CompareTag("Player"))
                     isSeeingPlayer = true;
-            }
         }
         else
             transform.LookAt(target);
@@ -61,8 +59,7 @@ public class EnemyFollowPlayer : MonoBehaviour
         if (Physics.Raycast(transform.position, shootDir, out hit))
         {
             Health health = hit.transform.gameObject.GetComponent<Health>();
-            if (health != null)
-                health.SimpleTakeHealth(dmg);
+            health?.SimpleTakeHealth(dmg);
             if (hit.transform.gameObject.layer == 10)
                 objectPooler.SpawnBulletHole("Bullet Hole", hit.point, hit.normal);
         }
