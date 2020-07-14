@@ -14,9 +14,11 @@ public class Timer : MonoBehaviour
         timerText.text = timeLeft.ToString("F2");
         timeLeft -= Time.deltaTime;
 
-        if (timeLeft < 0)
-        {
-            Debug.Log("Timer has over");
-        }
+        if (timeLeft < 0) TimerEnd();
+    }
+    
+    void TimerEnd()
+    {
+        Debug.Log("Timer has over");
     }
 }
