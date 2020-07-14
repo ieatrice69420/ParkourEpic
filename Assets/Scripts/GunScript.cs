@@ -124,8 +124,5 @@ public class GunScript : MonoBehaviour
         isReloading = false;
     }
 
-    void UpdateAmmoIcon()
-    {
-        ammoIcon.text = currentMagSize.ToString() + "/" + ammo.ToString();
-    }
+    void UpdateAmmoIcon() => ammoIcon.text = currentMagSize.ToString() + "/" + ammo.ToString();
 }
