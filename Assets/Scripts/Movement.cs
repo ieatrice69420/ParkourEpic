@@ -222,7 +222,7 @@ public class Movement : MonoBehaviour
         Debug.Log("TOUCHING WALL");
         RaycastHit wallHit;
         if (Physics.Raycast(transform.position, (other.transform.position - transform.position), out wallHit))
-            if (wallRunDir.magnitude >= .05f;
+            if (wallRunDir.magnitude >= .05f)
                 wallJumpMainDir = Vector3.Reflect(wallRunDir, wallHit.normal).normalized;
     }
 
