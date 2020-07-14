@@ -20,10 +20,8 @@ public class Health : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (health < 100f)
-            Regen();
-        if (health > 100f)
-            health = 100f;
+        if (health < 100f) Regen();
+        if (health > 100f) health = 100f;
     }
 
     /// <summary>
@@ -32,34 +30,27 @@ public class Health : MonoBehaviour
     /// </summary>
     void LateUpdate()
     {
-        if (!healthSO.isMultiplayer && healthSO.isRealPlayer)
-        {
-            image.color = new Color(255f, 255f, 255f, (100f - health) * 1.5f);
-        }
+        if (!healthSO.isMultiplayer && healthSO.isRealPlayer) image.color = new Color(255f, 255f, 255f, (100f - health) * 1.5f); 
     }
 
     void Regen() => health += regenSpeed * Time.deltaTime;
 
     public void TakeDamage(float amnt, Vector3 hitPos, float headShotMultiplier)
     {
-        if (hitPos.y > (healthSO.headShotStart + transform.position).y)
-            amnt *= headShotMultiplier;
+        if (hitPos.y > (healthSO.headShotStart + transform.position).y) amnt *= headShotMultiplier;
         health -= amnt;
-        if (health <= 0f)
-            Die();
+        if (health <= 0f) Die();
     }
 
     public void SimpleTakeHealth(float amnt)
     {
         health -= amnt;
-        if (health <= 0f)
-            Die();
+        if (health <= 0f) Die();
     }
 
     void Die()
     {
-        if (healthSO.isMultiplayer)
-            StartCoroutine(Respawn(respawnTIme));
+        if (healthSO.isMultiplayer) StartCoroutine(Respawn(respawnTIme));
         else
         {
             if (healthSO.isRealPlayer)
@@ -71,12 +62,10 @@ public class Health : MonoBehaviour
 
     IEnumerator Respawn(float duration)
     {
-        foreach (Transform child in transform)
-            child.gameObject.SetActive(false);
+        foreach (Transform child in transform) child.gameObject.SetActive(false);
         playerBody.enabled = false;
         yield return new WaitForSeconds(duration);
-        foreach (Transform child in transform)
-            child.gameObject.SetActive(true);
+        foreach (Transform child in transform) child.gameObject.SetActive(true);
         playerBody.enabled = true;
         health = 100f;
         wm.selectedWeapon = 0;
