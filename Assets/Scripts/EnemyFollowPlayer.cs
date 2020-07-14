@@ -61,8 +61,7 @@ public class EnemyFollowPlayer : MonoBehaviour
         if (Physics.Raycast(transform.position, shootDir, out hit))
         {
             Health health = hit.transform.gameObject.GetComponent<Health>();
-            if (health != null)
-                health.SimpleTakeHealth(dmg);
+            health?.SimpleTakeHealth(dmg);
             if (hit.transform.gameObject.layer == 10)
                 objectPooler.SpawnBulletHole("Bullet Hole", hit.point, hit.normal);
         }
