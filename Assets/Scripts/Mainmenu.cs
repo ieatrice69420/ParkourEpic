@@ -8,9 +8,5 @@ public class Mainmenu : MonoBehaviour
 
     public void PlayMultiPlayer() => SceneManager.LoadScene(1);
 
-    public void QuitGame()
-    {
-        Application.Quit();
-        Debug.Log("Quit");
-    }
+    public void QuitGame() => Application.Quit();
 }
