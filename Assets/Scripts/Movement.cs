@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Security.AccessControl;
+using System;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -177,24 +178,22 @@ public class Movement : MonoBehaviour
     }
 
     /// <summary>
-    /// OnCollisionStay is called once per frame for every collider/rigidbody
-    /// that is touching rigidbody/collider.
+    /// OnTriggerStay is called once per frame for every Collider other
+    /// that is touching the trigger.
     /// </summary>
-    /// <param name="other">The Collision data associated with this collision.</param>
+    /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerStay(Collider other)
     {
         touchingWall = true;
         Debug.Log("TOUCHING WALL");
         RaycastHit wallHit;
-        if (Physics.Raycast(transform.position, (other.ClosestPointOnBounds(transform.position) - transform.position), out wallHit))
-            if (wallRunDir.magnitude >= .05f)
-                wallJumpMainDir = Vector3.Reflect(wallRunDir, wallHit.normal).normalized;
+        if (Physics.Raycast(transform.position, (wallRunDir + wallRunDir * wallJumpSpeed), out wallHit))
+            if (wallRunDir.magnitude >= .05f) wallJumpMainDir = Vector3.Reflect(wallRunDir, wallHit.normal).normalized;
     }
 
     /// <summary>
-    /// OnCollisionExit is called when this collider/rigidbody has
-    /// stopped touching another rigidbody/collider.
+    /// OnTriggerExit is called when the Collider other has stopped touching the trigger.
     /// </summary>
-    /// <param name="other">The Collision data associated with this collision.</param>
+    /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerExit(Collider other) => touchingWall = false;
 }
