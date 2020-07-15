@@ -5,11 +5,14 @@ using Photon.Pun;
 using Photon.Realtime;
 public class ConnectingToServer : MonoBehaviourPunCallbacks
 {
+    public string gameversion = "0.0.1";
+    public string nicename = "0.0.1";
+
     private void Start()
     {
-        PhotonNetwork.NickName = MasterManager.GameSettings.NickName;
+        PhotonNetwork.NickName = nicename;
         PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.GameVersion = MasterManager.GameSettings.Gamaeversion;
+        PhotonNetwork.GameVersion = gameversion;
         print("Connectting to server");
         AuthenticationValues authenticationValues = new AuthenticationValues("0");
         PhotonNetwork.AuthValues = authenticationValues;
