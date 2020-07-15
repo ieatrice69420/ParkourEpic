@@ -16,18 +16,14 @@ public class mouselooking : MonoBehaviour
             float MouseX = Input.GetAxis("Mouse X") * mouseSensetivity * Time.deltaTime;
             float MouseY = Input.GetAxis("Mouse Y") * mouseSensetivity * Time.deltaTime;
 
-            if (!playerbody.isClimbing)
-                playerbody.transform.Rotate(Vector3.up * MouseX);
-            else
-                transform.Rotate(Vector3.up * MouseX);
+            if (!playerbody.isClimbing) playerbody.transform.Rotate(Vector3.up * MouseX);
+            else transform.Rotate(Vector3.up * MouseX);
 
             Xrotation -= MouseY;
             Xrotation = Mathf.Clamp(Xrotation, -90f, 90f);
 
-            if (Xrotation - currentRecoil < -90f)
-                transform.localRotation = Quaternion.Euler(Xrotation, 0f, 0f);
-            else
-                transform.localRotation = Quaternion.Euler(Xrotation - currentRecoil, 0f, 0f);
+            if (Xrotation - currentRecoil < -90f) transform.localRotation = Quaternion.Euler(Xrotation, 0f, 0f);
+            else transform.localRotation = Quaternion.Euler(Xrotation - currentRecoil, 0f, 0f);
         }
     }
 
@@ -43,8 +39,8 @@ public class mouselooking : MonoBehaviour
         {
             currentRecoil -= slowSpeed * Time.deltaTime;
             Xrotation -= slowSpeed * Time.deltaTime;
+            Debug.Log(currentRecoil);
         }
-        if (currentRecoil < 0f)
-            currentRecoil = 0f;
+        if (currentRecoil < 0f) currentRecoil = 0f;
     }
 }

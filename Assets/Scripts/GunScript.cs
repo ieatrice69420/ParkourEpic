@@ -37,7 +37,7 @@ public class GunScript : MonoBehaviour
         ReloadInput();
         UpdateAmmoIcon();
         ml.Recoil(10f);
-        if (moveSpeed > 0f) 
+        if (moveSpeed > 0f)
         {
             moveSpeed -= slowSpeed * Time.deltaTime;
             charCon.Move(knockBackDir * moveSpeed * Time.deltaTime);
@@ -49,41 +49,37 @@ public class GunScript : MonoBehaviour
     {
         if (currentMagSize > 0 && !isReloading)
             if (isFullAuto)
+            {
                 if (Input.GetKey(shoot) && Time.time >= nextTimeToFire)
                 {
                     nextTimeToFire = Time.time + 1 / fireRate;
                     moveSpeed = maxMoveSpeed;
                     knockBackDir = charCon.transform.forward * -1f;
-                    for (int i = 0; i < shots; i++)
-                        Shoot();
+                    for (int i = 0; i < shots; i++) Shoot();
                 }
-                else
-                if (Input.GetKeyDown(shoot) && Time.time >= nextTimeToFire)
-                {
-                    nextTimeToFire = Time.time + 1 / fireRate;
-                    moveSpeed = maxMoveSpeed;
-                    knockBackDir = charCon.transform.forward * -1f;
-                    for (int i = 0; i < shots; i++)
-                        Shoot();
-                }
+            }
+            else if (Input.GetKeyDown(shoot) && Time.time >= nextTimeToFire)
+            {
+                nextTimeToFire = Time.time + 1 / fireRate;
+                moveSpeed = maxMoveSpeed;
+                knockBackDir = charCon.transform.forward * -1f;
+                for (int i = 0; i < shots; i++) Shoot();
+            }
     }
 
     void ReloadInput()
     {
         if (currentMagSize < magSize && ammo > 0 && !isReloading)
-            if (Input.GetKeyDown(reload))
-                StartCoroutine(Reload(reloadTime));
+            if (Input.GetKeyDown(reload)) StartCoroutine(Reload(reloadTime));
         if (currentMagSize == 0 && ammo > 0 && !isReloading)
-            if (Input.GetKey(shoot))
-                StartCoroutine(Reload(reloadTime));
+            if (Input.GetKey(shoot)) StartCoroutine(Reload(reloadTime));
     }
 
     void Shoot()
     {
         currentMagSize--;
-        if (ml.currentRecoil < maxRecoil)
-            ml.StartRecoil(recoil, timerIncreaser);
-        Vector3 shootDir = cam.forward + cam.right * Random.Range(-inAccuracy / 2f, inAccuracy / 2f) + cam.up * Random.Range(-inAccuracy, inAccuracy);
+        if (ml.currentRecoil < maxRecoil) ml.StartRecoil(recoil, timerIncreaser);
+        Vector3 shootDir = cam.forward + (cam.right * Random.Range(-inAccuracy, inAccuracy) * ml.currentRecoil) / 4f + cam.up * Random.Range(-inAccuracy, inAccuracy);
         if (Physics.Raycast(cam.position, shootDir, out hit, maxRange))
         {
             target = hit.transform.gameObject.GetComponent<Health>();

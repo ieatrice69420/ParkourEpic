@@ -1136,11 +1136,11 @@ MonoBehaviour:
   target: {fileID: 0}
   ownHealth: {fileID: 114713716393035800}
   ammo: 0
-  magSize: 20
+  magSize: 160
   currentMagSize: 0
   isFullAuto: 1
   ammoIcon: {fileID: 3687495260188323429}
-  inAccuracy: 0.2
+  inAccuracy: 0.01
   maxRange: 100000
   recoilSlowSpeed: 1
   recoil: 4
