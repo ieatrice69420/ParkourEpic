@@ -32,6 +32,17 @@ public class Movement : MonoBehaviour
     float verticalJumpDir;
     [HideInInspector]
     public bool touchingWall;
+    float fallDuration;
+    [SerializeField]
+    Health health;
+    float groundedTime;
+
+    bool isFalling()
+    {
+        if (groundedTime > 0.4f || velocity.y > 0f) return false;
+        if (!isGrounded && velocity.y < 0f) return true;
+        return false;
+    }
 
     /// <summary>
     /// Start is called on the frame when a script is enabled just before
@@ -39,6 +50,9 @@ public class Movement : MonoBehaviour
     /// </summary>
     void Start() => verticalJumpDir = (float)(Math.Sqrt((double)(JumpHight * -2f * gravity)));
 
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
     void Update()
     {
         if (!isVaulting)
@@ -55,6 +69,10 @@ public class Movement : MonoBehaviour
             Climb();
         }
         Vault();
+        if (isFalling()) CheckForFallDamage();
+        else fallDuration = 0f;
+        if (isGrounded) groundedTime += Time.deltaTime;
+        else groundedTime = 0f;
     }
 
     void Wasd()
@@ -123,7 +141,6 @@ public class Movement : MonoBehaviour
 
     void WallRun()
     {
-        Debug.Log(isWallRunning);
         isWallRunning = touchingWall && !isGrounded;
         if(isWallRunning)
         {
@@ -195,4 +212,10 @@ public class Movement : MonoBehaviour
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerExit(Collider other) => touchingWall = false;
+
+    void CheckForFallDamage()
+    {
+        fallDuration += Time.deltaTime;
+        if (isGrounded) health.SimpleTakeHealth(fallDuration);
+    }
 }
