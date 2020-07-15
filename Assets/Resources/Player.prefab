@@ -1608,6 +1608,8 @@ MonoBehaviour:
   wallJumpMainDir: {x: 0, y: 0, z: 0}
   vaultSpeed: 10
   climbSpeed: 5
+  minFallDistance: 2
+  fallDamage: 70
   isClimbing: 0
   touchingWall: 0
   health: {fileID: 114713716393035800}

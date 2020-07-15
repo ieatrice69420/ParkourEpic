@@ -99,4 +99,9 @@ public class Push : MonoBehaviour
     }
 
     void Swing() => player.transform.position = rope.GetChild(0).GetChild(0).position;
+	
+	void OnTriggerEnter()
+	{
+		if (jumpSpeed <= maxJumpSpeed -5f) jumpSpeed = 0f;
+	}
 }

@@ -26,7 +26,7 @@ public class Movement : MonoBehaviour
     public Vector3 wallRunDir, wallJumpMainDir;
     int tiltTime;
     bool isVaulting, isVaultingUp, isVaultingForward;
-    public float vaultSpeed, climbSpeed = 0.5f;
+    public float vaultSpeed, climbSpeed = 0.5f, minFallDistance, fallDamage;
     [HideInInspector]
     public bool isClimbing;
     float verticalJumpDir;
@@ -41,7 +41,7 @@ public class Movement : MonoBehaviour
     {
         if (groundedTime > 0.4f || velocity.y > 0f) return false;
         if (!isGrounded && velocity.y < 0f) return true;
-        return false;
+        return true;
     }
 
     /// <summary>
@@ -205,6 +205,7 @@ public class Movement : MonoBehaviour
         RaycastHit wallHit;
         if (Physics.Raycast(transform.position, (wallRunDir + wallRunDir * wallJumpSpeed), out wallHit))
             if (wallRunDir.magnitude >= .05f) wallJumpMainDir = Vector3.Reflect(wallRunDir, wallHit.normal).normalized;
+		if (wallJumpSpeed <= 5f) wallJumpSpeed = 0f;
     }
 
     /// <summary>
@@ -215,7 +216,8 @@ public class Movement : MonoBehaviour
 
     void CheckForFallDamage()
     {
-        fallDuration += Time.deltaTime;
-        if (isGrounded) health.SimpleTakeHealth(fallDuration);
+        fallDuration += Time.deltaTime; 
+		if (fallDuration >= minFallDistance)
+			if (isGrounded) health.SimpleTakeHealth(fallDuration * fallDamage);
     }
 }
