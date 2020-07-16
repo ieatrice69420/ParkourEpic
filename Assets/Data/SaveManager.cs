@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 using Saving;
 
 public class SaveManager : MonoBehaviour
@@ -13,10 +10,8 @@ public class SaveManager : MonoBehaviour
     void Update()
     {
     	if (Input.GetKey(KeyCode.LeftControl))
-    		if (Input.GetKey(KeyCode.S))
-    			SavePlayer();
-    	if (Input.GetKey(KeyCode.O))
-    		LoadPlayer();
+    		if (Input.GetKey(KeyCode.S)) SavePlayer();
+    	if (Input.GetKey(KeyCode.O)) LoadPlayer();
     }
 
     public void SavePlayer()

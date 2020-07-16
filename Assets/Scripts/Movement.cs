@@ -1,4 +1,4 @@
-﻿using System;
+﻿using static System.Math;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -26,7 +26,7 @@ public class Movement : MonoBehaviour
     public Vector3 wallRunDir, wallJumpMainDir;
     int tiltTime;
     bool isVaulting, isVaultingUp, isVaultingForward;
-    public float vaultSpeed, climbSpeed = 0.5f;
+    public float vaultSpeed, climbSpeed = 0.5f, minFallDistance, fallDamage;
     [HideInInspector]
     public bool isClimbing;
     float verticalJumpDir;
@@ -41,18 +41,11 @@ public class Movement : MonoBehaviour
     {
         if (groundedTime > 0.4f || velocity.y > 0f) return false;
         if (!isGrounded && velocity.y < 0f) return true;
-        return false;
+        return true;
     }
 
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before
-    /// any of the Update methods is called the first time.
-    /// </summary>
-    void Start() => verticalJumpDir = (float)(Math.Sqrt((double)(JumpHight * -2f * gravity)));
+    void Start() => verticalJumpDir = (float)(Sqrt((double)(JumpHight * -2f * gravity)));
 
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
     void Update()
     {
         if (!isVaulting)
@@ -115,13 +108,9 @@ public class Movement : MonoBehaviour
     void Jump()
     {
         isGrounded = Physics.CheckSphere(groundcheck.position, groundistance, groundmask);
-        if ((isGrounded || isClimbing) && velocity.y < 0)
-            velocity.y = -2f;
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            velocity.y = verticalJumpDir;
-        }
+        if ((isGrounded || isClimbing) && velocity.y < 0) velocity.y = -2f;
+        if (Input.GetButtonDown("Jump") && isGrounded) velocity.y = verticalJumpDir;
         velocity.y += gravity * Time.deltaTime;
         CharacterController.Move(velocity * Time.deltaTime);
     }
@@ -193,11 +182,6 @@ public class Movement : MonoBehaviour
         else isClimbing = false;
     }
 
-    /// <summary>
-    /// OnTriggerStay is called once per frame for every Collider other
-    /// that is touching the trigger.
-    /// </summary>
-    /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerStay(Collider other)
     {
         touchingWall = true;
@@ -205,17 +189,15 @@ public class Movement : MonoBehaviour
         RaycastHit wallHit;
         if (Physics.Raycast(transform.position, (wallRunDir + wallRunDir * wallJumpSpeed), out wallHit))
             if (wallRunDir.magnitude >= .05f) wallJumpMainDir = Vector3.Reflect(wallRunDir, wallHit.normal).normalized;
+		if (wallJumpSpeed <= 5f) wallJumpSpeed = 0f;
     }
 
-    /// <summary>
-    /// OnTriggerExit is called when the Collider other has stopped touching the trigger.
-    /// </summary>
-    /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerExit(Collider other) => touchingWall = false;
 
     void CheckForFallDamage()
     {
         fallDuration += Time.deltaTime;
-        if (isGrounded) health.SimpleTakeHealth(fallDuration);
+		if (fallDuration >= minFallDistance)
+			if (isGrounded) health.SimpleTakeHealth(fallDuration * fallDamage);
     }
 }
