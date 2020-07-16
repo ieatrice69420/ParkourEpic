@@ -1,5 +1,4 @@
-﻿using System.Reflection.Emit;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -30,7 +29,7 @@ public class Health : MonoBehaviour
     /// </summary>
     void LateUpdate()
     {
-        if (!healthSO.isMultiplayer && healthSO.isRealPlayer) image.color = new Color(255f, 255f, 255f, (100f - health) * 1.5f); 
+        if (!healthSO.isMultiplayer && healthSO.isRealPlayer) image.color = new Color(255f, 255f, 255f, (100f - health) * 1.5f);
     }
 
     void Regen() => health += regenSpeed * Time.deltaTime;

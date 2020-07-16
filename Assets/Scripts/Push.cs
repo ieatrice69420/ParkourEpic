@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using static System.Math;
+using UnityEngine;
 
 public class Push : MonoBehaviour
 {
@@ -26,20 +27,18 @@ public class Push : MonoBehaviour
     	}
     	if (Input.GetKey(interact))
 	    	if (namelessParam.collider.CompareTag("Rope"))
-	    	{
 	    		if (!isSwinging)
 	    		{
 	    			Rigidbody rb = namelessParam.transform.parent.gameObject.GetComponent<Rigidbody>();
 		    		Vector3 dir = rb.transform.position - transform.position;
-		    		float fl = System.Math.Max(dir.x, dir.z);
-	    			Vector3 pushDir = new Vector3(dir.x / System.Math.Abs(fl), 0f, dir.z / System.Math.Abs(fl));
+		    		float fl = Max(dir.x, dir.z);
+	    			Vector3 pushDir = new Vector3(dir.x / Abs(fl), 0f, dir.z / Abs(fl));
 	    			rb.AddForce(pushDir * ropeSpeed);
 		    		rope = rb.transform;
 		    		hitOffset = namelessParam.point - rope.position;
 		    		rope.GetChild(0).GetComponent<CapsuleCollider>().enabled = false;
 		    		isSwinging = true;
 		    	}
-	    	}
     }
 
     void Update()
@@ -99,7 +98,7 @@ public class Push : MonoBehaviour
     }
 
     void Swing() => player.transform.position = rope.GetChild(0).GetChild(0).position;
-	
+
 	void OnTriggerEnter()
 	{
 		if (jumpSpeed <= maxJumpSpeed -5f) jumpSpeed = 0f;
