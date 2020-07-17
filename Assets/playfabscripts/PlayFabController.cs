@@ -8,7 +8,7 @@ using UnityEngine.Experimental.UIElements;
 
 public class PlayFabController : MonoBehaviour
 {
-
+    public GameObject menubuttons;
     private string userEmail;
     private string UserPassword;
     private string username;
@@ -68,6 +68,9 @@ public class PlayFabController : MonoBehaviour
         GetStats();
         myID = result.PlayFabId;
         GetPlayerData();
+        menubuttons.SetActive(true);
+
+
     }
     private void OnRegisterSucsess(RegisterPlayFabUserResult result)
     {
