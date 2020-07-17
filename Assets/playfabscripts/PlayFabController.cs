@@ -4,12 +4,18 @@ using PlayFab.PfEditor.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.UIElements;
+
 public class PlayFabController : MonoBehaviour
 {
 
     private string userEmail;
     private string UserPassword;
     private string username;
+
+    private string myID;
+
+    public GameObject panelColor;
 
     public static PlayFabController PFC;
     public GameObject LoginPanel;
@@ -55,6 +61,8 @@ public class PlayFabController : MonoBehaviour
         PlayerPrefs.SetString("PASSWORD", UserPassword);
         LoginPanel.SetActive(false);
         GetStats();
+        myID = result.PlayFabId;
+        GetPlayerData();
     }
     private void OnRegisterSucsess(RegisterPlayFabUserResult result)
     {
@@ -64,6 +72,7 @@ public class PlayFabController : MonoBehaviour
         LoginPanel.SetActive(false);
         PlayFabClientAPI.UpdateUserTitleDisplayName(new UpdateUserTitleDisplayNameRequest { DisplayName = username }, Ondisplaylogin, OnLoginFailure);
         GetStats();
+        GetPlayerData();
 
     }
 
@@ -106,7 +115,7 @@ public class PlayFabController : MonoBehaviour
 
     public int kills;
 
-    public int playerhighscore;
+    public int playerhighScore;
 
     public int playerhealth;
 
@@ -120,7 +129,7 @@ public class PlayFabController : MonoBehaviour
         new StatisticUpdate { StatisticName = "PlayerPoints", Value = playerpoints },
         new StatisticUpdate { StatisticName = "Kills", Value = kills },
         new StatisticUpdate { StatisticName = "PlayerHealth", Value = playerhealth },
-        new StatisticUpdate { StatisticName = "playerHighScore", Value = playerhighscore },
+        new StatisticUpdate { StatisticName = "playerHighScore", Value = playerhighScore },
 
     }
         },
@@ -155,7 +164,7 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
                     playerhealth = eachStat.Value;
                     break;
                 case "playerHighScore":
-                    playerhighscore = eachStat.Value;
+                    playerhighScore = eachStat.Value;
                     break;
 
             }
@@ -167,7 +176,7 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
         PlayFabClientAPI.ExecuteCloudScript(new ExecuteCloudScriptRequest()
         {
             FunctionName = "UpdatePlayerStats", // Arbitrary function name (must exist in your uploaded cloud.js file)
-            FunctionParameter = new { Points = playerpoints, PlayerKills = kills, health = playerhealth, playerHighScore = playerhighscore }, // The parameter provided to your function
+            FunctionParameter = new { Points = playerpoints, PlayerKills = kills, health = playerhealth, playerHighScore = playerhighScore }, // The parameter provided to your function
             GeneratePlayStreamEvent = true, // Optional - Shows this event in PlayStream
         }, OnCloudUpdateStats, OnErrorShared);
     }
@@ -189,23 +198,76 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     #endregion playerstats
 
     #region Leaderboard
+
+    public GameObject leaderboardpanel;
+    public GameObject listingprefab;
+    public Transform listingcontainer;
     public void GetLeaderboard()
     {
-        var requestlederboard = new GetLeaderboardRequest { StartPosition = 0, StatisticName = "playerHighScore", MaxResultsCount = 100 };
+        var requestlederboard = new GetLeaderboardRequest { StartPosition = 0, StatisticName = "PlayerPoints", MaxResultsCount = 100 };
         PlayFabClientAPI.GetLeaderboard(requestlederboard, OngetLederboard, onErorrlederboard);
     }
 
     public void OngetLederboard(GetLeaderboardResult result)
     {
-        Debug.Log(result.Leaderboard[0].StatValue);
+        leaderboardpanel.SetActive(true);
         foreach (PlayerLeaderboardEntry player in result.Leaderboard)
         {
+            GameObject templisting = Instantiate(listingprefab, listingcontainer);
+            Lederboarllisting LL = templisting.GetComponent<Lederboarllisting>();
+            LL.playernametext.text = player.DisplayName;
+            LL.playerScore.text = player.StatValue.ToString();
             Debug.Log(player.DisplayName + ": " + player.StatValue);
+        }
+    }
+
+    public void Closeleaderboardpanel()
+    {
+        leaderboardpanel.SetActive(false);
+        for (int i = listingcontainer.childCount - 1; i >= 0; i --)
+        {
+            Destroy(listingcontainer.GetChild(i).gameObject);
         }
     }
     public void onErorrlederboard(PlayFabError error)
     {
         Debug.LogError(error.GenerateErrorReport());
     }
-    #endregion Leaderboard
+	#endregion Leaderboard
+	#region playerdata
+    public void GetPlayerData()
+    {
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest()
+        {
+            PlayFabId = myID,
+            Keys = null
+        }, UserDataSuccess, onErorrlederboard);
+    }
+
+    void UserDataSuccess(GetUserDataResult result)
+    {
+        if (result.Data == null || !result.Data.ContainsKey("Skins"))
+        {
+            Debug.Log("Skins not set");
+        }
+        else
+            Prescictentdtata.PD.SkinsStringtodata(result.Data["Skins"].Value);
+    }
+
+    public void SetUserData(string SkinData)
+    {
+        PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest()
+        {
+            Data = new Dictionary<string, string>()
+            {
+                {"Skins", SkinData}
+            }
+        }, SetDataSuccess, onErorrlederboard);
+    }
+
+    void SetDataSuccess(UpdateUserDataResult result)
+    {
+        Debug.Log(result.DataVersion);
+    }
+    #endregion
 }
