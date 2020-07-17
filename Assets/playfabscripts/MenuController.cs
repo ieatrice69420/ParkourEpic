@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
@@ -9,20 +7,15 @@ public class MenuController : MonoBehaviour
 	#region Varibles
 	public static MenuController Mc;
 
-
 	public GameObject[] buttonLocks;
 
 	public Button[] unlockedbuttons;
 	#endregion
 
-	private void OnEnable()
-	{
-		Mc = this;
-	}
-	private void Start()
-	{
-		SetUpStore();
-	}
+	private void OnEnable() => Mc = this;
+
+	private void Start() => SetUpStore();
+
 	public void SetUpStore()
 	{
 		for (int i = 0; i < Prescictentdtata.PD.allskins.Length; i++)
@@ -39,10 +32,5 @@ public class MenuController : MonoBehaviour
 		SetUpStore();
 	}
 
-
-
-	public void SetMySkin(int whichskin)
-	{
-		Prescictentdtata.PD.myskin = whichskin;
-	}
+	public void SetMySkin(int whichskin) => Prescictentdtata.PD.myskin = whichskin;
 }

@@ -4,7 +4,7 @@ using PlayFab.PfEditor.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.UIElements;
+using UnityEngine.SceneManagement;
 
 public class PlayFabController : MonoBehaviour
 {
@@ -20,32 +20,19 @@ public class PlayFabController : MonoBehaviour
     public static PlayFabController PFC;
     public GameObject LoginPanel;
 
-    void DisplayPlayFabError(PlayFabError error)
-    {
-        Debug.Log(error.GenerateErrorReport());
-    }
+    void DisplayPlayFabError(PlayFabError error) => Debug.Log(error.GenerateErrorReport());
+
     private void OnEnable()
     {
-        if(PlayFabController.PFC == null) 
-        {
-            PlayFabController.PFC = this;
-        }
+        if(PlayFabController.PFC == null) PlayFabController.PFC = this;
         else
-        {
-            if(PlayFabController.PFC != this)
-            {
-                Destroy(this.gameObject);
-            }
-        }
-        DontDestroyOnLoad(this.gameObject);
+            if(PlayFabController.PFC != this) Destroy(gameObject);
+        DontDestroyOnLoad(gameObject);
     }
     public void Start()
     {
         //Note: Setting title Id here can be skipped if you have set the value in Editor Extensions already.
-        if (string.IsNullOrEmpty(PlayFabSettings.TitleId))
-        {
-            PlayFabSettings.TitleId = "475FE"; // Please change this value to your own titleId from PlayFab Game Manager
-        }
+        if (string.IsNullOrEmpty(PlayFabSettings.TitleId)) PlayFabSettings.TitleId = "475FE"; // Please change this value to your own titleId from PlayFab Game Manager
 
         if (PlayerPrefs.HasKey("EMAIL"))
         {
@@ -58,6 +45,7 @@ public class PlayFabController : MonoBehaviour
         //var request = new LoginWithCustomIDRequest { CustomId = "GettingStartedGuide", CreateAccount = true };
         //PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccess, OnLoginFailure);
     }
+
 	#region login
 	private void OnLoginSuccess(LoginResult result)
     {
@@ -69,9 +57,8 @@ public class PlayFabController : MonoBehaviour
         myID = result.PlayFabId;
         GetPlayerData();
         menubuttons.SetActive(true);
-
-
     }
+
     private void OnRegisterSucsess(RegisterPlayFabUserResult result)
     {
         Debug.Log("Congratulations, you made your first successful API call!");
@@ -84,29 +71,19 @@ public class PlayFabController : MonoBehaviour
 
     }
 
-    void Ondisplaylogin(UpdateUserTitleDisplayNameResult result)
-    {
-        Debug.Log(result.DisplayName + "is your new displayer name");
-    }
+    void Ondisplaylogin(UpdateUserTitleDisplayNameResult result) => Debug.Log(result.DisplayName + "is your new displayer name");
+
     private void OnLoginFailure(PlayFabError error)
     {
         var registerRequest = new RegisterPlayFabUserRequest { Email = userEmail, Password = UserPassword,Username = username };
         PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSucsess, OnRegistereFailure);
     }
 
-    private void OnRegistereFailure(PlayFabError error)
-    {
-        Debug.LogError(error.GenerateErrorReport());
-    }
+    private void OnRegistereFailure(PlayFabError error) => Debug.LogError(error.GenerateErrorReport());
 
-    public void GetUserEmail(string emailIn)
-    {
-        userEmail = emailIn;
-    }
-    public void GetUserPassord(string PasswordIn)
-    {
-        UserPassword = PasswordIn;
-    }
+    public void GetUserEmail(string emailIn) => userEmail = emailIn;
+
+    public void GetUserPassord(string PasswordIn) => UserPassword = PasswordIn;
 
     public void GetUserName(string UsernamIn)
     {
@@ -156,7 +133,7 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
 
     void OnGetStats(GetPlayerStatisticsResult result)
     {
-        Debug.Log("Received the following Statistics:");    
+        Debug.Log("Received the following Statistics:");
         foreach (var eachStat in result.Statistics)
         {
             Debug.Log("Statistic (" + eachStat.StatisticName + "): " + eachStat.Value);
@@ -198,10 +175,8 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
         Debug.Log((string)messageValue);
     }
 
-    private static void OnErrorShared(PlayFabError error)
-    {
-        Debug.Log(error.GenerateErrorReport());
-    }
+    private static void OnErrorShared(PlayFabError error) => Debug.Log(error.GenerateErrorReport());
+
     // OnCloudHelloWorld defined in the next code block
     #endregion playerstats
 
@@ -232,17 +207,12 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     public void Closeleaderboardpanel()
     {
         leaderboardpanel.SetActive(false);
-        for (int i = listingcontainer.childCount - 1; i >= 0; i --)
-        {
-            Destroy(listingcontainer.GetChild(i).gameObject);
-        }
+        for (int i = listingcontainer.childCount - 1; i >= 0; i --) Destroy(listingcontainer.GetChild(i).gameObject);
     }
-    public void onErorrlederboard(PlayFabError error)
-    {
-        Debug.LogError(error.GenerateErrorReport());
-    }
-	#endregion Leaderboard
-	#region playerdata
+    public void onErorrlederboard(PlayFabError error) => Debug.LogError(error.GenerateErrorReport());
+
+    #endregion Leaderboard
+    #region playerdata
     public void GetPlayerData()
     {
         PlayFabClientAPI.GetUserData(new GetUserDataRequest()
@@ -254,12 +224,8 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
 
     void UserDataSuccess(GetUserDataResult result)
     {
-        if (result.Data == null || !result.Data.ContainsKey("Skins"))
-        {
-            Debug.Log("Skins not set");
-        }
-        else
-            Prescictentdtata.PD.SkinsStringtodata(result.Data["Skins"].Value);
+        if (result.Data == null || !result.Data.ContainsKey("Skins")) Debug.Log("Skins not set");
+        else Prescictentdtata.PD.SkinsStringtodata(result.Data["Skins"].Value);
     }
 
     public void SetUserData(string SkinData)
@@ -273,10 +239,8 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
         }, SetDataSuccess, onErorrlederboard);
     }
 
-    void SetDataSuccess(UpdateUserDataResult result)
-    {
-        Debug.Log(result.DataVersion);
-    }
+    void SetDataSuccess(UpdateUserDataResult result) => Debug.Log(result.DataVersion);
+
     #endregion
 
     #region friends
@@ -290,12 +254,7 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
             if(myfriends != null)
             {
                 foreach (FriendInfo g in myfriends)
-                {
-                    if (f.FriendPlayFabId == g.FriendPlayFabId)
-                    {
-                        isfound = true;
-                    }
-                }
+                    if (f.FriendPlayFabId == g.FriendPlayFabId) isfound = true;
             }
             if(isfound == false)
             {
@@ -313,10 +272,8 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
         GetFriends();
     }
 
-    public void RunWaitFuction()
-    {
-        StartCoroutine(WaitForFriend());
-    }
+    public void RunWaitFuction() => StartCoroutine(WaitForFriend());
+
     List<FriendInfo> _friends = null;
 
     public void GetFriends()
@@ -366,19 +323,16 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
 
     List<FriendInfo> myfriends;
 
-    public void InputFriendID(string idIn)
-    {
-        friendsearch = idIn;
-    }
+    public void InputFriendID(string idIn) => friendsearch = idIn;
 
-    public void SubmitFrienRequest()
-    {
-        AddFriend(FriendIdType.PlayFabId, friendsearch);
-    }
+    public void SubmitFrienRequest() => AddFriend(FriendIdType.PlayFabId, friendsearch);
 
-    public void OpenCloseFriends()
-    {
-        friendpanel.SetActive(!friendpanel.activeInHierarchy);
-    }
+    public void OpenCloseFriends() => friendpanel.SetActive(!friendpanel.activeInHierarchy);
     #endregion
+
+    public void LogOut(int index)
+    {
+        PlayerPrefs.DeleteKey("EMAIL");
+        SceneManager.LoadScene(index);
+    }
 }
