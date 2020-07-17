@@ -9,7 +9,6 @@ public class MenuController : MonoBehaviour
 	#region Varibles
 	public static MenuController Mc;
 
-	public GameObject shoppanel;
 
 	public GameObject[] buttonLocks;
 
@@ -40,10 +39,7 @@ public class MenuController : MonoBehaviour
 		SetUpStore();
 	}
 
-	public void OpenShop()
-	{
-		shoppanel.SetActive(true);
-	}
+
 
 	public void SetMySkin(int whichskin)
 	{
