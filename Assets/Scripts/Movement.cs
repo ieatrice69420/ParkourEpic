@@ -36,6 +36,7 @@ public class Movement : MonoBehaviour
     [SerializeField]
     Health health;
     float groundedTime;
+    Vector3 wallRayDir;
 
     bool isFalling()
     {
@@ -66,6 +67,7 @@ public class Movement : MonoBehaviour
         else fallDuration = 0f;
         if (isGrounded) groundedTime += Time.deltaTime;
         else groundedTime = 0f;
+
     }
 
     void Wasd()
@@ -145,10 +147,11 @@ public class Movement : MonoBehaviour
 
     void WallJump()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && touchingWall)
         {
             wallJumpSpeed = 7f;
             velocity.y = verticalJumpDir;
+            Debug.Log(wallJumpMainDir);
         }
     }
 
@@ -187,8 +190,14 @@ public class Movement : MonoBehaviour
         touchingWall = true;
         Debug.Log("TOUCHING WALL");
         RaycastHit wallHit;
-        if (Physics.Raycast(transform.position, (wallRunDir + wallRunDir * wallJumpSpeed), out wallHit))
-            if (wallRunDir.magnitude >= .05f) wallJumpMainDir = Vector3.Reflect(wallRunDir, wallHit.normal).normalized;
+        if (newPos.magnitude != 0f) wallRayDir = wallRunDir + wallJumpMainDir * wallJumpSpeed;
+        if (Physics.Raycast(transform.position, wallRayDir, out wallHit))
+            if (wallRunDir.magnitude >= .05f)
+            {
+                Vector3 newDir = Vector3.Reflect(wallRunDir, wallHit.normal).normalized;
+                if (newDir.magnitude >= .05f) wallJumpMainDir = newDir;
+                Debug.Log(newDir);
+            }
 		if (wallJumpSpeed <= 5f) wallJumpSpeed = 0f;
     }
 
