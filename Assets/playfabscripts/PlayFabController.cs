@@ -283,13 +283,37 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     {
         foreach (FriendInfo f in friendsCache)
         {
-            GameObject listing = Instantiate(listingprefab, friendscrollview);
-            Lederboarllisting tempListing = listing.GetComponent<Lederboarllisting>();
-            tempListing.playernametext.text = f.TitleDisplayName;
+            bool isfound = false;
+            if(myfriends != null)
+            {
+                foreach (FriendInfo g in myfriends)
+                {
+                    if (f.FriendPlayFabId == g.FriendPlayFabId)
+                    {
+                        isfound = true;
+                    }
+                }
+            }
+            if(isfound == false)
+            {
+                GameObject listing = Instantiate(listingprefab, friendscrollview);
+                Lederboarllisting tempListing = listing.GetComponent<Lederboarllisting>();
+                tempListing.playernametext.text = f.TitleDisplayName;
+                myfriends = friendsCache;
+            }
         }
     }
 
+    public IEnumerator WaitForFriend()
+    {
+        yield return new WaitForSeconds(2);
+        GetFriends();
+    }
 
+    public void RunWaitFuction()
+    {
+        StartCoroutine(WaitForFriend());
+    }
     List<FriendInfo> _friends = null;
 
     public void GetFriends()
@@ -304,6 +328,7 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
             DisplayFriends(_friends); // triggers your UI
         }, DisplayPlayFabError);
     }
+    //show your friends
 
 
 
@@ -335,6 +360,8 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     string friendsearch;
     [SerializeField]
     GameObject friendpanel;
+
+    List<FriendInfo> myfriends;
 
     public void InputFriendID(string idIn)
     {
