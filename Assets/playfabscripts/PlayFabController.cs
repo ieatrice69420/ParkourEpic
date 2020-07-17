@@ -19,6 +19,11 @@ public class PlayFabController : MonoBehaviour
 
     public static PlayFabController PFC;
     public GameObject LoginPanel;
+
+    void DisplayPlayFabError(PlayFabError error)
+    {
+        Debug.Log(error.GenerateErrorReport());
+    }
     private void OnEnable()
     {
         if(PlayFabController.PFC == null) 
@@ -268,6 +273,82 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     void SetDataSuccess(UpdateUserDataResult result)
     {
         Debug.Log(result.DataVersion);
+    }
+    #endregion
+
+    #region friends
+    [SerializeField]
+    Transform friendscrollview;
+    void DisplayFriends(List<FriendInfo> friendsCache)
+    {
+        foreach (FriendInfo f in friendsCache)
+        {
+            GameObject listing = Instantiate(listingprefab, friendscrollview);
+            Lederboarllisting tempListing = listing.GetComponent<Lederboarllisting>();
+            tempListing.playernametext.text = f.TitleDisplayName;
+        }
+    }
+
+
+    List<FriendInfo> _friends = null;
+
+    public void GetFriends()
+    {
+        PlayFabClientAPI.GetFriendsList(new GetFriendsListRequest
+        {
+            IncludeSteamFriends = false,
+            IncludeFacebookFriends = false,
+            XboxToken = null
+        }, result => {
+            _friends = result.Friends;
+            DisplayFriends(_friends); // triggers your UI
+        }, DisplayPlayFabError);
+    }
+
+
+
+    enum FriendIdType { PlayFabId, Username, Email, DisplayName };
+
+    void AddFriend(FriendIdType idType, string friendId)
+    {
+        var request = new AddFriendRequest();
+        switch (idType)
+        {
+            case FriendIdType.PlayFabId:
+                request.FriendPlayFabId = friendId;
+                break;
+            case FriendIdType.Username:
+                request.FriendUsername = friendId;
+                break;
+            case FriendIdType.Email:
+                request.FriendEmail = friendId;
+                break;
+            case FriendIdType.DisplayName:
+                request.FriendTitleDisplayName = friendId;
+                break;
+        }
+        // Execute request and update friends when we are done
+        PlayFabClientAPI.AddFriend(request, result => {
+            Debug.Log("Friend added successfully!");
+        }, DisplayPlayFabError);
+}
+    string friendsearch;
+    [SerializeField]
+    GameObject friendpanel;
+
+    public void InputFriendID(string idIn)
+    {
+        friendsearch = idIn;
+    }
+
+    public void SubmitFrienRequest()
+    {
+        AddFriend(FriendIdType.PlayFabId, friendsearch);
+    }
+
+    public void OpenCloseFriends()
+    {
+        friendpanel.SetActive(!friendpanel.activeInHierarchy);
     }
     #endregion
 }
