@@ -20,6 +20,8 @@ public class PlayFabController : MonoBehaviour
     public static PlayFabController PFC;
     public GameObject LoginPanel;
 
+    public GameObject registerpanel;
+
     void DisplayPlayFabError(PlayFabError error) => Debug.Log(error.GenerateErrorReport());
 
     private void OnEnable()
@@ -40,6 +42,9 @@ public class PlayFabController : MonoBehaviour
             UserPassword = PlayerPrefs.GetString("PASSWORD");
             var request = new LoginWithEmailAddressRequest { Email = userEmail, Password = UserPassword };
             PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
+            LoginPanel.SetActive(false);
+            registerpanel.SetActive(false);
+
         }
         Debug.Log(PlayerPrefs.GetString("EMAIL"));
         //var request = new LoginWithCustomIDRequest { CustomId = "GettingStartedGuide", CreateAccount = true };
@@ -68,6 +73,10 @@ public class PlayFabController : MonoBehaviour
         PlayFabClientAPI.UpdateUserTitleDisplayName(new UpdateUserTitleDisplayNameRequest { DisplayName = username }, Ondisplaylogin, OnLoginFailure);
         GetStats();
         GetPlayerData();
+        GetStats();
+        //myID = result.PlayFabId;
+        GetPlayerData();
+        menubuttons.SetActive(true);
 
     }
 
@@ -75,8 +84,21 @@ public class PlayFabController : MonoBehaviour
 
     private void OnLoginFailure(PlayFabError error)
     {
+        Debug.Log(error.GenerateErrorReport());
+        //var registerRequest = new RegisterPlayFabUserRequest { Email = userEmail, Password = UserPassword,Username = username };
+        //PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSucsess, OnRegistereFailure);
+    }
+    public void OnclickRegisterButton()
+    {
         var registerRequest = new RegisterPlayFabUserRequest { Email = userEmail, Password = UserPassword,Username = username };
         PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSucsess, OnRegistereFailure);
+        PlayerPrefs.SetString("EMAIL", userEmail);
+        PlayerPrefs.SetString("PASSWORD", UserPassword);
+        LoginPanel.SetActive(true);
+
+
+
+
     }
 
     private void OnRegistereFailure(PlayFabError error) => Debug.LogError(error.GenerateErrorReport());
