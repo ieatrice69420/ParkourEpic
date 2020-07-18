@@ -3,7 +3,7 @@ using static Saving.SaveKeyData;
 
 public static class TempKeys
 {
-    public static KeyCode[] keyCodes;
+    public static KeyCode[] keyCodes = new KeyCode[1];
 
     public static void SetKey(int keyIndex, KeyCode key) => keyCodes[keyIndex] = key;
 
