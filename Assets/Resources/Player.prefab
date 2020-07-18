@@ -423,6 +423,9 @@ MonoBehaviour:
     type: 3}
   charCon: {fileID: 7722510120855694960}
   player: {fileID: 0}
+  lm:
+    serializedVersion: 2
+    m_Bits: 8192
 --- !u!1 &516523060335072393
 GameObject:
   m_ObjectHideFlags: 0
@@ -1110,7 +1113,7 @@ MonoBehaviour:
   currentMagSize: 0
   isFullAuto: 1
   ammoIcon: {fileID: 3687495260188323429}
-  inAccuracy: 0.01
+  inAccuracy: 0
   maxRange: 100000
   recoilSlowSpeed: 1
   recoil: 4
@@ -1123,6 +1126,9 @@ MonoBehaviour:
     type: 3}
   charCon: {fileID: 7722510120855694960}
   player: {fileID: 0}
+  lm:
+    serializedVersion: 2
+    m_Bits: 8192
 --- !u!1 &3662091722242647459
 GameObject:
   m_ObjectHideFlags: 0

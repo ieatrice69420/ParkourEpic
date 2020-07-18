@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class mouselooking : MonoBehaviour
 {
@@ -39,7 +37,6 @@ public class mouselooking : MonoBehaviour
         {
             currentRecoil -= slowSpeed * Time.deltaTime;
             Xrotation -= slowSpeed * Time.deltaTime;
-            Debug.Log(currentRecoil);
         }
         if (currentRecoil < 0f) currentRecoil = 0f;
     }
