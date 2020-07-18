@@ -1113,7 +1113,7 @@ MonoBehaviour:
   currentMagSize: 0
   isFullAuto: 1
   ammoIcon: {fileID: 3687495260188323429}
-  inAccuracy: 0
+  inAccuracy: 0.01
   maxRange: 100000
   recoilSlowSpeed: 1
   recoil: 4
