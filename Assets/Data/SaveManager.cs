@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Saving;
+using static Saving.SavePlayerData;
 
 public class SaveManager : MonoBehaviour
 {
@@ -10,18 +10,18 @@ public class SaveManager : MonoBehaviour
     void Update()
     {
     	if (Input.GetKey(KeyCode.LeftControl))
-    		if (Input.GetKey(KeyCode.S)) SavePlayer();
-    	if (Input.GetKey(KeyCode.O)) LoadPlayer();
+    		if (Input.GetKey(KeyCode.S)) ManagerSavePlayer();
+    	if (Input.GetKey(KeyCode.O)) ManagerLoadPlayer();
     }
 
-    public void SavePlayer()
+    void ManagerSavePlayer()
     {
-    	SaveSystem.SavePlayer(health, weapon);
+    	SavePlayer(health, weapon);
     }
 
-    public void LoadPlayer()
+    void ManagerLoadPlayer()
     {
-    	PlayerData data = SaveSystem.LoadPlayer();
+    	PlayerData data = LoadPlayer();
 
     	health.health = data.health;
     	weapon.selectedWeapon = data.weapon;

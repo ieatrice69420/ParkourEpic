@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 using UnityEngine.SceneManagement;
 
-[System.Serializable]
+[Serializable]
 public class PlayerData
 {
     public float health;

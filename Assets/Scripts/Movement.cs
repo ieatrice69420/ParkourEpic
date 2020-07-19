@@ -86,8 +86,6 @@ public class Movement : MonoBehaviour
 
     void Slide()
     {
-        if (Input.GetKeyDown(crouch)) CharacterController.height = crouchHeight;
-        if (Input.GetKeyUp(crouch)) CharacterController.height = unCrouchHeight;
 
         isSliding = isGrounded && Input.GetKey(crouch) && slideDuration > 0f;
         if (slideDuration < 0f) slideDuration = 0f;
@@ -96,10 +94,12 @@ public class Movement : MonoBehaviour
         if (isSliding)
         {
             CharacterController.Move(slideDir * slideSpeed * Time.deltaTime);
+            CharacterController.height = crouchHeight;
             slideDuration -= Time.deltaTime;
         }
         else
         {
+            CharacterController.height = unCrouchHeight;
             slideDuration += Time.deltaTime;
             slideX = Input.GetAxisRaw("Horizontal");
             slideZ = Input.GetAxisRaw("Vertical");

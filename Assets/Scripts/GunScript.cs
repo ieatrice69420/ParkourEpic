@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -11,7 +10,6 @@ public class GunScript : MonoBehaviour
     public Transform cam;
     public Health target, ownHealth;
     public int ammo, magSize, currentMagSize;
-    RaycastHit hit;
     [SerializeField]
     bool isFullAuto;
     bool isReloading;
@@ -24,6 +22,8 @@ public class GunScript : MonoBehaviour
     Vector3 knockBackDir;
     public Transform player;
     ObjectPooler objPooler;
+    [SerializeField]
+    LayerMask lm;
 
     void OnEnable()
     {
@@ -80,7 +80,29 @@ public class GunScript : MonoBehaviour
         currentMagSize--;
         if (ml.currentRecoil < maxRecoil) ml.StartRecoil(recoil, timerIncreaser);
         Vector3 shootDir = cam.forward + (cam.right * Random.Range(-inAccuracy, inAccuracy) * ml.currentRecoil) / 4f + cam.up * Random.Range(-inAccuracy, inAccuracy);
-        if (Physics.Raycast(cam.position, shootDir, out hit, maxRange))
+        RaycastHit[] hits = Physics.RaycastAll(cam.position, shootDir, maxRange);
+        foreach (RaycastHit hit in hits)
+        {
+            target = hit.collider.GetComponent<Health>();
+            if (target != null)
+            {
+                if (target != ownHealth)
+                {
+                    fallOffDis = (hit.point - transform.position).magnitude;
+                    damage = baseDamage - fallOffDis * fallOff;
+                    target.TakeDamage(damage, hit.point, headShotMultiplier);
+                    Debug.Log(target.transform.name);
+                    break;
+                }
+            }
+            else
+            {
+                if (hit.transform.gameObject.layer != lm)
+                    objPooler.SpawnBulletHole("Bullet Hole", hit.point, hit.normal);
+                break;
+            }
+        }
+        /* if (Physics.Raycast(cam.position, shootDir, out hit, maxRange))
         {
             target = hit.transform.gameObject.GetComponent<Health>();
             if (target != null)
@@ -95,11 +117,12 @@ public class GunScript : MonoBehaviour
             }
             else
             {
+                Debug.Log("missed");
                 RaycastHit bulletHoleHit;
                 if (Physics.Raycast(cam.position, shootDir, out bulletHoleHit, maxRange))
                     objPooler.SpawnBulletHole("Bullet Hole", hit.point, hit.normal);
             }
-        }
+        }*/
     }
 
     public IEnumerator Reload(float duration)
