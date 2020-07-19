@@ -11,7 +11,6 @@ public class KeyManager : MonoBehaviour
     {
         KeyData data = LoadKeys();
         SaveKeys(keys);
-        // Debug.Log(TempKeys.GetKey(0));
-        Debug.Log(data.keyCodes[0]);
+        Debug.Log(TempKeys.GetKey(0));
     }
 }
