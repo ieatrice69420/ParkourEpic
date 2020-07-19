@@ -1,4 +1,5 @@
 ﻿using PlayFab;
+using PlayFab.AuthenticationModels;
 using PlayFab.ClientModels;
 using PlayFab.PfEditor.Json;
 using System.Collections;
@@ -11,7 +12,7 @@ public class PlayFabController : MonoBehaviour
     public GameObject menubuttons;
     private string userEmail;
     private string UserPassword;
-    private string username;
+    public string username;
 
     private string myID;
 
@@ -21,7 +22,6 @@ public class PlayFabController : MonoBehaviour
     public GameObject LoginPanel;
 
     public GameObject registerpanel;
-
     void DisplayPlayFabError(PlayFabError error) => Debug.Log(error.GenerateErrorReport());
 
     private void OnEnable()
@@ -94,11 +94,7 @@ public class PlayFabController : MonoBehaviour
         PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSucsess, OnRegistereFailure);
         PlayerPrefs.SetString("EMAIL", userEmail);
         PlayerPrefs.SetString("PASSWORD", UserPassword);
-        LoginPanel.SetActive(true);
-
-
-
-
+        registerpanel.SetActive(false);
     }
 
     private void OnRegistereFailure(PlayFabError error) => Debug.LogError(error.GenerateErrorReport());
@@ -357,4 +353,8 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
         PlayerPrefs.DeleteKey("EMAIL");
         SceneManager.LoadScene(index);
     }
+
+	#region JoinParty
+    //GetEntityTokenRequest()
+	#endregion
 }

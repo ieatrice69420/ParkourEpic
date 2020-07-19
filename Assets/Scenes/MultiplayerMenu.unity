@@ -625,6 +625,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menubuttons: {fileID: 0}
+  username: 
   panelColor: {fileID: 0}
   LoginPanel: {fileID: 0}
   registerpanel: {fileID: 0}
@@ -1785,7 +1786,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000041140756, y: -0.00006479057}
+  m_AnchoredPosition: {x: -0.000041140756, y: -0.000019354251}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1968915051

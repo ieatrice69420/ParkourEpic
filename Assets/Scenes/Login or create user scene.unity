@@ -366,7 +366,7 @@ Transform:
   - {fileID: 1104731561}
   - {fileID: 365357312}
   m_Father: {fileID: 1063805134}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &151473850
 GameObject:
@@ -2227,7 +2227,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &449612562
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4600,9 +4600,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 90648136}
-  - {fileID: 2093336656}
   - {fileID: 147061310}
   - {fileID: 2097679186}
+  - {fileID: 2093336656}
   m_Father: {fileID: 412871511}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8820,7 +8820,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1981639645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9144,8 +9144,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menubuttons: {fileID: 147061309}
+  username: 
   panelColor: {fileID: 1063805133}
-  LoginPanel: {fileID: 474490360}
+  LoginPanel: {fileID: 449612561}
   registerpanel: {fileID: 474490360}
   playerpoints: 0
   kills: 0
@@ -9169,7 +9170,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1063805134}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2097679185
 GameObject:
@@ -9204,5 +9205,5 @@ Transform:
   - {fileID: 1981639647}
   - {fileID: 449612562}
   m_Father: {fileID: 1063805134}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
