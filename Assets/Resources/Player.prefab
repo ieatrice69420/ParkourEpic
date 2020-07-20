@@ -1457,7 +1457,6 @@ GameObject:
   - component: {fileID: 7497642643511596924}
   - component: {fileID: 114713716393035800}
   - component: {fileID: 4441565738999026598}
-  - component: {fileID: 6776612804596698124}
   - component: {fileID: 8019970153497810741}
   - component: {fileID: 1432413448231542923}
   - component: {fileID: 7396581202373785104}
@@ -1534,8 +1533,6 @@ MonoBehaviour:
   wallRunSpeed: 10
   groundcheck: {fileID: 7722510122645180290}
   cam: {fileID: 7722510122170551140}
-  vaultPoint: {fileID: 8772760317298631411}
-  vaultEndPoint: {fileID: 676791736672024578}
   groundmask:
     serializedVersion: 2
     m_Bits: 1024
@@ -1550,15 +1547,12 @@ MonoBehaviour:
   knockBackDir: {x: 0, y: 0, z: 0}
   wallRunDir: {x: 0, y: 0, z: 0}
   wallJumpMainDir: {x: 0, y: 0, z: 0}
-  vaultSpeed: 10
   climbSpeed: 5
   minFallDistance: 2
   fallDamage: 70
   isClimbing: 0
   touchingWall: 0
   health: {fileID: 114713716393035800}
-  vaultHeight: 2
-  vaultWidth: 1
 --- !u!114 &7497642643511596924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1583,6 +1577,8 @@ MonoBehaviour:
   move: {fileID: 7722510120855694927}
   letGo: {fileID: 516523060335072393}
   interact: 101
+  zipLineSpeed: 10
+  isZipLining: 0
 --- !u!114 &114713716393035800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1622,21 +1618,6 @@ MonoBehaviour:
   weaponHolder: {fileID: 8429050771189956589}
   pickUpCode: 101
   text: {fileID: 8578361309797296426}
---- !u!114 &6776612804596698124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7722510120855694926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d590e7d169ce3e4a98ba8c5cdf55dff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rice: {fileID: 0}
-  pointer: {fileID: 8831636045712307656}
-  distance: {fileID: 0}
 --- !u!114 &8019970153497810741
 MonoBehaviour:
   m_ObjectHideFlags: 0

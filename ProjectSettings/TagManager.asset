@@ -12,6 +12,8 @@ TagManager:
   - Objective
   - Ledder
   - Enemy
+  - Zipline
+  - ZiplineStopper
   layers:
   - Default
   - TransparentFX
