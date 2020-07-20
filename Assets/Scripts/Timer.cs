@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using TMPro.Examples;
+﻿using TMPro;
 using UnityEngine;
 
 public class Timer : MonoBehaviour
@@ -16,9 +13,6 @@ public class Timer : MonoBehaviour
 
         if (timeLeft < 0) TimerEnd();
     }
-    
-    void TimerEnd()
-    {
-        Debug.Log("Timer has over");
-    }
+
+    void TimerEnd() => Debug.Log("Timer has over");
 }

@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Forcepush : MonoBehaviour
 {
     public float pushAmount;
     public float pushRadious;
-    
+
     public void OnTriggerEnter(Collider other)
     {
         Debug.Log("g");

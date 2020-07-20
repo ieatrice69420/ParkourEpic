@@ -7,7 +7,7 @@ public class Movement : MonoBehaviour
     CharacterController CharacterController;
     public float speed = 12f, unCrouchSpeed = 12f, crouchSpeed = 6f, gravity = -20f, JumpHight = 3f, crouchHeight = 0.2f, unCrouchHeight = 0.5f, knockBackSpeed, knockBackSlowSpeed, slideSpeed, slideDuration, wallRunSpeed;
     [SerializeField]
-    Transform groundcheck, cam, vaultPoint, vaultEndPoint;
+    Transform groundcheck, cam;
     float groundistance = 0.2f;
     [SerializeField]
     LayerMask groundmask;
@@ -25,8 +25,7 @@ public class Movement : MonoBehaviour
     [HideInInspector]
     public Vector3 wallRunDir, wallJumpMainDir;
     int tiltTime;
-    bool isVaulting, isVaultingUp, isVaultingForward;
-    public float vaultSpeed, climbSpeed = 0.5f, minFallDistance, fallDamage;
+    public float climbSpeed = 0.5f, minFallDistance, fallDamage;
     [HideInInspector]
     public bool isClimbing;
     float verticalJumpDir;
@@ -49,25 +48,22 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
-        if (!isVaulting)
+        if (Mathf.Approximately(Time.timeScale, .005f)) return;
+        Jump();
+        if (!(isWallRunning && Input.GetKey(sprint)))
         {
-            Jump();
-            if (!(isWallRunning && Input.GetKey(sprint)))
-            {
-                Wasd();
-                Sprint();
-                Slide();
-            }
-            Cannon();
-            WallRun();
-            Climb();
+            Wasd();
+            Sprint();
+            Slide();
         }
+        Cannon();
+        WallRun();
+        Climb();
         Vault();
         if (isFalling()) CheckForFallDamage();
         else fallDuration = 0f;
         if (isGrounded) groundedTime += Time.deltaTime;
         else groundedTime = 0f;
-
     }
 
     void Wasd()
@@ -157,16 +153,8 @@ public class Movement : MonoBehaviour
 
     void Vault()
     {
-        RaycastHit vaultHit, vaultEndHit;
-        if (Physics.Raycast(vaultPoint.position, transform.forward, out vaultHit, .6f, groundmask) && !Physics.Raycast(vaultEndPoint.position, transform.forward, out vaultEndHit, .6f, groundmask))
-            if (vaultHit.transform.CompareTag("Vault"))
-                if (Input.GetKeyDown(interact))
-                    isVaultingForward = true;
-        isVaulting = isVaultingUp || isVaultingForward;
-        if (isVaulting) VaultUp();
-    }
 
-    void VaultUp() => CharacterController.Move(Vector3.up * vaultSpeed * Time.deltaTime);
+    }
 
     void Climb()
     {
