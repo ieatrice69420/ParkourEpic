@@ -1,5 +1,6 @@
 ﻿using static System.Math;
 using UnityEngine;
+using static UnityEngine.Mathf;
 
 public class Movement : MonoBehaviour
 {
@@ -48,7 +49,7 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
-        if (Mathf.Approximately(Time.timeScale, .005f)) return;
+        if (Approximately(Time.timeScale, .005f)) return;
         Jump();
         if (!(isWallRunning && Input.GetKey(sprint)))
         {
@@ -71,13 +72,13 @@ public class Movement : MonoBehaviour
         x = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
         move = Vector3.ClampMagnitude(transform.right * x + transform.forward * z, 1f);
-        if (move.magnitude != 0f) CharacterController.Move(move * speed * Time.deltaTime);
+        if (move.magnitude >= .05f) CharacterController.Move(move * speed * Time.deltaTime);
     }
 
     void Sprint()
     {
         if (Input.GetKey(sprint))
-            if (move.magnitude != 0f) CharacterController.Move(move * speed / 3 * Time.deltaTime);
+            if (move.magnitude >= .05f) CharacterController.Move(move * speed / 3 * Time.deltaTime);
     }
 
     void Slide()
@@ -121,7 +122,7 @@ public class Movement : MonoBehaviour
 
     void Cannon()
     {
-        if (knockBackDir.magnitude != 0f) CharacterController.Move(knockBackDir * knockBackSpeed * Time.deltaTime);
+        if (knockBackDir.magnitude >= .05f) CharacterController.Move(knockBackDir * knockBackSpeed * Time.deltaTime);
         if (knockBackSpeed > 0f) knockBackSpeed -= knockBackSlowSpeed * Time.deltaTime;
         if (knockBackSpeed < 0f) knockBackSpeed = 0f;
     }
@@ -135,7 +136,7 @@ public class Movement : MonoBehaviour
             if (Input.GetKey(sprint)) CharacterController.Move(wallRunDir * wallRunSpeed * Time.deltaTime);
         }
         else wallRunDir = move;
-        if (wallJumpMainDir.magnitude != 0f) CharacterController.Move(wallJumpMainDir * wallJumpSpeed * Time.deltaTime);
+        if (wallJumpMainDir.magnitude >= .05f) CharacterController.Move(wallJumpMainDir * wallJumpSpeed * Time.deltaTime);
         if (wallJumpSpeed > 0f) wallJumpSpeed -= 4f * Time.deltaTime;
         if (wallJumpSpeed < 0f || isGrounded) wallJumpSpeed = 0f;
         if (wallJumpSpeed > 0f) speed = 1.5f; else speed = 6f;
@@ -178,7 +179,7 @@ public class Movement : MonoBehaviour
         touchingWall = true;
         Debug.Log("TOUCHING WALL");
         RaycastHit wallHit;
-        if (newPos.magnitude != 0f) wallRayDir = wallRunDir + wallJumpMainDir * wallJumpSpeed;
+        if (newPos.magnitude >= .05f) wallRayDir = wallRunDir + wallJumpMainDir * wallJumpSpeed;
         if (Physics.Raycast(transform.position, wallRayDir, out wallHit))
             if (wallRunDir.magnitude >= .05f)
             {
