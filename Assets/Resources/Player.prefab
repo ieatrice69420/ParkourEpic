@@ -1499,8 +1499,8 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 1
-  m_Radius: 0.2
+  m_Height: 1.1
+  m_Radius: 0.1
   m_SlopeLimit: 45
   m_StepOffset: 0.2
   m_SkinWidth: 0.02
@@ -1525,7 +1525,7 @@ MonoBehaviour:
   gravity: -10
   JumpHight: 2
   crouchHeight: 0.2
-  unCrouchHeight: 0.5
+  unCrouchHeight: 1.1
   knockBackSpeed: 1
   knockBackSlowSpeed: 1
   slideSpeed: 20
@@ -1555,6 +1555,8 @@ MonoBehaviour:
   touchingWall: 0
   health: {fileID: 114713716393035800}
   rigidbody: {fileID: 1432413448231542923}
+  cielingDistance: 0
+  cielingFallSpeed: 0
 --- !u!114 &7497642643511596924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1661,7 +1663,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.3
+  m_Radius: 0.15
   m_Height: 0.9
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -1677,7 +1679,6 @@ GameObject:
   - component: {fileID: 7722510122170551139}
   - component: {fileID: 7722510122170551138}
   - component: {fileID: 7722510122170551141}
-  - component: {fileID: 8871089183464542535}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: Player
@@ -1769,24 +1770,6 @@ MonoBehaviour:
   currentRecoil: 0
   decaySpeed: 10
   playerbody: {fileID: 7722510120855694927}
---- !u!143 &8871089183464542535
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7722510122170551137}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Height: 0.4
-  m_Radius: 0.3
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.002
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7722510122645180289
 GameObject:
   m_ObjectHideFlags: 0
