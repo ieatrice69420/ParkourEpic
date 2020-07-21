@@ -3,13 +3,11 @@
 public class ZiplineCarrier : MonoBehaviour
 {
     Vector3 startPos;
-    [SerializeField]
     public Vector3 velocity;
+    [SerializeField]
+    new Rigidbody rigidbody;
 
-    void Start()
-    {
-        startPos = transform.localPosition;
-    }
+    void Start() => startPos = transform.localPosition;
 
     void OnCollisonEnter(Collider other)
     {
@@ -23,6 +21,9 @@ public class ZiplineCarrier : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.Translate(velocity * Time.deltaTime);
+        Move();
+        Debug.Log("rigidbody.issleeping = " + rigidbody.IsSleeping());
     }
+
+    private void Move() => transform.Translate(velocity * Time.deltaTime);
 }

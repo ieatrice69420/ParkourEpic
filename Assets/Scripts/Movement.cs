@@ -9,6 +9,7 @@ public class Movement : MonoBehaviour
     public float speed = 12f, unCrouchSpeed = 12f, crouchSpeed = 6f, gravity = -20f, JumpHight = 3f, crouchHeight = 0.2f, unCrouchHeight = 0.5f, knockBackSpeed, knockBackSlowSpeed, slideSpeed, slideDuration, wallRunSpeed;
     [SerializeField]
     Transform groundcheck, cam;
+    [SerializeField]
     float groundistance = 0.2f;
     [SerializeField]
     LayerMask groundmask;
@@ -37,6 +38,10 @@ public class Movement : MonoBehaviour
     Health health;
     float groundedTime;
     Vector3 wallRayDir;
+    [SerializeField]
+    new Rigidbody rigidbody;
+    [SerializeField]
+    float cielingDistance, cielingFallSpeed;
 
     bool isFalling()
     {
@@ -49,7 +54,8 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
-        if (Approximately(Time.timeScale, .005f)) return;
+        newPos = transform.position - oldPos;
+        if (Approximately(Time.timeScale, 0f)) return;
         Jump();
         if (!(isWallRunning && Input.GetKey(sprint)))
         {
@@ -65,6 +71,8 @@ public class Movement : MonoBehaviour
         else fallDuration = 0f;
         if (isGrounded) groundedTime += Time.deltaTime;
         else groundedTime = 0f;
+        Debug.Log(rigidbody.IsSleeping());
+        oldPos = transform.position;
     }
 
     void Wasd()
@@ -114,12 +122,6 @@ public class Movement : MonoBehaviour
         CharacterController.Move(velocity * Time.deltaTime);
     }
 
-    void FixedUpdate()
-    {
-        newPos = transform.position - oldPos;
-        oldPos = transform.position;
-    }
-
     void Cannon()
     {
         if (knockBackDir.magnitude >= .05f) CharacterController.Move(knockBackDir * knockBackSpeed * Time.deltaTime);
@@ -130,7 +132,7 @@ public class Movement : MonoBehaviour
     void WallRun()
     {
         isWallRunning = touchingWall && !isGrounded;
-        if(isWallRunning)
+        if (isWallRunning)
         {
             WallJump();
             if (Input.GetKey(sprint)) CharacterController.Move(wallRunDir * wallRunSpeed * Time.deltaTime);
@@ -148,7 +150,6 @@ public class Movement : MonoBehaviour
         {
             wallJumpSpeed = 7f;
             velocity.y = verticalJumpDir;
-            Debug.Log(wallJumpMainDir);
         }
     }
 
@@ -162,7 +163,7 @@ public class Movement : MonoBehaviour
         RaycastHit climbHit;
         if (Physics.Raycast(transform.position, transform.forward, out climbHit, .521f))
         {
-            if (climbHit.transform.gameObject.CompareTag("Ledder") )
+            if (climbHit.transform.gameObject.CompareTag("Ledder"))
             {
                 if (Input.GetKeyDown(interact))
                     isClimbing = !isClimbing;
@@ -174,28 +175,32 @@ public class Movement : MonoBehaviour
         else isClimbing = false;
     }
 
-    void OnTriggerStay(Collider other)
+    void OnCollisionStay(Collision other)
     {
+        Debug.Log(rigidbody.IsSleeping());
         touchingWall = true;
-        Debug.Log("TOUCHING WALL");
-        RaycastHit wallHit;
-        if (newPos.magnitude >= .05f) wallRayDir = wallRunDir + wallJumpMainDir * wallJumpSpeed;
-        if (Physics.Raycast(transform.position, wallRayDir, out wallHit))
-            if (wallRunDir.magnitude >= .05f)
-            {
-                Vector3 newDir = Vector3.Reflect(wallRunDir, wallHit.normal).normalized;
-                if (newDir.magnitude >= .05f) wallJumpMainDir = newDir;
-                Debug.Log(newDir);
-            }
-		if (wallJumpSpeed <= 5f) wallJumpSpeed = 0f;
+        if (wallRunDir.magnitude >= .05f)
+        {
+            Vector3 newDir = Vector3.Reflect(wallRunDir, other.GetContact(0).normal).normalized;
+            if (newDir.magnitude >= .05f) wallJumpMainDir = newDir;
+        }
+        if (wallJumpSpeed <= 5f) wallJumpSpeed = 0f;
     }
 
-    void OnTriggerExit(Collider other) => touchingWall = false;
+    void OnCollisionExit(Collision other) => touchingWall = false;
 
     void CheckForFallDamage()
     {
         fallDuration += Time.deltaTime;
-		if (fallDuration >= minFallDistance)
-			if (isGrounded) health.SimpleTakeHealth(fallDuration * fallDamage);
+        if (fallDuration >= minFallDistance)
+            if (isGrounded) health.SimpleTakeHealth(fallDuration * fallDamage);
+    }
+
+    void FallOffCieling()
+    {
+        if (Physics.Raycast(transform.position, Vector3.up, cielingDistance, groundmask))
+        {
+            CharacterController.Move(Vector3.down * cielingFallSpeed * Time.deltaTime);
+        }
     }
 }
