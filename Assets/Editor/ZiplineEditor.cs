@@ -2,7 +2,7 @@
 using UnityEditor;
 
 [CustomEditor(typeof(Zipline))]
-public class RotatorEditor : Editor
+public class ZiplineEditor : Editor
 {
     public override void OnInspectorGUI()
     {

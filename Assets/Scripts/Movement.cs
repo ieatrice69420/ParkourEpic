@@ -42,6 +42,7 @@ public class Movement : MonoBehaviour
     new Rigidbody rigidbody;
     [SerializeField]
     float cielingDistance, cielingFallSpeed;
+    Vector3 oldNormal;
 
     bool isFalling()
     {
@@ -91,7 +92,6 @@ public class Movement : MonoBehaviour
 
     void Slide()
     {
-
         isSliding = isGrounded && Input.GetKey(crouch) && slideDuration > 0f;
         if (slideDuration < 0f) slideDuration = 0f;
         if (slideDuration > maxSlideDuration) slideDuration = maxSlideDuration;
@@ -177,14 +177,30 @@ public class Movement : MonoBehaviour
 
     void OnCollisionStay(Collision other)
     {
-        Debug.Log(rigidbody.IsSleeping());
+        Vector3 newNormal = other.GetContact(0).normal;
+        if (newNormal != oldNormal) wallRunDir = move;
+        Vector3 newDir = Vector3.zero;
         touchingWall = true;
+
         if (wallRunDir.magnitude >= .05f)
         {
-            Vector3 newDir = Vector3.Reflect(wallRunDir, other.GetContact(0).normal).normalized;
-            if (newDir.magnitude >= .05f) wallJumpMainDir = newDir;
+            if (other.contactCount > 2) newDir = (wallRunDir * -1f).normalized;
+            else newDir = Vector3.Reflect(wallRunDir, other.GetContact(0).normal).normalized;
+
+            bool hasntHitSameWall;
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, newDir, out hit))
+                if (hit.transform.gameObject == other.gameObject) hasntHitSameWall = false;
+                else hasntHitSameWall = true;
+            else hasntHitSameWall = true;
+
+            if (newDir.magnitude >= .05f || hasntHitSameWall) wallJumpMainDir = newDir;
+            else wallJumpMainDir = (transform.position - other.GetContact(0).point).normalized;
         }
+        else wallJumpMainDir = (transform.position - other.GetContact(0).point).normalized;
+
         if (wallJumpSpeed <= 5f) wallJumpSpeed = 0f;
+        oldNormal = other.GetContact(0).normal;
     }
 
     void OnCollisionExit(Collision other) => touchingWall = false;

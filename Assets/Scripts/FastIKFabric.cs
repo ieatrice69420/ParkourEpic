@@ -247,5 +247,9 @@ namespace DitzelGames.FastIK
 #endif
         }
 
+        public void SetTargetPos()
+        {
+            Target.position = transform.position;
+        }
     }
 }
