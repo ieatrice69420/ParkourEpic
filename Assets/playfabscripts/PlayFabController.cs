@@ -22,6 +22,8 @@ public class PlayFabController : MonoBehaviour
     public GameObject LoginPanel;
 
     public GameObject registerpanel;
+
+    public GameObject lobby;
     void DisplayPlayFabError(PlayFabError error) => Debug.Log(error.GenerateErrorReport());
 
     private void OnEnable()
@@ -44,7 +46,7 @@ public class PlayFabController : MonoBehaviour
             PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
             LoginPanel.SetActive(false);
             registerpanel.SetActive(false);
-
+            lobby.SetActive(true);
         }
         Debug.Log(PlayerPrefs.GetString("EMAIL"));
         //var request = new LoginWithCustomIDRequest { CustomId = "GettingStartedGuide", CreateAccount = true };
@@ -62,6 +64,8 @@ public class PlayFabController : MonoBehaviour
         myID = result.PlayFabId;
         GetPlayerData();
         menubuttons.SetActive(true);
+        lobby.SetActive(true);
+
     }
 
     private void OnRegisterSucsess(RegisterPlayFabUserResult result)
@@ -77,6 +81,7 @@ public class PlayFabController : MonoBehaviour
         //myID = result.PlayFabId;
         GetPlayerData();
         menubuttons.SetActive(true);
+        lobby.SetActive(true);
 
     }
 
@@ -95,6 +100,7 @@ public class PlayFabController : MonoBehaviour
         PlayerPrefs.SetString("EMAIL", userEmail);
         PlayerPrefs.SetString("PASSWORD", UserPassword);
         registerpanel.SetActive(false);
+
     }
 
     private void OnRegistereFailure(PlayFabError error) => Debug.LogError(error.GenerateErrorReport());

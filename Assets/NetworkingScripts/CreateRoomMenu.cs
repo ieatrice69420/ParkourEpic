@@ -8,10 +8,9 @@ public class CreateRoomMenu : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private TextMeshProUGUI _roomname;
-
-
-        
+    
     public RoomsCanveses _roomcanveses;
+
 
     public void FirstInitialize(RoomsCanveses Canveses)
     {
@@ -20,6 +19,7 @@ public class CreateRoomMenu : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+
         if (!PhotonNetwork.IsConnected)
         {
             return;
@@ -28,6 +28,7 @@ public class CreateRoomMenu : MonoBehaviourPunCallbacks
         options.MaxPlayers = 4;
         options.PublishUserId = true;
         PhotonNetwork.JoinOrCreateRoom(_roomname.text, options, TypedLobby.Default);
+        Debug.Log(_roomname);
 
 
         Debug.Log("Created room successfuly", this);
