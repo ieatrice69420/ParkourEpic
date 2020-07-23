@@ -9,6 +9,8 @@ public class CreateRoomMenu : MonoBehaviourPunCallbacks
     [SerializeField]
     private TextMeshProUGUI _roomname;
 
+
+        
     public RoomsCanveses _roomcanveses;
 
     public void FirstInitialize(RoomsCanveses Canveses)
