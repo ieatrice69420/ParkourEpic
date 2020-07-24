@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9148,6 +9148,7 @@ MonoBehaviour:
   panelColor: {fileID: 1063805133}
   LoginPanel: {fileID: 449612561}
   registerpanel: {fileID: 474490360}
+  lobby: {fileID: 0}
   playerpoints: 0
   kills: 0
   playerhighScore: 0
