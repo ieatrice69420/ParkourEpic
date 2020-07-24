@@ -1478,8 +1478,10 @@ MonoBehaviour:
   touchingWall: 0
   health: {fileID: 114713716393035800}
   rigidbody: {fileID: 1432413448231542923}
-  cielingDistance: 0
-  cielingFallSpeed: 0
+  cielingDistance: 1
+  rollDur: 0.1
+  rollSpeed: 30
+  rollDelay: 2
 --- !u!114 &7497642643511596924
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 ﻿using static System.Math;
+using System.Collections;
 using UnityEngine;
 using static UnityEngine.Mathf;
 
@@ -41,8 +42,13 @@ public class Movement : MonoBehaviour
     [SerializeField]
     new Rigidbody rigidbody;
     [SerializeField]
-    float cielingDistance, cielingFallSpeed;
+    float cielingDistance;
     Vector3 oldNormal;
+    [SerializeField]
+    float rollDur, rollSpeed, rollDelay;
+    bool isRolling;
+    Vector3 rollDir;
+    bool canRoll = true;
 
     bool isFalling()
     {
@@ -55,8 +61,10 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
-        newPos = transform.position - oldPos;
         if (Approximately(Time.timeScale, 0f)) return;
+        newPos = transform.position - oldPos;
+        if (isGrounded) RollInput();
+        if (isRolling) return;
         Jump();
         if (!(isWallRunning && Input.GetKey(sprint)))
         {
@@ -68,6 +76,7 @@ public class Movement : MonoBehaviour
         WallRun();
         Climb();
         Vault();
+        FallOffCieling();
         if (isFalling()) CheckForFallDamage();
         else fallDuration = 0f;
         if (isGrounded) groundedTime += Time.deltaTime;
@@ -158,6 +167,11 @@ public class Movement : MonoBehaviour
 
     }
 
+    void FixedUpdate()
+    {
+        if (rigidbody.IsSleeping()) rigidbody.WakeUp();
+    }
+
     void Climb()
     {
         RaycastHit climbHit;
@@ -214,9 +228,31 @@ public class Movement : MonoBehaviour
 
     void FallOffCieling()
     {
-        if (Physics.Raycast(transform.position, Vector3.up, cielingDistance, groundmask))
+        if (Physics.Raycast(transform.position, Vector3.up, cielingDistance, groundmask)) velocity.y = Clamp(velocity.y, -100f, -1f);
+    }
+
+    void RollInput()
+    {
+        if (isRolling) CharacterController.Move(rollDir * rollSpeed * Time.deltaTime);
+        if (Input.GetKeyDown(KeyCode.E) && canRoll)
         {
-            CharacterController.Move(Vector3.down * cielingFallSpeed * Time.deltaTime);
+            StartCoroutine(Roll());
+            StartCoroutine(RollDelay());
         }
+    }
+
+    IEnumerator Roll()
+    {
+        rollDir = move.normalized;
+        isRolling = true;
+        yield return new WaitForSeconds(rollDur);
+        isRolling = false;
+    }
+
+    IEnumerator RollDelay()
+    {
+        canRoll = false;
+        yield return new WaitForSeconds(rollDelay);
+        canRoll = true;
     }
 }
