@@ -95,8 +95,7 @@ public class Movement : MonoBehaviour
 
     void Sprint()
     {
-        if (Input.GetKey(sprint))
-            if (move.magnitude >= .05f) CharacterController.Move(move * speed / 3 * Time.deltaTime);
+        if (Input.GetKey(sprint) && move.magnitude >= .05f) CharacterController.Move(move * speed / 3 * Time.deltaTime);
     }
 
     void Slide()
@@ -150,7 +149,7 @@ public class Movement : MonoBehaviour
         if (wallJumpMainDir.magnitude >= .05f) CharacterController.Move(wallJumpMainDir * wallJumpSpeed * Time.deltaTime);
         if (wallJumpSpeed > 0f) wallJumpSpeed -= 4f * Time.deltaTime;
         if (wallJumpSpeed < 0f || isGrounded) wallJumpSpeed = 0f;
-        if (wallJumpSpeed > 0f) speed = 1.5f; else speed = 6f;
+        speed = wallJumpSpeed > 0f ? 1.5f : 6f;
     }
 
     void WallJump()
@@ -217,13 +216,12 @@ public class Movement : MonoBehaviour
         oldNormal = other.GetContact(0).normal;
     }
 
-    void OnCollisionExit(Collision other) => touchingWall = false;
+    void OnCollisionExit() => touchingWall = false;
 
     void CheckForFallDamage()
     {
         fallDuration += Time.deltaTime;
-        if (fallDuration >= minFallDistance)
-            if (isGrounded) health.SimpleTakeHealth(fallDuration * fallDamage);
+        if (fallDuration >= minFallDistance && isGrounded) health.SimpleTakeHealth(fallDuration * fallDamage);
     }
 
     void FallOffCieling()
