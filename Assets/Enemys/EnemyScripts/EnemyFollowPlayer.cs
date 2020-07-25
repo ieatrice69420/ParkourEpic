@@ -1,20 +1,39 @@
 ﻿using System.Collections;
+using static System.Math;
 using UnityEngine;
+using static UnityEngine.Mathf;
 using UnityEngine.AI;
 
 public class EnemyFollowPlayer : MonoBehaviour
 {
-    public Transform target, player;
+    public Transform player;
     public float damage, fireRate, delay;
     float nextTimeToFire;
     ObjectPooler objectPooler;
     public bool isSeeingPlayer;
     [SerializeField]
     NavMeshAgent navMeshAgent;
+    [SerializeField]
+    CharacterController controller;
+    Vector3 velocity;
+    [SerializeField]
+    float jumpHeight, gravity;
+    float actualJumpHeight;
+    bool isGrounded = true;
+    Vector3 jumpDir;
 
-    void Start() => objectPooler = ObjectPooler.instance;
+    void Start()
+    {
+        objectPooler = ObjectPooler.instance;
+        actualJumpHeight = (float)Sqrt((double)(jumpHeight * -2f * gravity));
+    }
 
     private void Update()
+    {
+        Fire();
+    }
+
+    void Fire()
     {
         if (isSeeingPlayer)
             if (Time.time >= nextTimeToFire)
@@ -26,7 +45,57 @@ public class EnemyFollowPlayer : MonoBehaviour
 
     void LateUpdate()
     {
-        if (isSeeingPlayer) navMeshAgent.SetDestination(player.position);
+        JumpCheck();
+        PathFind();
+        Gravity();
+        transform.rotation = Quaternion.Euler(0f, transform.rotation.y, 0f);
+    }
+
+    void PathFind()
+    {
+        if (isGrounded)
+        {
+            if (isSeeingPlayer)
+            {
+                if (navMeshAgent.enabled == true && navMeshAgent.isOnNavMesh)
+                navMeshAgent.SetDestination(player.position);
+            }
+        }
+        else
+        {
+            controller.Move(jumpDir * navMeshAgent.speed * Time.deltaTime);
+            controller.Move(velocity * Time.deltaTime);
+        }
+    }
+
+    void Gravity()
+    {
+        velocity.y += gravity * Time.deltaTime;
+        if (isGrounded) velocity.y = -2f;
+    }
+
+    void JumpCheck()
+    {
+        OffMeshLinkData data = navMeshAgent.currentOffMeshLinkData;
+        if (data.valid) StartCoroutine(Jump(Vector3.Distance(data.startPos, data.endPos) / navMeshAgent.speed));
+    }
+
+    public IEnumerator Jump(float duration)
+    {
+        OffMeshLinkData data = navMeshAgent.currentOffMeshLinkData;
+        jumpDir = new Vector3((data.endPos - data.startPos).normalized.x, 0f, (data.endPos - data.startPos).normalized.z);
+        isGrounded = false;
+        navMeshAgent.enabled = false;
+        velocity.y = actualJumpHeight;
+        yield return new WaitForSeconds(duration);
+        navMeshAgent.enabled = true;
+        isGrounded = true;
+    }
+
+    void Move()
+    {
+        // navMeshAgent.enabled = isGrounded ? true : false;
+        // controller.enabled = isGrounded ? false : true;
     }
 
     void FixedUpdate()
@@ -38,7 +107,7 @@ public class EnemyFollowPlayer : MonoBehaviour
                 if (hit.transform.CompareTag("Player"))
                     isSeeingPlayer = true;
         }
-        else transform.LookAt(target);
+        else transform.LookAt(player);
     }
 
     IEnumerator Shoot(float duration, float dmg)
