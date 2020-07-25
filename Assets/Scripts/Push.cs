@@ -75,8 +75,7 @@ public class Push : MonoBehaviour
     	}
 	    if (move.isGrounded) jumpSpeed = 0f;
 
-		if (isZipLining)
-			if (Input.GetKeyDown(KeyCode.Space)) isZipLining = false;
+		if (isZipLining && Input.GetKeyDown(KeyCode.Space)) isZipLining = false;
 
 		if (isZipLining && isSwinging)
 		{
@@ -111,12 +110,9 @@ public class Push : MonoBehaviour
 
     void Swing() => player.transform.position = rope.GetChild(0).GetChild(0).position;
 
-	void ZipLine()
-	{
-		player.transform.position = zipLineCarrier.position;
-	}
+    void ZipLine() => player.transform.position = zipLineCarrier.position;
 
-	void OnTriggerEnter()
+    void OnTriggerEnter()
 	{
 		if (jumpSpeed <= maxJumpSpeed -5f) jumpSpeed = 0f;
 	}

@@ -22,16 +22,12 @@ public class Pause : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Time.timeScale = 0f;
         }
-        else
-            Cursor.lockState = CursorLockMode.Locked;
+        else Cursor.lockState = CursorLockMode.Locked;
     }
 
     void TogglePause()
     {
-        if (isPaused)
-        {
-            pauseScreen.SetActive(true);
-        }
+        if (isPaused)  pauseScreen.SetActive(true);
         else
         {
             Time.timeScale = 1f;
