@@ -17,7 +17,7 @@ public class Roomlisting : MonoBehaviour
     public void SetRoomInfo(RoomInfo roominfo)
     {
         RoomInfo = roominfo;
-        text.text = GetComponent<PlayFabController>().username;
+        //text.text = GetComponent<PlayFabController>().username;
     }
 
     public void OnClick_Button() {

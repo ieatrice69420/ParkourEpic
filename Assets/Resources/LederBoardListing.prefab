@@ -294,7 +294,6 @@ GameObject:
   - component: {fileID: 8767625296931402471}
   - component: {fileID: 8767625296931402468}
   - component: {fileID: 7568459206991403270}
-  - component: {fileID: 114643437254313710}
   - component: {fileID: 114829777194255366}
   m_Layer: 5
   m_Name: LederBoardListing
@@ -374,20 +373,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playernametext: {fileID: 8767625298160502091}
   playerScore: {fileID: 8767625296076710129}
---- !u!114 &114643437254313710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8767625296931402466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e3cfb272d5375d47b01095aaccf73f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _roomname: {fileID: 8767625298160502091}
-  _roomcanveses: {fileID: 0}
 --- !u!114 &114829777194255366
 MonoBehaviour:
   m_ObjectHideFlags: 0

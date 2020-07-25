@@ -22,10 +22,7 @@ public class ConnectingToServer : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        print(PhotonNetwork.LocalPlayer.NickName);
         print("Connsected to server");
-        if(!PhotonNetwork.InLobby)
-            PhotonNetwork.JoinLobby();
         PhotonNetwork.FindFriends(new string[] { "1" });
     }
 

@@ -6,14 +6,59 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 public class PlayFabController : MonoBehaviour
 {
-    public GameObject menubuttons;
-    private string userEmail;
-    private string UserPassword;
-    public string username;
+    [SerializeField]
+    private InputField InputFieldemail;
 
+
+    [SerializeField]
+    private InputField InputFieldepass;
+
+    [SerializeField]
+    private InputField InputFieldeusername;
+
+    public GameObject menubuttons;
+
+    private string userEmail
+    {
+        get
+        {
+            if (!PlayerPrefs.HasKey("EMAIL"))
+            {
+                return InputFieldemail.text;
+            }
+            else
+                return PlayerPrefs.GetString("EMAIL");
+        }
+    }
+
+    private string UserPassword
+    {
+        get
+        {
+            if (!PlayerPrefs.HasKey("PASSWORD"))
+            {
+                return InputFieldepass.text;
+            }
+            else
+                return PlayerPrefs.GetString("PASSWORD");
+        }
+
+    }
+    public string username
+    {
+        get
+        {
+            //if (!PlayerPrefs.HasKey("USERNAME"))
+           // {
+                return InputFieldeusername.text;
+            //}
+            //else
+                //return PlayerPrefs.GetString("USERNAME");
+        }
+    }
     private string myID;
 
     public GameObject panelColor;
@@ -40,13 +85,12 @@ public class PlayFabController : MonoBehaviour
 
         if (PlayerPrefs.HasKey("EMAIL"))
         {
-            userEmail = PlayerPrefs.GetString("EMAIL");
-            UserPassword = PlayerPrefs.GetString("PASSWORD");
+            //userEmail = PlayerPrefs.GetString("EMAIL");
+            //UserPassword = PlayerPrefs.GetString("PASSWORD");
             var request = new LoginWithEmailAddressRequest { Email = userEmail, Password = UserPassword };
             PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
             LoginPanel.SetActive(false);
             registerpanel.SetActive(false);
-            lobby.SetActive(true);
         }
         Debug.Log(PlayerPrefs.GetString("EMAIL"));
         //var request = new LoginWithCustomIDRequest { CustomId = "GettingStartedGuide", CreateAccount = true };
@@ -65,7 +109,6 @@ public class PlayFabController : MonoBehaviour
         GetPlayerData();
         menubuttons.SetActive(true);
         lobby.SetActive(true);
-
     }
 
     private void OnRegisterSucsess(RegisterPlayFabUserResult result)
@@ -73,6 +116,8 @@ public class PlayFabController : MonoBehaviour
         Debug.Log("Congratulations, you made your first successful API call!");
         PlayerPrefs.SetString("EMAIL", userEmail);
         PlayerPrefs.SetString("PASSWORD", UserPassword);
+        PlayerPrefs.SetString("USERNAME", username);
+        PlayerPrefs.Save();
         LoginPanel.SetActive(false);
         PlayFabClientAPI.UpdateUserTitleDisplayName(new UpdateUserTitleDisplayNameRequest { DisplayName = username }, Ondisplaylogin, OnLoginFailure);
         GetStats();
@@ -82,10 +127,10 @@ public class PlayFabController : MonoBehaviour
         GetPlayerData();
         menubuttons.SetActive(true);
         lobby.SetActive(true);
-
+        registerpanel.SetActive(false);
     }
 
-    void Ondisplaylogin(UpdateUserTitleDisplayNameResult result) => Debug.Log(result.DisplayName + "is your new displayer name");
+    public void Ondisplaylogin(UpdateUserTitleDisplayNameResult result) => Debug.Log(result.DisplayName + "is your new displayer name");
 
     private void OnLoginFailure(PlayFabError error)
     {
@@ -97,22 +142,12 @@ public class PlayFabController : MonoBehaviour
     {
         var registerRequest = new RegisterPlayFabUserRequest { Email = userEmail, Password = UserPassword,Username = username };
         PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSucsess, OnRegistereFailure);
-        PlayerPrefs.SetString("EMAIL", userEmail);
-        PlayerPrefs.SetString("PASSWORD", UserPassword);
-        registerpanel.SetActive(false);
-
     }
 
     private void OnRegistereFailure(PlayFabError error) => Debug.LogError(error.GenerateErrorReport());
 
-    public void GetUserEmail(string emailIn) => userEmail = emailIn;
+    //public void GetUserEmail(string emailIn) => userEmail = emailIn;
 
-    public void GetUserPassord(string PasswordIn) => UserPassword = PasswordIn;
-
-    public void GetUserName(string UsernamIn)
-    {
-        username = UsernamIn;
-    }
     public void OnClickLogin()
     {
         var request = new LoginWithEmailAddressRequest { Email = userEmail, Password = UserPassword};
@@ -357,6 +392,8 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     public void LogOut(int index)
     {
         PlayerPrefs.DeleteKey("EMAIL");
+        PlayerPrefs.DeleteKey("USERNAME");
+
         SceneManager.LoadScene(index);
     }
 
