@@ -48,7 +48,6 @@ public class EnemyFollowPlayer : MonoBehaviour
         JumpCheck();
         PathFind();
         Gravity();
-        transform.rotation = Quaternion.Euler(0f, transform.rotation.y, 0f);
     }
 
     void PathFind()
@@ -108,6 +107,7 @@ public class EnemyFollowPlayer : MonoBehaviour
                     isSeeingPlayer = true;
         }
         else transform.LookAt(player);
+        // transform.rotation = Quaternion.Euler(0f, transform.rotation.y, 0f);
     }
 
     IEnumerator Shoot(float duration, float dmg)

@@ -69,7 +69,6 @@ public class Movement : MonoBehaviour
         if (!(isWallRunning && Input.GetKey(sprint)))
         {
             Wasd();
-            Sprint();
             Slide();
         }
         Cannon();
@@ -91,11 +90,6 @@ public class Movement : MonoBehaviour
         z = Input.GetAxis("Vertical");
         move = Vector3.ClampMagnitude(transform.right * x + transform.forward * z, 1f);
         if (move.magnitude >= .05f) CharacterController.Move(move * speed * Time.deltaTime);
-    }
-
-    void Sprint()
-    {
-        if (Input.GetKey(sprint) && move.magnitude >= .05f) CharacterController.Move(move * speed / 3 * Time.deltaTime);
     }
 
     void Slide()
