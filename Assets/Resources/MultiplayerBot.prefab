@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 8848808006112464161}
   - component: {fileID: 8848808006112464160}
-  - component: {fileID: 8848808006112464167}
   - component: {fileID: 8848808006112464162}
   - component: {fileID: 8848808006112464163}
   - component: {fileID: 8848808006112464172}
+  - component: {fileID: 7985932255333703964}
+  - component: {fileID: 9200221750916814958}
   m_Layer: 13
   m_Name: MultiplayerBot
   m_TagString: Player
@@ -58,27 +59,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8848808006112464167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8848808006112464166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0311a0c2fc11aa64da85726b74c85e82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  damage: 5
-  fireRate: 6
-  delay: 2
-  isSeeingPlayer: 0
-  navMeshAgent: {fileID: 8848808006112464160}
-  controller: {fileID: 8848808006112464172}
-  jumpHeight: 2
-  gravity: -10
 --- !u!114 &8848808006112464162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +113,39 @@ CharacterController:
   m_SkinWidth: 0.02
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &7985932255333703964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8848808006112464166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3da2a8651f3a1584eac9b1d064f73885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  multiplayerBotJump: {fileID: 9200221750916814958}
+  moveState: 0
+  pathFindState: 0
+  shootState: 0
+--- !u!114 &9200221750916814958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8848808006112464166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ca9435bc33057a46a22a234cda1bd48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  navMeshAgent: {fileID: 8848808006112464160}
+  controller: {fileID: 8848808006112464172}
+  jumpHeight: 2
+  gravity: -10
 --- !u!1001 &8848808007515358839
 PrefabInstance:
   m_ObjectHideFlags: 0

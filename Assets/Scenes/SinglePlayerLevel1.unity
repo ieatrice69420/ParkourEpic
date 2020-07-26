@@ -619,7 +619,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14194
+  m_Name: pb_Mesh6804
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -4476,6 +4476,11 @@ PrefabInstance:
       value: MultiplayerBot
       objectReference: {fileID: 0}
     - target: {fileID: 8848808006112464167, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 2081363911}
+    - target: {fileID: 9200221750916814958, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
         type: 3}
       propertyPath: player
       value: 
