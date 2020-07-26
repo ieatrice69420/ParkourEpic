@@ -49,6 +49,8 @@ public class Movement : MonoBehaviour
     bool isRolling;
     Vector3 rollDir;
     bool canRoll = true;
+    [SerializeField]
+    Push push;
 
     bool isFalling()
     {
@@ -76,11 +78,11 @@ public class Movement : MonoBehaviour
         Climb();
         Vault();
         FallOffCieling();
+        FinalMove();
         if (isFalling()) CheckForFallDamage();
         else fallDuration = 0f;
         if (isGrounded) groundedTime += Time.deltaTime;
         else groundedTime = 0f;
-        Debug.Log(rigidbody.IsSleeping());
         oldPos = transform.position;
     }
 
@@ -89,7 +91,6 @@ public class Movement : MonoBehaviour
         x = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
         move = Vector3.ClampMagnitude(transform.right * x + transform.forward * z, 1f);
-        if (move.magnitude >= .05f) CharacterController.Move(move * speed * Time.deltaTime);
     }
 
     void Slide()
@@ -121,7 +122,6 @@ public class Movement : MonoBehaviour
         if ((isGrounded || isClimbing) && velocity.y < 0) velocity.y = -2f;
         if (Input.GetButtonDown("Jump") && isGrounded) velocity.y = verticalJumpDir;
         velocity.y += gravity * Time.deltaTime;
-        CharacterController.Move(velocity * Time.deltaTime);
     }
 
     void Cannon()
@@ -140,7 +140,6 @@ public class Movement : MonoBehaviour
             if (Input.GetKey(sprint)) CharacterController.Move(wallRunDir * wallRunSpeed * Time.deltaTime);
         }
         else wallRunDir = move;
-        if (wallJumpMainDir.magnitude >= .05f) CharacterController.Move(wallJumpMainDir * wallJumpSpeed * Time.deltaTime);
         if (wallJumpSpeed > 0f) wallJumpSpeed -= 4f * Time.deltaTime;
         if (wallJumpSpeed < 0f || isGrounded) wallJumpSpeed = 0f;
         speed = wallJumpSpeed > 0f ? 1.5f : 6f;
@@ -246,5 +245,11 @@ public class Movement : MonoBehaviour
         canRoll = false;
         yield return new WaitForSeconds(rollDelay);
         canRoll = true;
+    }
+
+    void FinalMove()
+    {
+        Vector3 finalMove = (move * speed) + (velocity) + (wallJumpMainDir * wallJumpSpeed) + (push.ropeNewPos * push.jumpSpeed * (push.isSwinging ? 0f : 1f));
+        CharacterController.Move(finalMove * Time.deltaTime);
     }
 }

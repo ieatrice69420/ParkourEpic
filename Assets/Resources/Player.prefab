@@ -1482,6 +1482,7 @@ MonoBehaviour:
   rollDur: 0.1
   rollSpeed: 30
   rollDelay: 2
+  push: {fileID: 7497642643511596924}
 --- !u!114 &7497642643511596924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1496,8 +1497,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   ropeSpeed: 50
-  jumpSpeed: 0
   maxJumpSpeed: 50
+  jumpSpeed: 0
+  ropeNewPos: {x: 0, y: 0, z: 0}
   isSwinging: 0
   player: {fileID: 7722510120855694964}
   rope: {fileID: 0}
