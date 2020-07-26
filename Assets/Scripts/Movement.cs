@@ -49,7 +49,6 @@ public class Movement : MonoBehaviour
     bool isRolling;
     Vector3 rollDir;
     bool canRoll = true;
-    float inputMultiplierSlide, inputMultiplierWallRun, inputMultiplierClimb, inputMultiplierRoll;
 
     bool isFalling()
     {
@@ -82,7 +81,6 @@ public class Movement : MonoBehaviour
         if (isGrounded) groundedTime += Time.deltaTime;
         else groundedTime = 0f;
         Debug.Log(rigidbody.IsSleeping());
-        FinalMove();
         oldPos = transform.position;
     }
 
@@ -91,6 +89,7 @@ public class Movement : MonoBehaviour
         x = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
         move = Vector3.ClampMagnitude(transform.right * x + transform.forward * z, 1f);
+        if (move.magnitude >= .05f) CharacterController.Move(move * speed * Time.deltaTime);
     }
 
     void Slide()
@@ -99,10 +98,9 @@ public class Movement : MonoBehaviour
         if (slideDuration < 0f) slideDuration = 0f;
         if (slideDuration > maxSlideDuration) slideDuration = maxSlideDuration;
 
-        inputMultiplierSlide = isSliding ? 1f : 0f;
-
         if (isSliding)
         {
+            CharacterController.Move(slideDir * slideSpeed * Time.deltaTime);
             CharacterController.height = crouchHeight;
             slideDuration -= Time.deltaTime;
         }
@@ -123,12 +121,15 @@ public class Movement : MonoBehaviour
         if ((isGrounded || isClimbing) && velocity.y < 0) velocity.y = -2f;
         if (Input.GetButtonDown("Jump") && isGrounded) velocity.y = verticalJumpDir;
         velocity.y += gravity * Time.deltaTime;
+        CharacterController.Move(velocity * Time.deltaTime);
     }
 
     void Cannon()
     {
-
-    } 
+        if (knockBackDir.magnitude >= .05f) CharacterController.Move(knockBackDir * knockBackSpeed * Time.deltaTime);
+        if (knockBackSpeed > 0f) knockBackSpeed -= knockBackSlowSpeed * Time.deltaTime;
+        if (knockBackSpeed < 0f) knockBackSpeed = 0f;
+    }
 
     void WallRun()
     {
@@ -136,14 +137,10 @@ public class Movement : MonoBehaviour
         if (isWallRunning)
         {
             WallJump();
-            if (Input.GetKey(sprint)) inputMultiplierWallRun = 1f;
-            else inputMultiplierWallRun = 0f;
+            if (Input.GetKey(sprint)) CharacterController.Move(wallRunDir * wallRunSpeed * Time.deltaTime);
         }
-        else 
-        {
-            wallRunDir = move;
-            inputMultiplierWallRun = 0f;
-        }
+        else wallRunDir = move;
+        if (wallJumpMainDir.magnitude >= .05f) CharacterController.Move(wallJumpMainDir * wallJumpSpeed * Time.deltaTime);
         if (wallJumpSpeed > 0f) wallJumpSpeed -= 4f * Time.deltaTime;
         if (wallJumpSpeed < 0f || isGrounded) wallJumpSpeed = 0f;
         speed = wallJumpSpeed > 0f ? 1.5f : 6f;
@@ -175,14 +172,12 @@ public class Movement : MonoBehaviour
         {
             if (climbHit.transform.gameObject.CompareTag("Ledder"))
             {
-                if (Input.GetKeyDown(interact)) isClimbing = !isClimbing;
-                inputMultiplierClimb = isClimbing ? 1f : 0f;
+                if (Input.GetKeyDown(interact))
+                    isClimbing = !isClimbing;
+                if (isClimbing)
+                    CharacterController.Move(Vector3.up * climbSpeed * Time.deltaTime);
             }
-            else 
-            {
-                inputMultiplierClimb = 0f;
-                isClimbing = false;
-            }
+            else isClimbing = false;
         }
         else isClimbing = false;
     }
@@ -251,11 +246,5 @@ public class Movement : MonoBehaviour
         canRoll = false;
         yield return new WaitForSeconds(rollDelay);
         canRoll = true;
-    }
-
-    void FinalMove()
-    {
-        Vector3 finalDir = (move * speed) + (velocity) + (wallJumpMainDir * wallJumpSpeed) + (slideDir * slideSpeed * inputMultiplierSlide) + (wallRunDir * wallRunSpeed * inputMultiplierWallRun) + (Vector3.up * climbSpeed * inputMultiplierWallRun);
-        CharacterController.Move(finalDir * Time.deltaTime);
     }
 }
