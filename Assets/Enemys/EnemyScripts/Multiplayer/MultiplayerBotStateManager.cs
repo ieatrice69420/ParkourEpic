@@ -2,12 +2,9 @@
 
 public class MultiplayerBotStateManager : MonoBehaviour
 {
-    [SerializeField]
-    MultiplayerBotJump multiplayerBotJump;
-
     #region Enums
 
-	public enum MoveState
+    public enum MoveState
     {
         Jumping = 0,
         WallRunning = 1,
@@ -40,8 +37,43 @@ public class MultiplayerBotStateManager : MonoBehaviour
 
     #endregion
 
+    [SerializeField]
+    Behaviour[] moveScripts, pathFindScripts, shootScripts;
+    public Vector3 desiredPosition;
+
     void Update()
     {
-        multiplayerBotJump.enabled = moveState == MoveState.Jumping;
+        for (int i = 0; i < moveScripts.Length - 1; i++)
+        {
+            if (moveScripts[i] != null)
+            {
+                if (moveScripts[i] == null)
+                {
+                    Debug.LogError(moveScripts[i] + "doesnt exist!");
+                    break;
+                }
+                moveScripts[i].enabled = i == (int)moveState;
+            }
+        }
+
+        for (int i = 0; i < pathFindScripts.Length - 1; i++)
+        {
+            if (pathFindScripts[i] == null)
+            {
+                Debug.LogError(pathFindScripts[i] + "doesnt exist!");
+                break;
+            }
+            pathFindScripts[i].enabled = i == (int)pathFindState;
+        }
+
+        for (int i = 0; i < shootScripts.Length - 1; i++)
+        {
+            if (shootScripts[i] == null)
+            {
+                Debug.LogError(shootScripts[i] + "doesnt exist!");
+                break;
+            }
+            shootScripts[i].enabled = i == (int)shootState;
+        }
     }
 }

@@ -6,7 +6,6 @@ using UnityEngine.AI;
 
 public class MultiplayerBotJump : MonoBehaviour
 {
-    public Transform player;
     [SerializeField]
     NavMeshAgent navMeshAgent;
     [SerializeField]
@@ -17,10 +16,14 @@ public class MultiplayerBotJump : MonoBehaviour
     float actualJumpHeight;
     bool isGrounded = true;
     Vector3 jumpDir;
+    [SerializeField]
+    MultiplayerBotStateManager multiplayerBotStateManager;
+    public MultiplayerBotStats stats;
+
+    void Start() => actualJumpHeight = (float)Sqrt((double)(jumpHeight * -2f * gravity));
 
     void OnEnable()
     {
-        actualJumpHeight = (float)Sqrt((double)(jumpHeight * -2f * gravity));
         isGrounded = true;
     }
 
@@ -35,7 +38,7 @@ public class MultiplayerBotJump : MonoBehaviour
     {
         if (isGrounded)
         {
-            if (navMeshAgent.enabled == true && navMeshAgent.isOnNavMesh) navMeshAgent.SetDestination(player.position);
+            if (navMeshAgent.enabled == true && navMeshAgent.isOnNavMesh) navMeshAgent.SetDestination(multiplayerBotStateManager.desiredPosition);
         }
         else
         {
@@ -53,18 +56,27 @@ public class MultiplayerBotJump : MonoBehaviour
     void JumpCheck()
     {
         OffMeshLinkData data = navMeshAgent.currentOffMeshLinkData;
-        if (data.valid) StartCoroutine(Jump(Vector3.Distance(data.startPos, data.endPos) / navMeshAgent.speed));
+        if (data.valid) StartCoroutine(Jump(Vector3.Distance(data.startPos, data.endPos) / navMeshAgent.speed, stats.jumpDelay + Random.Range(stats.jumpDelayRangeMin, stats.jumpDelayRangeMax)));
     }
 
-    public IEnumerator Jump(float duration)
+    public IEnumerator Jump(float duration, float delay)
     {
         OffMeshLinkData data = navMeshAgent.currentOffMeshLinkData;
         jumpDir = new Vector3((data.endPos - data.startPos).normalized.x, 0f, (data.endPos - data.startPos).normalized.z);
         isGrounded = false;
         navMeshAgent.enabled = false;
-        velocity.y = actualJumpHeight;
+        yield return new WaitForSeconds(Clamp(delay, 0f, .6f));
+        if (controller.isGrounded) velocity.y = actualJumpHeight;
         yield return new WaitForSeconds(duration);
-        navMeshAgent.enabled = true;
-        isGrounded = true;
+        while (true)
+        {
+            if (controller.isGrounded)
+            {
+                isGrounded = true;
+                navMeshAgent.enabled = true;
+                break;
+            }
+            yield return null;
+        }
     }
 }

@@ -181,6 +181,8 @@ public class Movement : MonoBehaviour
         else isClimbing = false;
     }
 
+    void OnCollisionEnter() => wallJumpSpeed = 0f;
+
     void OnCollisionStay(Collision other)
     {
         Vector3 newNormal = other.GetContact(0).normal;
