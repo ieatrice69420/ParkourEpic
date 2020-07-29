@@ -18,7 +18,6 @@ public class MultiplayerBotJump : MonoBehaviour
     Vector3 jumpDir;
     [SerializeField]
     MultiplayerBotStateManager multiplayerBotStateManager;
-    public MultiplayerBotStats stats;
 
     void Start() => actualJumpHeight = (float)Sqrt((double)(jumpHeight * -2f * gravity));
 
@@ -56,7 +55,7 @@ public class MultiplayerBotJump : MonoBehaviour
     void JumpCheck()
     {
         OffMeshLinkData data = navMeshAgent.currentOffMeshLinkData;
-        if (data.valid) StartCoroutine(Jump(Vector3.Distance(data.startPos, data.endPos) / navMeshAgent.speed, stats.jumpDelay + Random.Range(stats.jumpDelayRangeMin, stats.jumpDelayRangeMax)));
+        if (data.valid) StartCoroutine(Jump(Vector3.Distance(data.startPos, data.endPos) / navMeshAgent.speed, multiplayerBotStateManager.stats.jumpDelay + Random.Range(multiplayerBotStateManager.stats.jumpDelayRangeMin, multiplayerBotStateManager.stats.jumpDelayRangeMax)));
     }
 
     public IEnumerator Jump(float duration, float delay)

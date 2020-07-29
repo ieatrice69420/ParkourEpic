@@ -20,3 +20,4 @@ MonoBehaviour:
   jumpDelayRangeMax: 0
   shootInnaccuracy: 0
   fieldOfView: 75
+  changeTargetTime: 4

@@ -18,4 +18,8 @@ public class MultiplayerBotStats : ScriptableObject
     public float shootInnaccuracy;
     [Range(60f, 90f)]
     public float fieldOfView;
+    [Range(4f, 8f)]
+    public float changeTargetTime;
+    [Range(2f, 4f)]
+    public float wayPointInnaccuracy;
 }
