@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using static UnityEngine.Mathf;
 
 public class MultiplayerBotObjective : MonoBehaviour
@@ -9,22 +10,27 @@ public class MultiplayerBotObjective : MonoBehaviour
     void Start()
     {
         objective = Objective.instance.transform;
-        InvokeRepeating("ChangeTarget", 0f, stateManager.stats.changeTargetTime);
+		StartCoroutine(ChangeTarget());
     }
 
-    void ChangeTarget()
+    IEnumerator ChangeTarget()
     {
-        float distance = Infinity;
-        for (int i = 0; i < objective.childCount; i++)
-        {
-            Vector3 objectivePos = objective.GetChild(i).position;
-            float currentDis = (transform.position - objectivePos).sqrMagnitude;
-            
-            if (currentDis < distance)
-            {
-                distance = currentDis;
-                stateManager.desiredPosition = objectivePos;
-            }
+		while (true)
+		{
+			float distance = Infinity;
+			for (int i = 0; i < objective.childCount; i++)
+			{
+				Vector3 objectivePos = objective.GetChild(i).position;
+				float currentDis = (transform.position - objectivePos).sqrMagnitude;
+				
+				if (currentDis < distance)
+				{
+					distance = currentDis;
+					stateManager.desiredPosition = objectivePos;
+				}
+			}
+			
+			yield return new WaitForSeconds(stateManager.stats.changeTargetTime);
         }
     }
 }
