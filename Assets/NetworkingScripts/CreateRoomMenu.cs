@@ -8,31 +8,30 @@ using PlayFab.ClientModels;
 
 public class CreateRoomMenu : MonoBehaviourPunCallbacks
 {
+    public UpdateUserTitleDisplayNameResult result;
+    public RoomsCanveses _roomcanveses;
     [SerializeField]
     private PlayFabController PlayFabController;
 
-    string gameVersion = "1";
+
+    public void FirstInitialize(RoomsCanveses Canveses)
+    {
+        _roomcanveses = Canveses;
+    }
 
 
-    public GameObject loobyCanvas;
     private void Awake()
     {
-        if (PhotonNetwork.IsConnected)
-        {
-            RoomOptions options = new RoomOptions();
-            options.MaxPlayers = 4;
-            options.PublishUserId = true;
-            PhotonNetwork.JoinOrCreateRoom(PlayerPrefs.GetString("USERNAME"), options, TypedLobby.Default);
-            Debug.Log(PlayerPrefs.GetString("USERNAME"));
-            Debug.Log("Created room successfuly", this);
-            loobyCanvas.SetActive(true);
-        }
+        RoomOptions options = new RoomOptions();
+        options.MaxPlayers = 4;
+        options.PublishUserId = true;
+        PhotonNetwork.JoinOrCreateRoom(result.DisplayName, options, TypedLobby.Default);
+        Debug.Log(PlayerPrefs.GetString("USERNAME"));
+        Debug.Log("Created room successfuly", this);
     }
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.Log("room creation failed" + message, this);
-        PhotonNetwork.ConnectUsingSettings();
-        PhotonNetwork.GameVersion = gameVersion;
 
     }
 }
