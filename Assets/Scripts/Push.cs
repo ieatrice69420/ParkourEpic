@@ -6,8 +6,12 @@ public class Push : MonoBehaviour
 {
 	public static Push instance;
 	[SerializeField]
-	float speed, ropeSpeed, jumpSpeed, maxJumpSpeed;
-	Vector3 hitOffset, ropeOldPos, ropeNewPos;
+	float speed, ropeSpeed, maxJumpSpeed;
+	[HideInInspector]
+	public float jumpSpeed;
+	Vector3 hitOffset, ropeOldPos;
+	[HideInInspector]
+	public Vector3 ropeNewPos;
 	public bool isSwinging;
 	public Transform player, rope, ropeTip;
 	[SerializeField]
@@ -63,8 +67,7 @@ public class Push : MonoBehaviour
 
 	    if (jumpSpeed < 0f) jumpSpeed = 0f;
 
-    	if (!isSwinging) CharacterController.Move(ropeNewPos * jumpSpeed * Time.deltaTime);
-    	else if (Input.GetKeyDown(KeyCode.Space))
+    	if (isSwinging && Input.GetKeyDown(KeyCode.Space))
     	{
     		if (Input.GetKey(interact)) letGo.SetActive(true);
     		else
