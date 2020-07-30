@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8981262699811837188}
   - component: {fileID: 8981262699811837191}
   - component: {fileID: 8981262699811837190}
-  - component: {fileID: 8521820865025845062}
+  - component: {fileID: 4701432872451960059}
   m_Layer: 0
   m_Name: PlayerListing
   m_TagString: Untagged
@@ -35,10 +35,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 45.8, y: 19.8}
-  m_SizeDelta: {x: 1580, y: 400}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -6.09, y: 0}
+  m_SizeDelta: {x: 225.67, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8981262699811837188
 CanvasRenderer:
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &8521820865025845062
+--- !u!114 &4701432872451960059
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _text: {fileID: 8981262700372475602}
+  Ready: 0
 --- !u!1 &8981262700372475596
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,7 +141,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1.3000488, y: 0}
+  m_AnchoredPosition: {x: -1.3000336, y: 0}
   m_SizeDelta: {x: -23.2, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8981262700372475603
@@ -197,7 +198,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 100
+  m_fontSize: 47.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

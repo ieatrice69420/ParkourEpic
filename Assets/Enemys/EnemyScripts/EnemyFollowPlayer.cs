@@ -2,7 +2,11 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyFollowPlayer : MonoBehaviour
+public class EnemyFollow
+    
+    
+    
+    : MonoBehaviour
 {
     public Transform target, player;
     public float damage, fireRate, delay;
