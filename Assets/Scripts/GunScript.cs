@@ -14,9 +14,7 @@ public class GunScript : MonoBehaviour
     bool isFullAuto;
     bool isReloading;
     public TextMeshProUGUI ammoIcon;
-    public float inAccuracy, maxRange, recoilSlowSpeed, recoil, maxRecoil, timerIncreaser, knockBack;
-    [SerializeField]
-    int shots = 1;
+    public float inAccuracy, maxRange, recoilSlowSpeed, recoil, maxRecoil, timerIncreaser, knockBack, shots;
     public mouselooking ml;
     public GameObject bulletHole;
     public CharacterController charCon;

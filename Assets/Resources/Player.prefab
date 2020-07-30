@@ -1422,7 +1422,7 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
+  m_Height: 1.4
   m_Radius: 0.1
   m_SlopeLimit: 45
   m_StepOffset: 0.2
@@ -1482,7 +1482,6 @@ MonoBehaviour:
   rollDur: 0.1
   rollSpeed: 30
   rollDelay: 2
-  push: {fileID: 7497642643511596924}
 --- !u!114 &7497642643511596924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1497,9 +1496,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   ropeSpeed: 50
-  maxJumpSpeed: 50
   jumpSpeed: 0
-  ropeNewPos: {x: 0, y: 0, z: 0}
+  maxJumpSpeed: 30
   isSwinging: 0
   player: {fileID: 7722510120855694964}
   rope: {fileID: 0}
@@ -1591,7 +1589,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.2
-  m_Height: 1.9
+  m_Height: 1.3
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &548131042788294017
@@ -1605,7 +1603,7 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.25
-  m_Height: 1.95
+  m_Height: 1.35
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7722510122170551137
@@ -1635,7 +1633,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7722510122170551137}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.842, z: 0}
+  m_LocalPosition: {x: 0, y: 0.587, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8429050771189956589}
