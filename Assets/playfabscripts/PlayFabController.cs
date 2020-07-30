@@ -1,5 +1,4 @@
-﻿using Photon.Pun;
-using PlayFab;
+﻿using PlayFab;
 using PlayFab.AuthenticationModels;
 using PlayFab.ClientModels;
 using PlayFab.PfEditor.Json;
@@ -21,14 +20,6 @@ public class PlayFabController : MonoBehaviour
     private InputField InputFieldeusername;
 
     public GameObject menubuttons;
-
-    public GameObject LoginCanvas;
-
-    public GameObject LobbyCanvas;
-
-
-    public GameObject playerlisting;
-
 
     private string userEmail
     {
@@ -118,7 +109,6 @@ public class PlayFabController : MonoBehaviour
         GetPlayerData();
         menubuttons.SetActive(true);
         lobby.SetActive(true);
-        LobbyCanvas.SetActive(true);
     }
 
     private void OnRegisterSucsess(RegisterPlayFabUserResult result)
@@ -138,7 +128,6 @@ public class PlayFabController : MonoBehaviour
         menubuttons.SetActive(true);
         lobby.SetActive(true);
         registerpanel.SetActive(false);
-        LobbyCanvas.SetActive(true);
     }
 
     public void Ondisplaylogin(UpdateUserTitleDisplayNameResult result) => Debug.Log(result.DisplayName + "is your new displayer name");
@@ -402,29 +391,13 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
 
     public void LogOut(int index)
     {
-      
         PlayerPrefs.DeleteKey("EMAIL");
         PlayerPrefs.DeleteKey("USERNAME");
 
         SceneManager.LoadScene(index);
-        LobbyCanvas.SetActive(false);
-        LoginCanvas.SetActive(true);
-
-
     }
 
-    #region JoinParty
-    public void OnClickJoinParty()
-    {
-        PhotonNetwork.JoinRoom("guyy");
-    }
-    public void AddAllActivePlayers()
-    {
-        Dictionary<int, Photon.Realtime.Player> pList = Photon.Pun.PhotonNetwork.CurrentRoom.Players;
-        foreach (KeyValuePair<int, Photon.Realtime.Player> p in pList)
-        {
-            print(username);
-        }
-    }
-    #endregion
+	#region JoinParty
+    //GetEntityTokenRequest()
+	#endregion
 }

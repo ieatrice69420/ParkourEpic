@@ -12,8 +12,10 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     public PlayerListing PlayerListing; 
 
     private List<PlayerListing> listings = new List<PlayerListing>();
+    private RoomsCanveses roomsCanveses;
 
     public int PlayersInRoom;
+    //private bool _ready = false;
     private void Awake()
     {
         getcurrentroomplayers();
@@ -22,10 +24,14 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     public override void OnEnable()
     {
         base.OnEnable();
+        //SetReadyUp(false); 
     }
 
 
-
+    public void FirstInitialize(RoomsCanveses canveses)
+    {
+        roomsCanveses = canveses;
+    }
     public override void OnLeftRoom()
     {
         content.DestroyChildren();
@@ -56,7 +62,6 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         if (listing != null)
         {
             listing.SetPlayerInfo(player);
-            Debug.Log(player);
             listings.Add(listing);
         }
     }
@@ -67,7 +72,9 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
 
     //public override void OnMasterClientSwitched(Player newMasterClient)
-
+    //{
+        //roomsCanveses.currentRoomCanvas.LeaveRoomMenu.OnclickLeaveRoom();
+    //}
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         int index = listings.FindIndex(x => x.Player == otherPlayer);
