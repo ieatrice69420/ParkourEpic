@@ -18,11 +18,11 @@ public class MultiplayerBotObjective : MonoBehaviour
         for (int i = 0; i < objective.childCount; i++)
         {
             Vector3 objectivePos = objective.GetChild(i).position;
-            float currentDis = Vector3.Distance(transform.position, objectivePos);
+            float currentDis = (transform.position - objectivePos).sqrMagnitude;
+            
             if (currentDis < distance)
             {
                 distance = currentDis;
-                print("aaaaaaaa");
                 stateManager.desiredPosition = objectivePos;
             }
         }

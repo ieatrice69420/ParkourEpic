@@ -366,7 +366,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 72916088}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.07, y: 0, z: 5.62}
+  m_LocalPosition: {x: -8.12, y: 1.16, z: -25.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 522065630}
@@ -623,7 +623,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 255969856}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.67, y: 0, z: 3.91}
+  m_LocalPosition: {x: 1.67, y: 0, z: -16.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 522065630}
@@ -808,6 +808,7 @@ GameObject:
   m_Component:
   - component: {fileID: 522065630}
   - component: {fileID: 522065629}
+  - component: {fileID: 522065631}
   m_Layer: 0
   m_Name: GameObject (2)
   m_TagString: Untagged
@@ -828,8 +829,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wayPoints:
-  - {x: 1.67, y: 0, z: 3.91}
-  - {x: 8.07, y: 0, z: 5.62}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
 --- !u!4 &522065630
 Transform:
   m_ObjectHideFlags: 0
@@ -846,6 +847,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &522065631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522065628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93cb4bcf4242fbe468aa26e7d8462157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &530025884
 GameObject:
   m_ObjectHideFlags: 0
@@ -4536,7 +4549,7 @@ PrefabInstance:
     - target: {fileID: 7985932255333703964, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
         type: 3}
       propertyPath: pathFindState
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8848808006112464161, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
         type: 3}
@@ -4603,16 +4616,6 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 2081363911}
-    - target: {fileID: 8969442286166340015, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
-        type: 3}
-      propertyPath: disabledWayPoint.x
-      value: 1.67
-      objectReference: {fileID: 0}
-    - target: {fileID: 8969442286166340015, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
-        type: 3}
-      propertyPath: disabledWayPoint.z
-      value: 3.91
-      objectReference: {fileID: 0}
     - target: {fileID: 9200221750916814958, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
         type: 3}
       propertyPath: player
