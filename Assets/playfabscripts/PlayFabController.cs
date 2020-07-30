@@ -26,7 +26,6 @@ public class PlayFabController : MonoBehaviour
 
     public GameObject LobbyCanvas;
 
-
     public GameObject playerlisting;
 
 
