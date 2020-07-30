@@ -19,7 +19,16 @@ public class PlayFabController : MonoBehaviour
     [SerializeField]
     private InputField InputFieldeusername;
 
-    public GameObject menubuttons;
+    public GameObject menuCanvas;
+
+    public GameObject connectCanvas;
+
+    public GameObject friendspanel;
+    public GameObject shopanel;
+    public GameObject lobbypanel;
+    public GameObject lederboardpanel;
+
+
 
     private string userEmail
     {
@@ -103,12 +112,11 @@ public class PlayFabController : MonoBehaviour
         Debug.Log("Congratulations, you made your first successful API call!");
         PlayerPrefs.SetString("EMAIL", userEmail);
         PlayerPrefs.SetString("PASSWORD", UserPassword);
-        LoginPanel.SetActive(false);
         GetStats();
         myID = result.PlayFabId;
         GetPlayerData();
-        menubuttons.SetActive(true);
-        lobby.SetActive(true);
+        menuCanvas.SetActive(true);
+        connectCanvas.SetActive(false);
     }
 
     private void OnRegisterSucsess(RegisterPlayFabUserResult result)
@@ -125,9 +133,8 @@ public class PlayFabController : MonoBehaviour
         GetStats();
         //myID = result.PlayFabId;
         GetPlayerData();
-        menubuttons.SetActive(true);
-        lobby.SetActive(true);
-        registerpanel.SetActive(false);
+        menuCanvas.SetActive(true);
+        connectCanvas.SetActive(false);
     }
 
     public void Ondisplaylogin(UpdateUserTitleDisplayNameResult result) => Debug.Log(result.DisplayName + "is your new displayer name");
@@ -389,15 +396,48 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     public void OpenCloseFriends() => friendpanel.SetActive(!friendpanel.activeInHierarchy);
     #endregion
 
-    public void LogOut(int index)
+    public void LogOut()
     {
         PlayerPrefs.DeleteKey("EMAIL");
         PlayerPrefs.DeleteKey("USERNAME");
 
-        SceneManager.LoadScene(index);
+        connectCanvas.SetActive(true);
+        menuCanvas.SetActive(false);
     }
 
-	#region JoinParty
-    //GetEntityTokenRequest()
-	#endregion
+    #region JoinParty
+    #endregion
+
+
+    public void OnClickFriendsButton()
+    {
+        friendpanel.SetActive(true);
+        leaderboardpanel.SetActive(false);
+        lobbypanel.SetActive(false);
+        shopanel.SetActive(false);
+    }
+
+    public void OnClickShopButton()
+    {
+        friendpanel.SetActive(false);
+        leaderboardpanel.SetActive(false);
+        lobbypanel.SetActive(false);
+        shopanel.SetActive(true);
+    }
+
+    public void OnClicklobbyButton()
+    {
+        friendpanel.SetActive(false);
+        leaderboardpanel.SetActive(false);
+        lobbypanel.SetActive(true);
+        shopanel.SetActive(false);
+    }
+
+    public void OnClicklederboardButton()
+    {
+        friendpanel.SetActive(true);
+        leaderboardpanel.SetActive(false);
+        lobbypanel.SetActive(false);
+        shopanel.SetActive(false);
+    }
 }

@@ -9,15 +9,12 @@ using PlayFab.ClientModels;
 public class CreateRoomMenu : MonoBehaviourPunCallbacks
 {
     public UpdateUserTitleDisplayNameResult result;
-    public RoomsCanveses _roomcanveses;
+
     [SerializeField]
     private PlayFabController PlayFabController;
 
 
-    public void FirstInitialize(RoomsCanveses Canveses)
-    {
-        _roomcanveses = Canveses;
-    }
+
 
 
     private void Awake()
