@@ -2,7 +2,15 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+<<<<<<< HEAD
 public class EnemyFollowPlayer : MonoBehaviour
+=======
+public class EnemyFollow
+    
+    
+    
+    : MonoBehaviour
+>>>>>>> parent of 990aeab... Merge branch 'master' of https://github.com/ieatrice69420/ParkourEpic
 {
     public Transform target, player;
     public float damage, fireRate, delay;
