@@ -11,17 +11,12 @@ public class roomlistingsmenu : MonoBehaviourPunCallbacks
 
     private List<Roomlisting> listings = new List<Roomlisting>();
 
-    public RoomsCanveses RoomsCanveses;
 
 
-    public void FirstInaitlize(RoomsCanveses canveses)
-    {
-        RoomsCanveses = canveses;
-    }
+
 
     public override void OnJoinedRoom()
     {
-        RoomsCanveses.currentRoomCanvas.Show();
         content.DestroyChildren();
         listings.Clear();
     }

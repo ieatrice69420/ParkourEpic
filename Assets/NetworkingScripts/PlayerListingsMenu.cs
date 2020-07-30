@@ -12,7 +12,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     public PlayerListing PlayerListing; 
 
     private List<PlayerListing> listings = new List<PlayerListing>();
-    private RoomsCanveses roomsCanveses;
+
 
     public int PlayersInRoom;
     //private bool _ready = false;
@@ -27,11 +27,6 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         //SetReadyUp(false); 
     }
 
-
-    public void FirstInitialize(RoomsCanveses canveses)
-    {
-        roomsCanveses = canveses;
-    }
     public override void OnLeftRoom()
     {
         content.DestroyChildren();
