@@ -22,4 +22,6 @@ public class MultiplayerBotStats : ScriptableObject
     public float changeTargetTime;
     [Range(2f, 4f)]
     public float wayPointInnaccuracy;
+    [Range(3f, 5f)]
+    public float wayPointDisableDistance;
 }

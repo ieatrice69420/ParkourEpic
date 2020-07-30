@@ -21,3 +21,5 @@ MonoBehaviour:
   shootInnaccuracy: 0
   fieldOfView: 75
   changeTargetTime: 4
+  wayPointInnaccuracy: 2
+  wayPointDisableDistance: 3

@@ -22,6 +22,7 @@ public class MultiplayerBotObjective : MonoBehaviour
             if (currentDis < distance)
             {
                 distance = currentDis;
+                print("aaaaaaaa");
                 stateManager.desiredPosition = objectivePos;
             }
         }

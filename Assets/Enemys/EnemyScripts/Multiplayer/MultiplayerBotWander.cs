@@ -7,6 +7,7 @@ public class MultiplayerBotWander : MonoBehaviour
     [SerializeField]
     MultiplayerBotStateManager stateManager;
     WayPointManager wayPoints;
+    public Vector3 disabledWayPoint;
 
     void Start() => wayPoints = WayPointManager.instance;
 
@@ -18,11 +19,14 @@ public class MultiplayerBotWander : MonoBehaviour
         for (int i = 0; i < wayPoints.wayPoints.Length; i++)
         {
             float distance = Distance(transform.position, wayPoints.wayPoints[i]);
-            if (distance < currentDistance)
+
+            if (distance < currentDistance && wayPoints.wayPoints[i] != disabledWayPoint)
             {
                 currentDistance = distance;
                 target = wayPoints.wayPoints[i];
             }
+
+            if (distance < stateManager.stats.wayPointDisableDistance) disabledWayPoint = wayPoints.wayPoints[i];
         }
 
         Vector3 offset = new Vector3(Random.Range(stateManager.stats.wayPointInnaccuracy, stateManager.stats.wayPointInnaccuracy * -1f), 0f, Random.Range(stateManager.stats.wayPointInnaccuracy, stateManager.stats.wayPointInnaccuracy * -1f));
