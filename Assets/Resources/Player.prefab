@@ -1497,7 +1497,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   ropeSpeed: 50
-  maxJumpSpeed: 20
+  maxJumpSpeed: 40
   jumpSpeed: 0
   ropeNewPos: {x: 0, y: 0, z: 0}
   isSwinging: 0
