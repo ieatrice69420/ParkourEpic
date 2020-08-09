@@ -9,6 +9,13 @@ public class MultiplayerBotWallRun : BotClass
     [SerializeField]
     float wallRunSpeed;
     public Vector3 velocity;
+    [SerializeField]
+    MultiplayerBotStateManager multiplayerBotStateManager;
+
+    void OnEnable()
+    {
+        ShareVelocity(multiplayerBotStateManager.velocity, out velocity);
+    }
 
     void Update()
     {
@@ -18,5 +25,10 @@ public class MultiplayerBotWallRun : BotClass
     void WallRun()
     {
         controller.Move(wallRunDir * wallRunSpeed * Time.deltaTime);
+    }
+
+    void OnDisable()
+    {
+        ShareVelocity(velocity, out multiplayerBotStateManager.velocity);
     }
 }

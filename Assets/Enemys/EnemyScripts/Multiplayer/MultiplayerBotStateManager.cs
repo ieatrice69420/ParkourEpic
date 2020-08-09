@@ -60,6 +60,8 @@ public class MultiplayerBotStateManager : BotClass
     [HideInInspector]
     public OffMeshLinkData data;
 
+    public Vector3 velocity;
+
     void Update()
     {
         data = agent.currentOffMeshLinkData;

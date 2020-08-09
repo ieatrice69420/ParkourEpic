@@ -24,6 +24,7 @@ public class MultiplayerBotJump : BotClass
     void OnEnable()
     {
         isGrounded = true;
+        ShareVelocity(multiplayerBotStateManager.velocity, out velocity);
     }
 
     void LateUpdate()
@@ -31,8 +32,6 @@ public class MultiplayerBotJump : BotClass
         JumpCheck();
         Move();
         Gravity();
-        
-        
     }
 
     void Move()
@@ -88,5 +87,10 @@ public class MultiplayerBotJump : BotClass
             }
             yield return null;
         }
+    }
+
+    void OnDisable()
+    {
+        ShareVelocity(velocity, out multiplayerBotStateManager.velocity);
     }
 }
