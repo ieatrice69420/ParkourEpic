@@ -4538,16 +4538,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7985932255333703964, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
         type: 3}
-      propertyPath: desiredPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7985932255333703964, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
-        type: 3}
-      propertyPath: desiredPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7985932255333703964, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
-        type: 3}
       propertyPath: pathFindState
       value: 0
       objectReference: {fileID: 0}

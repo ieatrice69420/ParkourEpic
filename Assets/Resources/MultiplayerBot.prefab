@@ -145,6 +145,8 @@ MonoBehaviour:
   - {fileID: 0}
   desiredPosition: {x: 0, y: 0, z: 0}
   stats: {fileID: 11400000, guid: 5b96fe56aa316f84b83b44b523940b67, type: 2}
+  agent: {fileID: 8848808006112464160}
+  triggerState: 0
 --- !u!114 &750348923613042157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ca9435bc33057a46a22a234cda1bd48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 8848808006112464160}
   controller: {fileID: 8848808006112464172}
   jumpHeight: 2
   gravity: -10

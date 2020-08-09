@@ -4,10 +4,10 @@ using UnityEngine;
 using static UnityEngine.Mathf;
 using UnityEngine.AI;
 
-public class MultiplayerBotJump : MonoBehaviour
+public class MultiplayerBotJump : BotClass
 {
-    [SerializeField]
-    NavMeshAgent navMeshAgent;
+    // [SerializeField]
+    // multiplayerBotStateManager.agent multiplayerBotStateManager.agent;
     [SerializeField]
     CharacterController controller;
     Vector3 velocity;
@@ -37,11 +37,11 @@ public class MultiplayerBotJump : MonoBehaviour
     {
         if (isGrounded)
         {
-            if (navMeshAgent.enabled == true && navMeshAgent.isOnNavMesh) navMeshAgent.SetDestination(multiplayerBotStateManager.desiredPosition);
+            if (multiplayerBotStateManager.agent.enabled == true && multiplayerBotStateManager.agent.isOnNavMesh) multiplayerBotStateManager.agent.SetDestination(multiplayerBotStateManager.desiredPosition);
         }
         else
         {
-            controller.Move(jumpDir * navMeshAgent.speed * Time.deltaTime);
+            controller.Move(jumpDir * multiplayerBotStateManager.agent.speed * Time.deltaTime);
             controller.Move(velocity * Time.deltaTime);
         }
     }
@@ -54,16 +54,25 @@ public class MultiplayerBotJump : MonoBehaviour
 
     void JumpCheck()
     {
-        OffMeshLinkData data = navMeshAgent.currentOffMeshLinkData;
-        if (data.valid) StartCoroutine(Jump(Vector3.Distance(data.startPos, data.endPos) / navMeshAgent.speed, multiplayerBotStateManager.stats.jumpDelay + Random.Range(multiplayerBotStateManager.stats.jumpDelayRangeMin, multiplayerBotStateManager.stats.jumpDelayRangeMax)));
+        switch (multiplayerBotStateManager.triggerState)
+        {
+            case TriggerState.Jump:
+                StartCoroutine(Jump(Vector3.Distance(multiplayerBotStateManager.data.startPos, multiplayerBotStateManager.data.endPos) / multiplayerBotStateManager.agent.speed, multiplayerBotStateManager.stats.jumpDelay + Random.Range(multiplayerBotStateManager.stats.jumpDelayRangeMin, multiplayerBotStateManager.stats.jumpDelayRangeMax)));
+                break;
+            case TriggerState.WallJump:
+                break;
+            case TriggerState.WallRun:
+                break;
+        }
     }
 
     public IEnumerator Jump(float duration, float delay)
     {
-        OffMeshLinkData data = navMeshAgent.currentOffMeshLinkData;
+        Debug.Log("f");
+        OffMeshLinkData data = multiplayerBotStateManager.agent.currentOffMeshLinkData;
         jumpDir = new Vector3((data.endPos - data.startPos).normalized.x, 0f, (data.endPos - data.startPos).normalized.z);
         isGrounded = false;
-        navMeshAgent.enabled = false;
+        multiplayerBotStateManager.agent.enabled = false;
         yield return new WaitForSeconds(Clamp(delay, 0f, .6f));
         if (controller.isGrounded) velocity.y = actualJumpHeight;
         yield return new WaitForSeconds(duration);
@@ -72,7 +81,7 @@ public class MultiplayerBotJump : MonoBehaviour
             if (controller.isGrounded)
             {
                 isGrounded = true;
-                navMeshAgent.enabled = true;
+                multiplayerBotStateManager.agent.enabled = true;
                 break;
             }
             yield return null;

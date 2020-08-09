@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
-public class MultiplayerBotStateManager : MonoBehaviour
+public class MultiplayerBotStateManager : BotClass
 {
     #region Enums
 
@@ -48,11 +49,22 @@ public class MultiplayerBotStateManager : MonoBehaviour
 
     [SerializeField]
     Behaviour[] moveScripts, pathFindScripts, shootScripts;
+
     public Vector3 desiredPosition;
     public MultiplayerBotStats stats;
 
+    public NavMeshAgent agent;
+
+    public TriggerState triggerState;
+
+    [HideInInspector]
+    public OffMeshLinkData data;
+
     void Update()
     {
+        data = agent.currentOffMeshLinkData;
+        triggerState = SetTriggerState();
+
         for (int i = 0; i < moveScripts.Length - 1; i++)
         {
             if (moveScripts[i] != null)
@@ -85,5 +97,11 @@ public class MultiplayerBotStateManager : MonoBehaviour
             }
             shootScripts[i].enabled = i == (int)shootState;
         }
+    }
+
+    TriggerState SetTriggerState()
+    {
+        if (data.valid) return TriggerState.Jump;
+        return TriggerState.WallRun;
     }
 }
