@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8848808006112464163}
   - component: {fileID: 8848808006112464172}
   - component: {fileID: 7985932255333703964}
+  - component: {fileID: 750348923613042157}
   - component: {fileID: 9200221750916814958}
   - component: {fileID: 4043485771179170529}
   - component: {fileID: 8969442286166340015}
@@ -136,7 +137,7 @@ MonoBehaviour:
   - {fileID: 0}
   pathFindScripts:
   - {fileID: 8969442286166340015}
-  - {fileID: 0}
+  - {fileID: 750348923613042157}
   - {fileID: 4043485771179170529}
   shootScripts:
   - {fileID: 0}
@@ -144,6 +145,18 @@ MonoBehaviour:
   - {fileID: 0}
   desiredPosition: {x: 0, y: 0, z: 0}
   stats: {fileID: 11400000, guid: 5b96fe56aa316f84b83b44b523940b67, type: 2}
+--- !u!114 &750348923613042157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8848808006112464166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47a84bcfe5ce8354f8d660d2701a5192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &9200221750916814958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateManager: {fileID: 7985932255333703964}
+  disabledWayPoint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8848808007515358839
 PrefabInstance:
   m_ObjectHideFlags: 0
