@@ -10,27 +10,27 @@ public class MultiplayerBotObjective : MonoBehaviour
     void Start()
     {
         objective = Objective.instance.transform;
-		StartCoroutine(ChangeTarget());
+        StartCoroutine(ChangeTarget());
     }
 
     IEnumerator ChangeTarget()
     {
-		while (true)
-		{
-			float distance = Infinity;
-			for (int i = 0; i < objective.childCount; i++)
-			{
-				Vector3 objectivePos = objective.GetChild(i).position;
-				float currentDis = (transform.position - objectivePos).sqrMagnitude;
-				
-				if (currentDis < distance)
-				{
-					distance = currentDis;
-					stateManager.desiredPosition = objectivePos;
-				}
-			}
-			
-			yield return new WaitForSeconds(stateManager.stats.changeTargetTime);
+        while (true)
+        {
+            float distance = Infinity;
+            for (int i = 0; i < objective.childCount; i++)
+            {
+                Vector3 objectivePos = objective.GetChild(i).position;
+                float currentDis = (transform.position - objectivePos).sqrMagnitude;
+
+                if (currentDis < distance)
+                {
+                    distance = currentDis;
+                    stateManager.desiredPosition = objectivePos;
+                }
+            }
+
+            yield return new WaitForSeconds(stateManager.stats.changeTargetTime);
         }
     }
 }
