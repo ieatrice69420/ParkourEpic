@@ -11,4 +11,9 @@ public class BotClass : MonoBehaviour
         WallJump = 1,
         WallRun = 2
     }
+
+    public virtual void ShareVelocity(Vector3 inputVelocity, out Vector3 outputVelocity)
+    {
+        outputVelocity = inputVelocity;
+    }
 }

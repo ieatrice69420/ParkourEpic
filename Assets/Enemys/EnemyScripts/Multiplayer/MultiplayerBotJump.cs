@@ -10,7 +10,7 @@ public class MultiplayerBotJump : BotClass
     // multiplayerBotStateManager.agent multiplayerBotStateManager.agent;
     [SerializeField]
     CharacterController controller;
-    Vector3 velocity;
+    public Vector3 velocity;
     [SerializeField]
     float jumpHeight, gravity;
     float actualJumpHeight;
@@ -31,6 +31,8 @@ public class MultiplayerBotJump : BotClass
         JumpCheck();
         Move();
         Gravity();
+        
+        
     }
 
     void Move()

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MultiplayerBotWallRun : MonoBehaviour
+public class MultiplayerBotWallRun : BotClass
 {
     [HideInInspector]
     public Vector3 wallRunDir;
@@ -8,6 +8,7 @@ public class MultiplayerBotWallRun : MonoBehaviour
     CharacterController controller;
     [SerializeField]
     float wallRunSpeed;
+    public Vector3 velocity;
 
     void Update()
     {
