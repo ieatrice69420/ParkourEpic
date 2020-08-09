@@ -1,92 +1,39 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 {
-    [SerializeField]
-    private Transform content;
-    public PlayerListing PlayerListing; 
+    private TypedLobby customLobby = new TypedLobby("customLobby", LobbyType.Default);
 
-    private List<PlayerListing> listings = new List<PlayerListing>();
+    private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
 
-
-    public int PlayersInRoom;
-    //private bool _ready = false;
-    private void Awake()
+    public void JoinLobby()
     {
-        getcurrentroomplayers();
+        PhotonNetwork.JoinLobby(customLobby);
+        Debug.Log("Guy");
+        
     }
 
-    public override void OnEnable()
+    private void UpdateCachedRoomList(List<RoomInfo> roomList)
     {
-        base.OnEnable();
-        //SetReadyUp(false); 
-    }
-
-    public override void OnLeftRoom()
-    {
-        content.DestroyChildren();
-    }
-
-    private void getcurrentroomplayers()
-    {
-        if (!PhotonNetwork.IsConnected)
+        for (int i = 0; i < roomList.Count; i++)
         {
-            return;
-        }
-        if(PhotonNetwork.CurrentRoom == null || PhotonNetwork.CurrentRoom.Players == null)
-        {
-            return;
-        }
-        foreach (KeyValuePair <int,Player> PlayerInfo in PhotonNetwork.CurrentRoom.Players)
-        {
-
-            AddPlayerListing(PlayerInfo.Value);
-            PlayersInRoom++;
-        }
-
-    }
-
-    public void AddPlayerListing(Player player)
-    {
-        PlayerListing listing = Instantiate(PlayerListing, content);
-        if (listing != null)
-        {
-            listing.SetPlayerInfo(player);
-            listings.Add(listing);
-        }
-    }
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        AddPlayerListing(newPlayer);
-    }
-
-
-    //public override void OnMasterClientSwitched(Player newMasterClient)
-    //{
-        //roomsCanveses.currentRoomCanvas.LeaveRoomMenu.OnclickLeaveRoom();
-    //}
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        int index = listings.FindIndex(x => x.Player == otherPlayer);
-        if (index != -1)
-        {
-            Destroy(listings[index].gameObject);
-            listings.RemoveAt(index);
+            RoomInfo info = roomList[i];
+            if (info.RemovedFromList)
+            {
+                cachedRoomList.Remove(info.Name);
+            }
+            else
+            {
+                cachedRoomList[info.Name] = info;
+            }
         }
     }
 
-    public void OnclickStartTheGame()
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.CurrentRoom.IsVisible = false;
-            PhotonNetwork.LoadLevel(2);
-        }
+        UpdateCachedRoomList(roomList);
     }
 }

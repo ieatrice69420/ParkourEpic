@@ -14,7 +14,7 @@ public class PlayerListing : MonoBehaviour
     public bool Ready = false;
     public void SetPlayerInfo(Player player)
     {
-        _text.text = PlayerPrefs.GetString("USERNAME");
+        _text.text = player.NickName;
         player = Player;
     }
 
