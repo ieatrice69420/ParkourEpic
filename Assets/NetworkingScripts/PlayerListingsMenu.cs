@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 {
-    private TypedLobby customLobby = new TypedLobby("customLobby", LobbyType.Default);
+    private TypedLobby customLobby = new TypedLobby("guyakda12", LobbyType.Default);
 
     private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
 
     public void JoinLobby()
     {
         PhotonNetwork.JoinLobby(customLobby);
-        Debug.Log("Guy");
+        Debug.Log(customLobby);
         
     }
 

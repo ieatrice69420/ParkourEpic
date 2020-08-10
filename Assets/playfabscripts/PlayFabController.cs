@@ -1,11 +1,10 @@
 ﻿using PlayFab;
-using PlayFab.AuthenticationModels;
 using PlayFab.ClientModels;
-using PlayFab.PfEditor.Json;
+using PlayFab.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class PlayFabController : MonoBehaviour
 {
@@ -234,7 +233,6 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     private static void OnCloudUpdateStats(ExecuteCloudScriptResult result)
     {
         // CloudScript returns arbitrary results, so you have to evaluate them one step and one parameter at a time
-        Debug.Log(JsonWrapper.SerializeObject(result.FunctionResult));
         JsonObject jsonResult = (JsonObject)result.FunctionResult;
         object messageValue;
         jsonResult.TryGetValue("messageValue", out messageValue); // note how "messageValue" directly corresponds to the JSON values set in CloudScript
@@ -394,6 +392,7 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     public void SubmitFrienRequest() => AddFriend(FriendIdType.PlayFabId, friendsearch);
 
     public void OpenCloseFriends() => friendpanel.SetActive(!friendpanel.activeInHierarchy);
+
     #endregion
 
     public void LogOut()
