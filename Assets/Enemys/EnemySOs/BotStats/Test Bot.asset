@@ -16,7 +16,7 @@ MonoBehaviour:
   jumpiness: 0
   jumpInnaccuracy: 0
   jumpDelay: 0
-  jumpDelayRangeMin: -0.4
+  jumpDelayRangeMin: 0
   jumpDelayRangeMax: 0
   shootInnaccuracy: 0
   fieldOfView: 75
