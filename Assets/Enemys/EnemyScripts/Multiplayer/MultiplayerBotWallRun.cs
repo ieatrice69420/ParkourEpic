@@ -15,6 +15,8 @@ public class MultiplayerBotWallRun : BotClass
     void OnEnable()
     {
         ShareVelocity(multiplayerBotStateManager.velocity, out velocity);
+        controller.enabled = true;
+        multiplayerBotStateManager.agent.enabled = false;
     }
 
     void Update()

@@ -2,5 +2,8 @@
 
 public class MultiplayerBotFollow : MonoBehaviour
 {
-    
+    void Update()
+    {
+        
+    }
 }

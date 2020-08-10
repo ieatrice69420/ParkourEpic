@@ -3,40 +3,6 @@ using UnityEngine.AI;
 
 public class MultiplayerBotStateManager : BotClass
 {
-    #region Enums
-
-    /// <summary>
-    /// These states affect the way the AI is moving, but do not control direction of movement.
-    /// </summary>
-    public enum MoveState
-    {
-        Jumping = 0,
-        WallRunning = 1,
-        Still = 2
-    }
-
-    /// <summary>
-    /// These states change the direction of movement.
-    /// </summary>
-    public enum PathFindState
-    {
-        Wandering = 0,
-        Following = 1,
-        Objective = 2
-    }
-
-    /// <summary>
-    /// These states affect the shooting of the AI
-    /// </summary>
-    public enum ShootState
-    {
-        Idle = 0,
-        Spraying = 1,
-        Precise = 2
-    }
-
-    #endregion
-
     #region States
 
     public MoveState moveState = MoveState.Jumping;
@@ -61,6 +27,12 @@ public class MultiplayerBotStateManager : BotClass
     public OffMeshLinkData data;
 
     public Vector3 velocity;
+
+    public Transform groundCheck;
+
+    public LayerMask groundMask;
+
+    public float groundDistance = 0.1f;
 
     void Update()
     {

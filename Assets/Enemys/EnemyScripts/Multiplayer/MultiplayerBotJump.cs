@@ -3,11 +3,10 @@ using static System.Math;
 using UnityEngine;
 using static UnityEngine.Mathf;
 using UnityEngine.AI;
+using System;
 
 public class MultiplayerBotJump : BotClass
 {
-    // [SerializeField]
-    // multiplayerBotStateManager.agent multiplayerBotStateManager.agent;
     [SerializeField]
     CharacterController controller;
     public Vector3 velocity;
@@ -18,6 +17,8 @@ public class MultiplayerBotJump : BotClass
     Vector3 jumpDir;
     [SerializeField]
     MultiplayerBotStateManager multiplayerBotStateManager;
+    bool touchingWall;
+    MultiplayerBotWallRun wallRun;
 
     void Start() => actualJumpHeight = (float)Sqrt((double)(jumpHeight * -2f * gravity));
 
@@ -32,6 +33,7 @@ public class MultiplayerBotJump : BotClass
         JumpCheck();
         Move();
         Gravity();
+        WallCheck();
     }
 
     void Move()
@@ -58,7 +60,7 @@ public class MultiplayerBotJump : BotClass
         switch (multiplayerBotStateManager.triggerState)
         {
             case TriggerState.Jump:
-                StartCoroutine(Jump(Vector3.Distance(multiplayerBotStateManager.data.startPos, multiplayerBotStateManager.data.endPos) / multiplayerBotStateManager.agent.speed, multiplayerBotStateManager.stats.jumpDelay + Random.Range(multiplayerBotStateManager.stats.jumpDelayRangeMin, multiplayerBotStateManager.stats.jumpDelayRangeMax)));
+                StartCoroutine(Jump(Vector3.Distance(multiplayerBotStateManager.data.startPos, multiplayerBotStateManager.data.endPos) / multiplayerBotStateManager.agent.speed, multiplayerBotStateManager.stats.jumpDelay + UnityEngine.Random.Range(multiplayerBotStateManager.stats.jumpDelayRangeMin, multiplayerBotStateManager.stats.jumpDelayRangeMax)));
                 break;
             case TriggerState.WallJump:
                 break;
@@ -92,5 +94,20 @@ public class MultiplayerBotJump : BotClass
     void OnDisable()
     {
         ShareVelocity(velocity, out multiplayerBotStateManager.velocity);
+    }
+
+    void WallCheck()
+    {
+        bool onGround = Physics.CheckSphere(multiplayerBotStateManager.groundCheck.position, multiplayerBotStateManager.groundDistance, multiplayerBotStateManager.groundMask);
+        if (!onGround && touchingWall)
+        {
+            wallRun.wallRunDir = transform.forward * multiplayerBotStateManager.agent.speed / Math.Abs(multiplayerBotStateManager.agent.speed);
+            multiplayerBotStateManager.moveState = MoveState.WallRunning;
+        }
+    }
+
+    void OnTriggerEnter()
+    {
+        touchingWall = true;
     }
 }
