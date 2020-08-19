@@ -98,15 +98,25 @@ public class MultiplayerBotJump : BotClass
 
     void WallCheck()
     {
-        bool onGround = Physics.CheckSphere(multiplayerBotStateManager.groundCheck.position, multiplayerBotStateManager.groundDistance, multiplayerBotStateManager.groundMask);
-        if (!onGround && touchingWall)
+        // bool onGround = Physics.CheckSphere(multiplayerBotStateManager.groundCheck.position, multiplayerBotStateManager.groundDistance, multiplayerBotStateManager.groundMask);
+        if (!controller.isGrounded && touchingWall)
         {
-            wallRun.wallRunDir = transform.forward * multiplayerBotStateManager.agent.speed / Math.Abs(multiplayerBotStateManager.agent.speed);
+            print("A");
+
+            try
+            {
+                wallRun.wallRunDir = transform.forward * multiplayerBotStateManager.agent.speed / Math.Abs(multiplayerBotStateManager.agent.speed);
+            }
+            catch (NullReferenceException ex)
+            {
+                print(ex);
+            }
+
             multiplayerBotStateManager.moveState = MoveState.WallRunning;
         }
     }
 
-    void OnTriggerEnter()
+    void OnCollisionEnter()
     {
         touchingWall = true;
     }
