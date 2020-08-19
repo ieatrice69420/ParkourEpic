@@ -1,17 +1,17 @@
-﻿using PlayFab;
+﻿using Photon.Pun;
+using Photon.Realtime;
+using PlayFab;
 using PlayFab.ClientModels;
 using PlayFab.Json;
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-public class PlayFabController : MonoBehaviour
+public class PlayFabController : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private InputField InputFieldemail;
-
-
     [SerializeField]
     private InputField InputFieldepass;
 
@@ -27,7 +27,12 @@ public class PlayFabController : MonoBehaviour
     public GameObject lobbypanel;
     public GameObject lederboardpanel;
 
+    [SerializeField] private EntityTokenResponse playfabToken;
+    [SerializeField] private GetAccountInfoResult playfabInfo;
 
+    public Transform container;
+
+    public UIFriend uiPrefab;
 
     private string userEmail
     {
@@ -60,11 +65,11 @@ public class PlayFabController : MonoBehaviour
         get
         {
             //if (!PlayerPrefs.HasKey("USERNAME"))
-           // {
-                return InputFieldeusername.text;
+            // {
+            return InputFieldeusername.text;
             //}
             //else
-                //return PlayerPrefs.GetString("USERNAME");
+            //return PlayerPrefs.GetString("USERNAME");
         }
     }
     private string myID;
@@ -79,14 +84,15 @@ public class PlayFabController : MonoBehaviour
     public GameObject lobby;
     void DisplayPlayFabError(PlayFabError error) => Debug.Log(error.GenerateErrorReport());
 
-    private void OnEnable()
+    private void Awake()
     {
-        if(PlayFabController.PFC == null) PlayFabController.PFC = this;
+        if (PlayFabController.PFC == null) PlayFabController.PFC = this;
         else
-            if(PlayFabController.PFC != this) Destroy(gameObject);
+    if (PlayFabController.PFC != this) Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
     }
-    public void Start()
+
+    private void Start()
     {
         //Note: Setting title Id here can be skipped if you have set the value in Editor Extensions already.
         if (string.IsNullOrEmpty(PlayFabSettings.TitleId)) PlayFabSettings.TitleId = "475FE"; // Please change this value to your own titleId from PlayFab Game Manager
@@ -100,13 +106,16 @@ public class PlayFabController : MonoBehaviour
             LoginPanel.SetActive(false);
             registerpanel.SetActive(false);
         }
+        PlayfabCustomIDLogin();
+        //connect playfab
         Debug.Log(PlayerPrefs.GetString("EMAIL"));
         //var request = new LoginWithCustomIDRequest { CustomId = "GettingStartedGuide", CreateAccount = true };
         //PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccess, OnLoginFailure);
+
     }
 
-	#region login
-	private void OnLoginSuccess(LoginResult result)
+    #region login
+    private void OnLoginSuccess(LoginResult result)
     {
         Debug.Log("Congratulations, you made your first successful API call!");
         PlayerPrefs.SetString("EMAIL", userEmail);
@@ -146,7 +155,7 @@ public class PlayFabController : MonoBehaviour
     }
     public void OnclickRegisterButton()
     {
-        var registerRequest = new RegisterPlayFabUserRequest { Email = userEmail, Password = UserPassword,Username = username };
+        var registerRequest = new RegisterPlayFabUserRequest { Email = userEmail, Password = UserPassword, Username = username };
         PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSucsess, OnRegistereFailure);
     }
 
@@ -156,7 +165,7 @@ public class PlayFabController : MonoBehaviour
 
     public void OnClickLogin()
     {
-        var request = new LoginWithEmailAddressRequest { Email = userEmail, Password = UserPassword};
+        var request = new LoginWithEmailAddressRequest { Email = userEmail, Password = UserPassword };
         PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
     }
     #endregion
@@ -169,7 +178,7 @@ public class PlayFabController : MonoBehaviour
 
     public int playerhealth;
 
-	#region PlayerStats
+    #region PlayerStats
     public void setStats()
     {
         PlayFabClientAPI.UpdatePlayerStatistics(new UpdatePlayerStatisticsRequest
@@ -249,6 +258,8 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     public GameObject leaderboardpanel;
     public GameObject listingprefab;
     public Transform listingcontainer;
+
+    public GameObject friendListingprefab;
     public void GetLeaderboard()
     {
         var requestlederboard = new GetLeaderboardRequest { StartPosition = 0, StatisticName = "PlayerPoints", MaxResultsCount = 100 };
@@ -257,21 +268,21 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
 
     public void OngetLederboard(GetLeaderboardResult result)
     {
-        leaderboardpanel.SetActive(true);
-        foreach (PlayerLeaderboardEntry player in result.Leaderboard)
-        {
-            GameObject templisting = Instantiate(listingprefab, listingcontainer);
-            Lederboarllisting LL = templisting.GetComponent<Lederboarllisting>();
-            LL.playernametext.text = player.DisplayName;
-            LL.playerScore.text = player.StatValue.ToString();
-            Debug.Log(player.DisplayName + ": " + player.StatValue);
-        }
+        // leaderboardpanel.SetActive(true);
+        // foreach (PlayerLeaderboardEntry player in result.Leaderboard)
+        // {
+        //     GameObject templisting = Instantiate(listingprefab, listingcontainer);
+        //     Lederboarllisting LL = templisting.GetComponent<Lederboarllisting>();
+        //     LL.playernametext.text = player.DisplayName;
+        //     LL.playerScore.text = player.StatValue.ToString();
+        //     Debug.Log(player.DisplayName + ": " + player.StatValue);
+        // }
     }
 
     public void Closeleaderboardpanel()
     {
         leaderboardpanel.SetActive(false);
-        for (int i = listingcontainer.childCount - 1; i >= 0; i --) Destroy(listingcontainer.GetChild(i).gameObject);
+        for (int i = listingcontainer.childCount - 1; i >= 0; i--) Destroy(listingcontainer.GetChild(i).gameObject);
     }
     public void onErorrlederboard(PlayFabError error) => Debug.LogError(error.GenerateErrorReport());
 
@@ -288,8 +299,8 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
 
     void UserDataSuccess(GetUserDataResult result)
     {
-        if (result.Data == null || !result.Data.ContainsKey("Skins")) Debug.Log("Skins not set");
-        else Prescictentdtata.PD.SkinsStringtodata(result.Data["Skins"].Value);
+        // if (result.Data == null || !result.Data.ContainsKey("Skins")) Debug.Log("Skins not set");
+        // else Prescictentdtata.PD.SkinsStringtodata(result.Data["Skins"].Value);
     }
 
     public void SetUserData(string SkinData)
@@ -308,27 +319,7 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     #endregion
 
     #region friends
-    [SerializeField]
-    Transform friendscrollview;
-    void DisplayFriends(List<FriendInfo> friendsCache)
-    {
-        foreach (FriendInfo f in friendsCache)
-        {
-            bool isfound = false;
-            if(myfriends != null)
-            {
-                foreach (FriendInfo g in myfriends)
-                    if (f.FriendPlayFabId == g.FriendPlayFabId) isfound = true;
-            }
-            if(isfound == false)
-            {
-                GameObject listing = Instantiate(listingprefab, friendscrollview);
-                Lederboarllisting tempListing = listing.GetComponent<Lederboarllisting>();
-                tempListing.playernametext.text = f.TitleDisplayName;
-                myfriends = friendsCache;
-            }
-        }
-    }
+
 
     public IEnumerator WaitForFriend()
     {
@@ -338,7 +329,7 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
 
     public void RunWaitFuction() => StartCoroutine(WaitForFriend());
 
-    List<FriendInfo> _friends = null;
+    List<PlayFab.ClientModels.FriendInfo> _friends = null;
 
     public void GetFriends()
     {
@@ -347,12 +338,12 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
             IncludeSteamFriends = false,
             IncludeFacebookFriends = false,
             XboxToken = null
-        }, result => {
+        }, result =>
+        {
             _friends = result.Friends;
-            DisplayFriends(_friends); // triggers your UI
+            GetPhotonFriends(_friends);
         }, DisplayPlayFabError);
     }
-    //show your friends
 
 
 
@@ -377,16 +368,16 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
                 break;
         }
         // Execute request and update friends when we are done
-        PlayFabClientAPI.AddFriend(request, result => {
+        PlayFabClientAPI.AddFriend(request, result =>
+        {
             Debug.Log("Friend added successfully!");
         }, DisplayPlayFabError);
-}
+    }
     string friendsearch;
     [SerializeField]
     GameObject friendpanel;
 
-    List<FriendInfo> myfriends;
-
+    // List<FriendInfo> myfriends;
     public void InputFriendID(string idIn) => friendsearch = idIn;
 
     public void SubmitFrienRequest() => AddFriend(FriendIdType.PlayFabId, friendsearch);
@@ -404,10 +395,7 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
         menuCanvas.SetActive(false);
     }
 
-    #region JoinParty
-    #endregion
-
-
+    #region onclick
     public void OnClickFriendsButton()
     {
         friendpanel.SetActive(true);
@@ -439,4 +427,102 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
         lobbypanel.SetActive(false);
         shopanel.SetActive(false);
     }
+    #endregion
+
+
+
+
+
+    #region Playfab Calls
+    private void PlayfabCustomIDLogin()
+    {
+        Debug.Log("Login to Playfab");
+        var request = new LoginWithCustomIDRequest { CustomId = "GettingStartedPC2", CreateAccount = true };
+        PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccessPlayfab, OnAPIFailure);
+    }
+    private void OnLoginSuccessPlayfab(LoginResult result)
+    {
+        Debug.Log("Sucessfull Login to Playfab");
+        playfabToken = result.EntityToken;
+        var request = new GetAccountInfoRequest { PlayFabId = result.PlayFabId };
+        PlayFabClientAPI.GetAccountInfo(request, OnAccountInfoSucess, OnAPIFailure);
+    }
+
+
+
+    private void OnAPIFailure(PlayFabError error)
+    {
+        Debug.Log($"Errored: {error.GenerateErrorReport()}");
+    }
+    private void OnAccountInfoSucess(GetAccountInfoResult accountInfo)
+    {
+        playfabInfo = accountInfo;
+        ConnectToPhoton(playfabInfo.AccountInfo.TitleInfo.DisplayName);
+        //conect to photon with the username;
+    }
+
+    private void ConnectToPhoton(string username)
+    {
+        Debug.Log($"Connect to Photon as {username}");
+        PhotonNetwork.AuthValues = new Photon.Realtime.AuthenticationValues(username);
+        PhotonNetwork.SendRate = 20;
+        PhotonNetwork.SerializationRate = 5;
+        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.NickName = username;
+        PhotonNetwork.GameVersion = "1";
+        PhotonNetwork.ConnectUsingSettings();
+    }
+
+    public override void OnConnected()
+    {
+        Debug.Log("Connected to internet");
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        Debug.Log("Connected to Photon");
+        if (!PhotonNetwork.InLobby)
+        {
+            PhotonNetwork.JoinLobby();
+        }
+        else
+        {
+
+        }
+    }
+
+    public override void OnJoinedLobby()
+    {
+        Debug.Log("Joined Photon Lobby");
+        GetFriends();
+    }
+
+    private void GetPhotonFriends(List<PlayFab.ClientModels.FriendInfo> friends)
+    {
+        Debug.Log($"Got Playfab Friends: {friends.Count}");
+        string[] friendsArray = friends.Select(f => f.TitleDisplayName).ToArray();
+        PhotonNetwork.FindFriends(friendsArray);
+    }
+
+    public override void OnFriendListUpdate(List<Photon.Realtime.FriendInfo> friendList)
+    {
+        Debug.Log("Retreived Photon Friends");
+        if (friendList == null) return;
+        DisplayFriendsPhoton(friendList);
+    }
+    private void DisplayFriendsPhoton(List<Photon.Realtime.FriendInfo> friends)
+    {
+        Debug.Log("Clear friends in UI");
+        foreach (Transform child in container)
+        {
+            Destroy(child.gameObject);
+        }
+        Debug.Log("Display friends in UI");
+        foreach (Photon.Realtime.FriendInfo friend in friends)
+        {
+            UIFriend uifriend = Instantiate(uiPrefab, container);
+            uifriend.Initialize(friend);
+        }
+    }
+    #endregion
 }

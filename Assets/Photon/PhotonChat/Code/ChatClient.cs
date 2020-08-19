@@ -150,17 +150,17 @@ namespace Photon.Chat
         private int msDeltaForServiceCalls = 50;
         private int msTimestampOfLastServiceCall;
 
-        /// <summary>Defines if a background thread will call SendOutgoingCommands, while your code calls Service to dispatch received messages.</summary>
-        /// <remarks>
-        /// The benefit of using a background thread to call SendOutgoingCommands is this:
-        ///
-        /// Even if your game logic is being paused, the background thread will keep the connection to the server up.
-        /// On a lower level, acknowledgements and pings will prevent a server-side timeout while (e.g.) Unity loads assets.
-        ///
-        /// Your game logic still has to call Service regularly, or else incoming messages are not dispatched.
-        /// As this typically triggers UI updates, it's easier to call Service from the main/UI thread.
-        /// </remarks>
-        public bool UseBackgroundWorkerForSending { get; set; }
+		/// <summary>Defines if a background thread will call SendOutgoingCommands, while your code calls Service to dispatch received messages.</summary>
+		/// <remarks>
+		/// The benefit of using a background thread to call SendOutgoingCommands is this:
+		///
+		/// Even if your game logic is being paused, the background thread will keep the connection to the server up.
+		/// On a lower level, acknowledgements and pings will prevent a server-side timeout while (e.g.) Unity loads assets.
+		///
+		/// Your game logic still has to call Service regularly, or else incoming messages are not dispatched.
+		/// As this typically triggers UI updates, it's easier to call Service from the main/UI thread.
+		/// </remarks>
+		public bool UseBackgroundWorkerForSending { get; set; }
 
         /// <summary>Exposes the TransportProtocol of the used PhotonPeer. Settable while not connected.</summary>
         public ConnectionProtocol TransportProtocol
@@ -210,7 +210,8 @@ namespace Photon.Chat
             this.PublicChannelsUnsubscribing = new HashSet<string>();
         }
 
-        public bool ConnectUsingSettings(ChatAppSettings appSettings)
+
+		public bool ConnectUsingSettings(ChatAppSettings appSettings)
         {
             if (appSettings == null)
             {

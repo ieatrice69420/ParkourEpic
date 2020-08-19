@@ -1498,7 +1498,11 @@ namespace PlayFab.ClientModels
         /// Available Xbox information, if the user and PlayFab friend are both connected to Xbox Live.
         /// </summary>
         public UserXboxInfo XboxInfo;
-    }
+
+		public string UserId { get; set; }
+		public string Room { get; set; }
+		public bool IsOnline { get; set; }
+	}
 
     [Serializable]
     public class GameCenterPlayFabIdPair : PlayFabBaseModel

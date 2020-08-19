@@ -5,35 +5,30 @@ using UnityEngine;
 
 public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 {
-    private TypedLobby customLobby = new TypedLobby("guyakda12", LobbyType.Default);
+    [SerializeField]
+    public Transform content;
+    [SerializeField]
+    private PlayerListing _playerListing;
 
-    private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
+    List<PlayerListing> _listing = new List<PlayerListing>();
 
-    public void JoinLobby()
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        PhotonNetwork.JoinLobby(customLobby);
-        Debug.Log(customLobby);
-        
-    }
-
-    private void UpdateCachedRoomList(List<RoomInfo> roomList)
-    {
-        for (int i = 0; i < roomList.Count; i++)
+        PlayerListing listing = Instantiate(_playerListing, content);
+        if(listing != null)
         {
-            RoomInfo info = roomList[i];
-            if (info.RemovedFromList)
-            {
-                cachedRoomList.Remove(info.Name);
-            }
-            else
-            {
-                cachedRoomList[info.Name] = info;
-            }
+            listing.SetPlayerInfo(newPlayer);
+            _listing.Add(listing);
         }
     }
-
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        UpdateCachedRoomList(roomList);
+        int index = _listing.FindIndex(x => x._Player == otherPlayer);
+        if(index != -1)
+        {
+            Destroy(_listing[index].gameObject);
+            _listing.RemoveAt(index);
+        }
     }
 }
