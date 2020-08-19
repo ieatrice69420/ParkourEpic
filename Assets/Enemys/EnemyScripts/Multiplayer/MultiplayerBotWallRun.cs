@@ -2,7 +2,6 @@
 
 public class MultiplayerBotWallRun : BotClass
 {
-    [HideInInspector]
     public Vector3 wallRunDir;
     [SerializeField]
     CharacterController controller;

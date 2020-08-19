@@ -18,6 +18,7 @@ public class MultiplayerBotObjective : MonoBehaviour
         while (true)
         {
             float distance = Infinity;
+
             for (int i = 0; i < objective.childCount; i++)
             {
                 Vector3 objectivePos = objective.GetChild(i).position;
