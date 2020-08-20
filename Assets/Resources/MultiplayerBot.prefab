@@ -185,6 +185,7 @@ MonoBehaviour:
   jumpHeight: 2
   gravity: -10
   multiplayerBotStateManager: {fileID: 7985932255333703964}
+  wallRun: {fileID: 4314069691280060868}
 --- !u!114 &4043485771179170529
 MonoBehaviour:
   m_ObjectHideFlags: 0
