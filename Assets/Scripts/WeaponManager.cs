@@ -18,7 +18,7 @@ public class WeaponManager : MonoBehaviour
         if (pickUpAble != null)
         {
             text.gameObject.SetActive(true);
-            text.text = "Press E To Pick Up              " + pickUpAble.sO.name;
+            text.text = ($"Press E To Pick Up              {pickUpAble.sO.name}");
             if (Input.GetKeyDown(pickUpCode))
             {
                 text.gameObject.SetActive(false);
