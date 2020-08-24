@@ -21,15 +21,10 @@ public class MultiplayerBotWallRun : BotClass
     void Update()
     {
         WallRun();
+        if (controller.isGrounded) multiplayerBotStateManager.moveState = MoveState.Jumping;
     }
 
-    void WallRun()
-    {
-        controller.Move(wallRunDir * wallRunSpeed * Time.deltaTime);
-    }
+    void WallRun() => controller.Move(wallRunDir * wallRunSpeed * Time.deltaTime);
 
-    void OnDisable()
-    {
-        ShareVelocity(velocity, out multiplayerBotStateManager.velocity);
-    }
+    void OnDisable() => ShareVelocity(velocity, out multiplayerBotStateManager.velocity);
 }

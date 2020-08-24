@@ -3,7 +3,6 @@ using static System.Math;
 using UnityEngine;
 using static UnityEngine.Mathf;
 using UnityEngine.AI;
-using System;
 
 public class MultiplayerBotJump : BotClass
 {
@@ -18,6 +17,7 @@ public class MultiplayerBotJump : BotClass
     [SerializeField]
     MultiplayerBotStateManager multiplayerBotStateManager;
     bool touchingWall;
+    [SerializeField]
     MultiplayerBotWallRun wallRun;
 
     void Start() => actualJumpHeight = (float)Sqrt((double)(jumpHeight * -2f * gravity));
@@ -52,6 +52,7 @@ public class MultiplayerBotJump : BotClass
     void Gravity()
     {
         velocity.y += gravity * Time.deltaTime;
+
         if (isGrounded) velocity.y = -2f;
     }
 
@@ -71,22 +72,21 @@ public class MultiplayerBotJump : BotClass
 
     public IEnumerator Jump(float duration, float delay)
     {
-        Debug.Log("f");
         OffMeshLinkData data = multiplayerBotStateManager.agent.currentOffMeshLinkData;
         jumpDir = new Vector3((data.endPos - data.startPos).normalized.x, 0f, (data.endPos - data.startPos).normalized.z);
         isGrounded = false;
         multiplayerBotStateManager.agent.enabled = false;
+
         yield return new WaitForSeconds(Clamp(delay, 0f, .6f));
+
         if (controller.isGrounded) velocity.y = actualJumpHeight;
+
         yield return new WaitForSeconds(duration);
-        while (true)
+
+        while (!controller.isGrounded)
         {
-            if (controller.isGrounded)
-            {
-                isGrounded = true;
-                multiplayerBotStateManager.agent.enabled = true;
-                break;
-            }
+            isGrounded = true;
+            multiplayerBotStateManager.agent.enabled = true;
             yield return null;
         }
     }
@@ -98,26 +98,12 @@ public class MultiplayerBotJump : BotClass
 
     void WallCheck()
     {
-        // bool onGround = Physics.CheckSphere(multiplayerBotStateManager.groundCheck.position, multiplayerBotStateManager.groundDistance, multiplayerBotStateManager.groundMask);
         if (!controller.isGrounded && touchingWall)
         {
-            print("A");
-
-            try
-            {
-                wallRun.wallRunDir = transform.forward * multiplayerBotStateManager.agent.speed / Math.Abs(multiplayerBotStateManager.agent.speed);
-            }
-            catch (NullReferenceException ex)
-            {
-                print(ex);
-            }
-
+            wallRun.wallRunDir = transform.forward * (multiplayerBotStateManager.agent.speed >= 0 ? 1 : 0);
             multiplayerBotStateManager.moveState = MoveState.WallRunning;
         }
     }
 
-    void OnCollisionEnter()
-    {
-        touchingWall = true;
-    }
+    void OnCollisionEnter() => touchingWall = true;
 }
