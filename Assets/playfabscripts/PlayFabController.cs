@@ -457,14 +457,15 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     private void OnAccountInfoSucess(GetAccountInfoResult accountInfo)
     {
         playfabInfo = accountInfo;
-        ConnectToPhoton(playfabInfo.AccountInfo.TitleInfo.DisplayName);
+        ConnectToPhoton(PlayerPrefs.GetString("USERNAME"));
         //conect to photon with the username;
     }
 
     private void ConnectToPhoton(string username)
     {
-        Debug.Log($"Connect to Photon as {username}");
         PhotonNetwork.AuthValues = new Photon.Realtime.AuthenticationValues(username);
+
+        Debug.Log($"Connect to Photon as {username}");
         PhotonNetwork.SendRate = 20;
         PhotonNetwork.SerializationRate = 5;
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -481,6 +482,9 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to Photon");
+        GetFriends();
+
+
         if (!PhotonNetwork.InLobby)
         {
             PhotonNetwork.JoinLobby();
@@ -491,10 +495,29 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
         }
     }
 
+    
+
+    [SerializeField]
+    private byte maxPlayersPerRoom = 4;
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        Debug.Log("failed to join a room, create a room");
+
+        // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
+    }
+
+    public override void OnJoinedRoom()
+    {
+        Debug.Log("Joined Room");
+
+    }
+
+
     public override void OnJoinedLobby()
     {
+        PhotonNetwork.JoinRandomRoom();
         Debug.Log("Joined Photon Lobby");
-        GetFriends();
     }
 
     private void GetPhotonFriends(List<PlayFab.ClientModels.FriendInfo> friends)

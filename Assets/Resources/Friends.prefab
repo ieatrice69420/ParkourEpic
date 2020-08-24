@@ -500,6 +500,7 @@ MonoBehaviour:
   onlineImage: {fileID: 2964249180427469696}
   offlineColor: {r: 1, g: 0, b: 0, a: 0}
   onlineColor: {r: 0, g: 1, b: 0.27430224, a: 0}
+  playerinroomtext: {fileID: 0}
 --- !u!1 &8767625298160502089
 GameObject:
   m_ObjectHideFlags: 0

@@ -2835,6 +2835,8 @@ namespace Photon.Realtime
 
                 case StatusCode.Disconnect:
                     // disconnect due to connection exception is handled below (don't connect to GS or master in that case)
+
+
                     this.friendListRequested = null;
 
                     bool wasInRoom = this.CurrentRoom != null;

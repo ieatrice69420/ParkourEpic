@@ -16,7 +16,7 @@ public class UIFriend : MonoBehaviour
     public void Initialize(FriendInfo friendInfo)
     {
         info = friendInfo;
-        roomName = info.Room;
+        roomName = $"{info.UserId}";
         friendNameText.text = $"{info.UserId}";
 
         if (info.IsOnline)
@@ -28,10 +28,20 @@ public class UIFriend : MonoBehaviour
             onlineImage.color = offlineColor;
         }
     }
+    public Player Player { get; private set; }
+
+    public TextMeshProUGUI playerinroomtext;
+    public void SetPlayerInfo(Player player)
+    {
+        Player = player;
+        playerinroomtext.text = player.NickName;
+        Debug.Log($"Player Joined {player.NickName}");
+    }
+
     public void JoinFriendRoom()
     {
-        Debug.Log($"Joining Friend's Room: {info.Room}");
+        Debug.Log($"Joining Friend's Room: {roomName}");
         if (string.IsNullOrEmpty(info.Room)) return;
-        PhotonNetwork.JoinRoom(info.Room);
+        PhotonNetwork.JoinRoom(roomName);
     }
 }
