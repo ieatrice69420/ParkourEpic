@@ -34,6 +34,8 @@ public class PlayFabController : MonoBehaviourPunCallbacks
 
     public UIFriend uiPrefab;
 
+    public PlayerListing PlayerListing;
+
     private string userEmail
     {
         get
@@ -109,6 +111,8 @@ public class PlayFabController : MonoBehaviourPunCallbacks
         PlayfabCustomIDLogin();
         //connect playfab
         Debug.Log(PlayerPrefs.GetString("EMAIL"));
+
+
         //var request = new LoginWithCustomIDRequest { CustomId = "GettingStartedGuide", CreateAccount = true };
         //PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccess, OnLoginFailure);
 
@@ -481,8 +485,10 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
 
     public override void OnConnectedToMaster()
     {
+
         Debug.Log("Connected to Photon");
-        GetFriends();
+
+
 
 
         if (!PhotonNetwork.InLobby)
@@ -497,27 +503,27 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
 
     
 
-    [SerializeField]
-    private byte maxPlayersPerRoom = 4;
-    public override void OnJoinRandomFailed(short returnCode, string message)
-    {
-        Debug.Log("failed to join a room, create a room");
-
-        // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
-    }
 
     public override void OnJoinedRoom()
     {
         Debug.Log("Joined Room");
+
 
     }
 
 
     public override void OnJoinedLobby()
     {
-        PhotonNetwork.JoinRandomRoom();
-        Debug.Log("Joined Photon Lobby");
+        GetFriends();
+    }
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        Debug.Log("Failed to create a room...");
+    }
+
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        Debug.Log("Failed to create Photon room");
     }
 
     private void GetPhotonFriends(List<PlayFab.ClientModels.FriendInfo> friends)
@@ -525,8 +531,14 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
         Debug.Log($"Got Playfab Friends: {friends.Count}");
         string[] friendsArray = friends.Select(f => f.TitleDisplayName).ToArray();
         PhotonNetwork.FindFriends(friendsArray);
+        RoomOptions roomOps = new RoomOptions
+        {
+            IsVisible = true,
+            IsOpen = true
+        };
+        string roomName = PlayerPrefs.GetString("USERNAME");
+        PhotonNetwork.CreateRoom(roomName, roomOps);
     }
-
     public override void OnFriendListUpdate(List<Photon.Realtime.FriendInfo> friendList)
     {
         Debug.Log("Retreived Photon Friends");

@@ -12,33 +12,6 @@ public class PlayerListing : MonoBehaviourPunCallbacks
 
     private List<UIFriend> _Uifriend = new List<UIFriend>();
 
-    public void Start()
-    {
-        if (PhotonNetwork.IsConnected)
-        {
-            print("Yes, connected!");
-        }
-
-        if (PhotonNetwork.InRoom)
-        {
-            print("Yes, I am in a room!");
-        }
-        else
-        {
-            print("No, not in a room.");
-        }
-        GetCurrentRoomPlayers();
-
-    }
-
-    private void GetCurrentRoomPlayers()
-    {
-        foreach (KeyValuePair<int, Player> PlayerInfo in PhotonNetwork.CurrentRoom.Players)
-        {
-            AddPlayerListing(PlayerInfo.Value);
-            Debug.Log("OnPlayerEnteredRoom was called");
-        }
-    }
     private void AddPlayerListing(Player player)
     {
         UIFriend uIFriend = Instantiate(_uifriend, content);
@@ -47,7 +20,19 @@ public class PlayerListing : MonoBehaviourPunCallbacks
             uIFriend.SetPlayerInfo(player);
             _Uifriend.Add(uIFriend);
             Debug.Log("OnPlayerEnteredRoom was called");
+        }
+    }
 
+    private void GetCurrentRoomPlayers()
+    {
+        Debug.Log("Trying to get the current room's players");
+        Debug.Log($"Are we in a room though: {PhotonNetwork.InRoom}");
+        if (!PhotonNetwork.InRoom) return;
+        foreach (KeyValuePair<int, Player> PlayerInfo in PhotonNetwork.CurrentRoom.Players)
+        {
+            Debug.Log("OnPlayerEnteredRoom was called");
+
+            AddPlayerListing(PlayerInfo.Value);
         }
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -55,6 +40,10 @@ public class PlayerListing : MonoBehaviourPunCallbacks
         AddPlayerListing(newPlayer);
         Debug.Log("OnPlayerEnteredRoom was called");
 
+    }
+    public override void OnJoinedRoom()
+    {
+        GetCurrentRoomPlayers();
     }
 
 
@@ -66,6 +55,7 @@ public class PlayerListing : MonoBehaviourPunCallbacks
         {
             Destroy(_Uifriend[index].gameObject);
             _Uifriend.RemoveAt(index);
+            Debug.Log("why did you left the room?");
         }
     }
 

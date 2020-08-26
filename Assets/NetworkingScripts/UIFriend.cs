@@ -34,6 +34,7 @@ public class UIFriend : MonoBehaviour
     public void SetPlayerInfo(Player player)
     {
         Player = player;
+        playerinroomtext.text = PlayerPrefs.GetString("USERNAME");
         playerinroomtext.text = player.NickName;
         Debug.Log($"Player Joined {player.NickName}");
     }
@@ -44,4 +45,6 @@ public class UIFriend : MonoBehaviour
         if (string.IsNullOrEmpty(info.Room)) return;
         PhotonNetwork.JoinRoom(roomName);
     }
+
+
 }
