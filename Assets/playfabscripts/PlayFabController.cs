@@ -524,7 +524,6 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     {
         Debug.Log("Failed to create Photon room");
     }
-
     private void GetPhotonFriends(List<PlayFab.ClientModels.FriendInfo> friends)
     {
         Debug.Log($"Got Playfab Friends: {friends.Count}");
@@ -556,20 +555,6 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
         {
             UIFriend uifriend = Instantiate(uiPrefab, container);
             uifriend.Initialize(friend);
-        }
-    }
-
-    void DisplayFriends(List<Photon.Realtime.FriendInfo> friendcache)
-    {
-        bool isfound = false;
-        foreach (Photon.Realtime.FriendInfo g in Myfriends)
-        {
-
-        }
-        foreach (Photon.Realtime.FriendInfo f in friendcache)
-        {
-            UIFriend listing = Instantiate(uiPrefab, container);
-            listing.Initialize(f);
         }
     }
     #endregion
