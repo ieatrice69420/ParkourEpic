@@ -41,10 +41,12 @@ public class UIFriend : MonoBehaviour
 
     public void JoinFriendRoom()
     {
-        Debug.Log($"Joining Friend's Room: {roomName}");
-        if (string.IsNullOrEmpty(info.Room)) return;
-        PhotonNetwork.JoinRoom(roomName);
+        if (PhotonNetwork.IsConnected)
+        {
+            Debug.Log($"Joining Friend's Room: {roomName}");
+            PhotonNetwork.JoinRoom(roomName);
+        }
+        else
+            Debug.Log("not connected so can't join");
     }
-
-
 }

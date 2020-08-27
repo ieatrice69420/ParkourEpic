@@ -444,7 +444,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000011641569, y: -0.000015072048}
+  m_AnchoredPosition: {x: -0.000011641569, y: 0.0000026446723}
   m_SizeDelta: {x: -183, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &91576616
@@ -542,7 +542,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 214.2, y: 157}
+  m_AnchoredPosition: {x: 214.2, y: 138.69}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &151473852
@@ -3963,7 +3963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   content: {fileID: 91576614}
-  _uifriend: {fileID: 7850446653084731321, guid: 09cc4dd89553f73428f3b7af142b41c3,
+  _uifriendroom: {fileID: 2625983685467365145, guid: 30234be7b75d5c941a8fa87e2fe24227,
     type: 3}
 --- !u!1 &788682821
 GameObject:
@@ -5366,7 +5366,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -427.0119, y: 209}
+  m_AnchoredPosition: {x: -423, y: 157}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1104731562
@@ -5987,7 +5987,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1879962836}
   m_HandleRect: {fileID: 1879962835}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -6687,7 +6687,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -126, y: 209}
+  m_AnchoredPosition: {x: -108, y: 156}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1389078828
@@ -7010,8 +7010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   content: {fileID: 0}
-  _uifriend: {fileID: 7850446653084731321, guid: 09cc4dd89553f73428f3b7af142b41c3,
-    type: 3}
+  _uifriendroom: {fileID: 0}
 --- !u!4 &1424453678
 Transform:
   m_ObjectHideFlags: 0
@@ -8012,7 +8011,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -437, y: -181}
+  m_AnchoredPosition: {x: -431, y: -179}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1710328212
@@ -9472,7 +9471,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 187, y: 211}
+  m_AnchoredPosition: {x: 195, y: 154}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1945817395
@@ -10288,7 +10287,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000076293945, y: 156.99998}
+  m_AnchoredPosition: {x: -0.0000018895, y: 138.69}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2045469052
@@ -10482,6 +10481,7 @@ MonoBehaviour:
   shopanel: {fileID: 208160309}
   lobbypanel: {fileID: 763550129}
   lederboardpanel: {fileID: 1517050264}
+  uIFriend: {fileID: 0}
   playfabToken:
     Entity:
       Id: 

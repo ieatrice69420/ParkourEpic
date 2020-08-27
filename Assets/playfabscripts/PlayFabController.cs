@@ -124,6 +124,7 @@ public class PlayFabController : MonoBehaviourPunCallbacks
         Debug.Log("Congratulations, you made your first successful API call!");
         PlayerPrefs.SetString("EMAIL", userEmail);
         PlayerPrefs.SetString("PASSWORD", UserPassword);
+        PlayerPrefs.Save();
         GetStats();
         myID = result.PlayFabId;
         GetPlayerData();
@@ -142,7 +143,6 @@ public class PlayFabController : MonoBehaviourPunCallbacks
         PlayFabClientAPI.UpdateUserTitleDisplayName(new UpdateUserTitleDisplayNameRequest { DisplayName = username }, Ondisplaylogin, OnLoginFailure);
         GetStats();
         GetPlayerData();
-        GetStats();
         //myID = result.PlayFabId;
         GetPlayerData();
         menuCanvas.SetActive(true);
@@ -508,18 +508,17 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     {
         Debug.Log("Joined Room");
 
-
     }
-
-
     public override void OnJoinedLobby()
     {
         GetFriends();
+        Debug.Log($"Connected to Photon Lobby: {PhotonNetwork.CurrentLobby}");
     }
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("Failed to create a room...");
     }
+
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
@@ -557,6 +556,20 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
         {
             UIFriend uifriend = Instantiate(uiPrefab, container);
             uifriend.Initialize(friend);
+        }
+    }
+
+    void DisplayFriends(List<Photon.Realtime.FriendInfo> friendcache)
+    {
+        bool isfound = false;
+        foreach (Photon.Realtime.FriendInfo g in Myfriends)
+        {
+
+        }
+        foreach (Photon.Realtime.FriendInfo f in friendcache)
+        {
+            UIFriend listing = Instantiate(uiPrefab, container);
+            listing.Initialize(f);
         }
     }
     #endregion

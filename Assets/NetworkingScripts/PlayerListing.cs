@@ -8,13 +8,13 @@ public class PlayerListing : MonoBehaviourPunCallbacks
     [SerializeField]
     public Transform content;
     [SerializeField]
-    private UIFriend _uifriend;
+    public UiFriendRoom _uifriendroom;
 
-    private List<UIFriend> _Uifriend = new List<UIFriend>();
+    private List<UiFriendRoom> _Uifriend = new List<UiFriendRoom>();
 
     private void AddPlayerListing(Player player)
     {
-        UIFriend uIFriend = Instantiate(_uifriend, content);
+        UiFriendRoom uIFriend = Instantiate(_uifriendroom, content);
         if (uIFriend != null)
         {
             uIFriend.SetPlayerInfo(player);
@@ -31,7 +31,6 @@ public class PlayerListing : MonoBehaviourPunCallbacks
         foreach (KeyValuePair<int, Player> PlayerInfo in PhotonNetwork.CurrentRoom.Players)
         {
             Debug.Log("OnPlayerEnteredRoom was called");
-
             AddPlayerListing(PlayerInfo.Value);
         }
     }
@@ -66,5 +65,7 @@ public class PlayerListing : MonoBehaviourPunCallbacks
         Debug.Log("left Room");
 
     }
+
+
 
 }

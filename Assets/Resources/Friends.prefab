@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4443039295703394418
+--- !u!1 &4756383690730871484
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6096332771681374730}
-  - component: {fileID: 5994910009506124744}
-  - component: {fileID: 2964249180427469696}
+  - component: {fileID: 86962870976962082}
+  - component: {fileID: 7738421041854787418}
+  - component: {fileID: 3213851076566312185}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -18,13 +18,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &6096332771681374730
+--- !u!224 &86962870976962082
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4443039295703394418}
+  m_GameObject: {fileID: 4756383690730871484}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -34,24 +34,24 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -24.825012, y: 0}
-  m_SizeDelta: {x: 49.65, y: 59.9}
+  m_AnchoredPosition: {x: 0.0042388, y: 0.00000095367}
+  m_SizeDelta: {x: 97.6, y: 66.2}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &5994910009506124744
+--- !u!222 &7738421041854787418
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4443039295703394418}
+  m_GameObject: {fileID: 4756383690730871484}
   m_CullTransparentMesh: 0
---- !u!114 &2964249180427469696
+--- !u!114 &3213851076566312185
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4443039295703394418}
+  m_GameObject: {fileID: 4756383690730871484}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
@@ -63,7 +63,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: d20c53c8cad21024091aeed0b9bf2a0e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -388,7 +388,7 @@ RectTransform:
   - {fileID: 8767625298160502088}
   - {fileID: 8767625296076710094}
   - {fileID: 4298289370822884872}
-  - {fileID: 6096332771681374730}
+  - {fileID: 86962870976962082}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -418,7 +418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -497,9 +497,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   friendNameText: {fileID: 8767625298160502091}
   roomName: 
-  onlineImage: {fileID: 2964249180427469696}
-  offlineColor: {r: 1, g: 0, b: 0, a: 0}
-  onlineColor: {r: 0, g: 1, b: 0.27430224, a: 0}
+  onlineImage: {fileID: 3213851076566312185}
+  offlineColor: {r: 1, g: 0, b: 0, a: 1}
+  onlineColor: {r: 0, g: 1, b: 0.27430224, a: 1}
   playerinroomtext: {fileID: 0}
 --- !u!1 &8767625298160502089
 GameObject:
