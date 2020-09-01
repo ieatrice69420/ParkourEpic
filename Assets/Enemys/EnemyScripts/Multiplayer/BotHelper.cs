@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-using System.Threading.Tasks;
+using System;
+using System.Threading;
 
 namespace BotHelper
 {
@@ -19,14 +20,14 @@ namespace BotHelper
 
         public static GameObject Instantiate(GameObject bot, float delay)
         {
-            Task.Delay((int)(delay * 1000));
+            Thread.Sleep((int)Math.Floor((double)delay * 1000));
             GameObject instantiatedBot = GameObject.Instantiate(bot);
             return instantiatedBot;
         }
 
         public static GameObject Instantiate(GameObject bot, float delay, Vector3 position, Quaternion rotation)
         {
-            Task.Delay((int)(delay * 1000));
+            Thread.Sleep((int)Math.Floor((double)delay * 1000));
             GameObject instantiatedBot = GameObject.Instantiate(bot, position, rotation);
             return instantiatedBot;
         }

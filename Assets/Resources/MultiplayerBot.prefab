@@ -244,6 +244,7 @@ MonoBehaviour:
   wallRunSpeed: 10
   velocity: {x: 0, y: 0, z: 0}
   multiplayerBotStateManager: {fileID: 7985932255333703964}
+  gravity: -10
 --- !u!54 &2131299500968454263
 Rigidbody:
   m_ObjectHideFlags: 0
