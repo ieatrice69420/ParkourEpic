@@ -4919,6 +4919,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4043485771179170529, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5884504353292360706, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
         type: 3}
       propertyPath: delay
@@ -5004,6 +5009,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 2081363911}
+    - target: {fileID: 8969442286166340015, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9200221750916814958, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
         type: 3}
       propertyPath: player

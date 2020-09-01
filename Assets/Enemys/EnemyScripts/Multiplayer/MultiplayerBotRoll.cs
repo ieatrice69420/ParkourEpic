@@ -4,6 +4,7 @@ using System.Collections;
 
 public class MultiplayerBotRoll : BotClass
 {
+    [SerializeField]
     NavMeshAgent agent;
     [SerializeField]
     float duration;
