@@ -1448,7 +1448,7 @@ MonoBehaviour:
   gravity: -10
   JumpHight: 2
   crouchHeight: 0.2
-  unCrouchHeight: 1.5
+  unCrouchHeight: 2
   knockBackSpeed: 1
   knockBackSlowSpeed: 1
   slideSpeed: 20
@@ -1478,7 +1478,7 @@ MonoBehaviour:
   touchingWall: 0
   health: {fileID: 114713716393035800}
   rigidbody: {fileID: 1432413448231542923}
-  cielingDistance: 1
+  cielingDistance: 1.5
   rollDur: 0.1
   rollSpeed: 30
   rollDelay: 2
@@ -1725,7 +1725,7 @@ GameObject:
   m_Layer: 0
   m_Name: GroundCheck
   m_TagString: Player
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1737,7 +1737,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7722510122645180289}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.7, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7722510120855694964}
