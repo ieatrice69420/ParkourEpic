@@ -106,4 +106,6 @@ public class MultiplayerBotJump : BotClass
     }
 
     void OnCollisionEnter() => touchingWall = true;
+
+    public void Roll() => multiplayerBotStateManager.moveState = MoveState.Rolling;
 }
