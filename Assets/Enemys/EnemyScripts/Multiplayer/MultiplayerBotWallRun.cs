@@ -13,12 +13,16 @@ public class MultiplayerBotWallRun : BotClass
     MultiplayerBotStateManager multiplayerBotStateManager;
     [SerializeField]
     float gravity;
+    float defaultSpeed;
+
+    void Awake() => defaultSpeed = wallRunSpeed;
 
     void OnEnable()
     {
         ShareVelocity(multiplayerBotStateManager.velocity, out velocity);
         controller.enabled = true;
         multiplayerBotStateManager.agent.enabled = false;
+        wallRunSpeed = defaultSpeed;
     }
 
     void Update()
@@ -31,6 +35,11 @@ public class MultiplayerBotWallRun : BotClass
     {
         velocity.y += gravity * Time.deltaTime;
         controller.Move(((wallRunDir * wallRunSpeed) + velocity) * Time.deltaTime);
+    }
+
+    void OnCollisionExit()
+    {
+        wallRunSpeed = 0;
     }
 
     void OnDisable() => ShareVelocity(velocity, out multiplayerBotStateManager.velocity);
