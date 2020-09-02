@@ -79,15 +79,18 @@ public class GunScript : MonoBehaviour
     void Shoot()
     {
         currentMagSize--;
-        Vector3 shootDir = cam.forward + (cam.right * Random.Range(-inAccuracy, inAccuracy)) / 4f + cam.up * Random.Range(-inAccuracy, inAccuracy);
+        Vector3 shootDir = cam.forward /* + (cam.right * Random.Range(-inAccuracy, inAccuracy)) + cam.up * Random.Range(-inAccuracy, inAccuracy) */;
         RaycastHit[] hits = Physics.RaycastAll(cam.position, shootDir, maxRange);
         foreach (RaycastHit hit in hits)
         {
             target = hit.collider.GetComponent<Health>();
+            Debug.Log(hit.transform.name);
             if (target != null)
             {
+                Debug.Log(1);
                 if (target != ownHealth)
                 {
+                    Debug.Log(2);
                     fallOffDis = (hit.point - transform.position).magnitude;
                     damage = baseDamage - fallOffDis * fallOff;
                     target.TakeDamage(damage, hit.point, headShotMultiplier);
@@ -97,9 +100,8 @@ public class GunScript : MonoBehaviour
             }
             else
             {
-                if (hit.transform.gameObject.layer != lm)
-                    objPooler.SpawnBulletHole("Bullet Hole", hit.point, hit.normal);
-                break;
+                Debug.Log(3);
+                if (hit.transform.gameObject.layer != lm) objPooler.SpawnBulletHole("Bullet Hole", hit.point, hit.normal);
             }
         }
     }

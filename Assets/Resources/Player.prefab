@@ -349,6 +349,9 @@ MonoBehaviour:
   lm:
     serializedVersion: 2
     m_Bits: 8192
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &516523060335072393
 GameObject:
   m_ObjectHideFlags: 0
@@ -1052,6 +1055,9 @@ MonoBehaviour:
   lm:
     serializedVersion: 2
     m_Bits: 8192
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1 &3662091722242647459
 GameObject:
   m_ObjectHideFlags: 0
@@ -1447,12 +1453,8 @@ MonoBehaviour:
   crouchSpeed: 3
   gravity: -10
   JumpHight: 2
-  crouchHeight: 0.2
-  unCrouchHeight: 2
   knockBackSpeed: 1
   knockBackSlowSpeed: 1
-  slideSpeed: 20
-  slideDuration: 0.5
   wallRunSpeed: 10
   groundcheck: {fileID: 7722510122645180290}
   cam: {fileID: 7722510122170551140}
@@ -1709,9 +1711,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSensetivity: 100
-  recoilSlowTimer: 0
-  currentRecoil: 0
-  decaySpeed: 10
   playerbody: {fileID: 7722510120855694927}
 --- !u!1 &7722510122645180289
 GameObject:
