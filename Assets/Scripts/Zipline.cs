@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class Zipline : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class Zipline : MonoBehaviour
     {
         Vector3 toOther = hitPoint - carrier.position;
 
-        // this gets called if its the player is infront of it
+        // This gets called if its the player is infront of it
         if (Vector3.Dot(carrier.forward, toOther) > 0)
         {
             Debug.Log("The other transform is in front of me!");
@@ -23,6 +24,8 @@ public class Zipline : MonoBehaviour
         {
             ziplineCarrier.velocity = carrier.right * -1f * speed;
         }
+
+        StartCoroutine(StartZipLine());
     }
 
     public void LookAtStart()
@@ -40,5 +43,11 @@ public class Zipline : MonoBehaviour
     public void FixCarrierRotation()
     {
         carrier.LookAt(end);
+    }
+
+    IEnumerator StartZipLine()
+    {
+        yield return new WaitForSeconds(1f);
+        ziplineCarrier.canBeStopped = true;
     }
 }
