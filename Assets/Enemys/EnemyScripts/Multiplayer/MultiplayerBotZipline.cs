@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MultiplayerBotRopeSwing : MonoBehaviour
+public class MultiplayerBotZipline : MonoBehaviour
 {
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
