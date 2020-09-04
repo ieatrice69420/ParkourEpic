@@ -30,7 +30,6 @@ public class ZiplineCarrier : MonoBehaviour
 
     void Stop()
     {
-        Push.instance.isZipLining = false;
         velocity = Vector3.zero;
         canBeStopped = false;
     }

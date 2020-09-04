@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Push : MonoBehaviour
 {
-	public static Push instance;
 	[SerializeField]
 	float speed, ropeSpeed, maxJumpSpeed;
 	[HideInInspector]
@@ -57,7 +56,6 @@ public class Push : MonoBehaviour
 				zipLineCarrier = hit.transform;
 				zipline?.Move(zipLineSpeed, hit.point);
 				isZipLining = true;
-				instance = this;
 			}
 		}
     }

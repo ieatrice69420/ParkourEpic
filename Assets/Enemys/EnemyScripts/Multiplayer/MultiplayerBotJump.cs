@@ -108,4 +108,9 @@ public class MultiplayerBotJump : BotClass
     void OnCollisionEnter() => touchingWall = true;
 
     public void Roll() => multiplayerBotStateManager.moveState = MoveState.Rolling;
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.collider.CompareTag("Zipline")) multiplayerBotStateManager.moveState = MoveState.Ziplining;
+    }
 }
