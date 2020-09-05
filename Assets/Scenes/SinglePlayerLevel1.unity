@@ -626,7 +626,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 265853446}
-  m_Layer: 10
+  - component: {fileID: 265853447}
+  m_Layer: 14
   m_Name: End
   m_TagString: ZiplineStopper
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -647,13 +648,26 @@ Transform:
   m_Father: {fileID: 615188730}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 43.260002, z: 0}
+--- !u!65 &265853447
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265853445}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!43 &354386728
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh7972
+  m_Name: pb_Mesh7976
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -3455,7 +3469,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1235474569}
-  m_Layer: 0
+  - component: {fileID: 1235474570}
+  m_Layer: 14
   m_Name: Start
   m_TagString: ZiplineStopper
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -3476,6 +3491,19 @@ Transform:
   m_Father: {fileID: 615188730}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 43.260002, z: 0}
+--- !u!65 &1235474570
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235474568}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1259113892
 GameObject:
   m_ObjectHideFlags: 0
@@ -4126,6 +4154,11 @@ MonoBehaviour:
   - {fileID: 265853446}
   collisionDistance: 1
   canBeStopped: 1
+  stopperMask:
+    serializedVersion: 2
+    m_Bits: 16384
+  stopperStart: {fileID: 1235474569}
+  stopperEnd: {fileID: 265853446}
 --- !u!1 &1464656499
 GameObject:
   m_ObjectHideFlags: 0
