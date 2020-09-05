@@ -121,11 +121,9 @@ public class Push : MonoBehaviour
 
 	public IEnumerator DetachZipline()
 	{
-		while (true)
+		for (float f = 0f; float f < 1f; f += Time.deltaTime)
 		{
 			isZipLining = false;
-			yield return new WaitForSeconds(1f);
-			StopCoroutine(DetachZipline());
 		}
 	}
 }
