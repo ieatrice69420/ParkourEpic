@@ -32,8 +32,8 @@ public class DisplayInvetory : MonoBehaviour
 	}
 	void Start()
 	{
-
 		createDisplay();
+
 	}
 	private void Update()
 	{

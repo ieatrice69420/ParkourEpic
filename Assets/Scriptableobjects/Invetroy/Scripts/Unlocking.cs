@@ -15,13 +15,6 @@ public class Unlocking : MonoBehaviour
 
 		}
 	}
-	private void Start()
-	{
-		foreach ( slot in Invetoryslot)
-		{
-
-		}
-	}
 	private void OnApplicationQuit()
 	{
 		Invetory.Container.Clear();
