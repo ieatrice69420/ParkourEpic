@@ -56,7 +56,7 @@ public class MultiplayerBotStateManager : BotClass
         {
             if (pathFindScripts[i] == null)
             {
-                Debug.LogError(pathFindScripts[i] + "doesnt exist!");
+                // Debug.LogError(pathFindScripts[i] + "doesnt exist!");
                 break;
             }
             pathFindScripts[i].enabled = i == (int)pathFindState;
@@ -66,7 +66,7 @@ public class MultiplayerBotStateManager : BotClass
         {
             if (shootScripts[i] == null)
             {
-                Debug.LogError(shootScripts[i] + "doesnt exist!");
+                // Debug.LogError(shootScripts[i] + "doesnt exist!");
                 break;
             }
             shootScripts[i].enabled = i == (int)shootState;

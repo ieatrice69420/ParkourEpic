@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
+using static System.Math;
 
 public class MultiplayerBotZipline : BotClass
 {
     Transform zipLineCarrier;
-    public bool isZipLining;
+    public bool isZipLining = true;
     [SerializeField]
     float zipLineSpeed = 10f;
     [SerializeField]
@@ -14,6 +16,9 @@ public class MultiplayerBotZipline : BotClass
     Vector3 velocity;
     [SerializeField]
     float gravity = -10f;
+    float actualJumpHeight;
+
+    void Start() => actualJumpHeight = (float)Sqrt((double)(2f * -2f * gravity));
 
     private void OnEnable()
     {
@@ -37,7 +42,10 @@ public class MultiplayerBotZipline : BotClass
         {
             ZipLineMove();
 
-            if (zipLineCarrier.GetComponent<ZiplineCarrier>().velocity == Vector3.zero) isZipLining = false;
+            if (zipLineCarrier.GetComponent<ZiplineCarrier>().velocity == Vector3.zero)
+            {
+                StartCoroutine(DetachZipline());
+            }
         }
         else
         {
@@ -45,13 +53,27 @@ public class MultiplayerBotZipline : BotClass
             velocity.y += gravity * Time.deltaTime;
         }
 
-        if (controller.isGrounded) multiplayerBotStateManager.moveState = MoveState.Ziplining;
+        if (controller.isGrounded) multiplayerBotStateManager.moveState = MoveState.Jumping;
+
+        controller.enabled = !isZipLining;
     }
 
     void ZipLineMove() => transform.position = zipLineCarrier.position;
 
     private void OnDisable()
     {
+        controller.enabled = true;
         ShareVelocity(velocity, out multiplayerBotStateManager.velocity);
+    }
+
+    IEnumerator DetachZipline()
+    {
+        velocity.y = actualJumpHeight;
+
+        for (float f = 0f; f < 1f; f += Time.deltaTime)
+        {
+            isZipLining = false;
+            yield return null;
+        }
     }
 }
