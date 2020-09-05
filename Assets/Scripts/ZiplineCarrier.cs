@@ -31,9 +31,9 @@ public class ZiplineCarrier : MonoBehaviour
 
         transform.position = new Vector3
         (
-            Mathf.Clamp(transform.position.x, stopperStart.position.x, stopperEnd.position.x),
+            Helper.Mathf.Clamp(transform.position.x, stopperStart.position.x, stopperEnd.position.x),
             transform.position.y,
-            Mathf.Clamp(transform.position.z, stopperStart.position.z, stopperEnd.position.z)
+            Helper.Mathf.Clamp(transform.position.z, stopperStart.position.z, stopperEnd.position.z)
         );
     }
 
