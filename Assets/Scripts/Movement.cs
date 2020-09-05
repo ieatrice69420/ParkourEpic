@@ -7,7 +7,7 @@ public class Movement : MonoBehaviour
 {
     [SerializeField]
     CharacterController CharacterController;
-    public float speed = 12f, unCrouchSpeed = 12f, crouchSpeed = 6f, gravity = -20f, JumpHight = 3f, crouchHeight = 0.2f, unCrouchHeight = 0.5f, knockBackSpeed, knockBackSlowSpeed, slideSpeed, slideDuration, wallRunSpeed;
+    public float speed = 12f, unCrouchSpeed = 12f, crouchSpeed = 6f, gravity = -20f, JumpHight = 3f, knockBackSpeed, knockBackSlowSpeed, wallRunSpeed;
     [SerializeField]
     Transform groundcheck, cam;
     [SerializeField]
@@ -23,8 +23,8 @@ public class Movement : MonoBehaviour
     public KeyCode crouch = KeyCode.LeftControl, sprint = KeyCode.LeftShift, interact = KeyCode.E;
     [HideInInspector]
     public Vector3 knockBackDir;
-    float x, z, maxSlideDuration, slideX, slideZ, wallJumpSpeed;
-    Vector3 moveRaw, move, oldPos, newPos, slideDir;
+    float x, z, wallJumpSpeed;
+    Vector3 moveRaw, move, oldPos, newPos;
     [HideInInspector]
     public Vector3 wallRunDir, wallJumpMainDir;
     int tiltTime;
@@ -71,7 +71,7 @@ public class Movement : MonoBehaviour
         if (!(isWallRunning && Input.GetKey(sprint)))
         {
             Wasd();
-            Slide();
+            Crouch();
         }
         Cannon();
         WallRun();
@@ -93,26 +93,9 @@ public class Movement : MonoBehaviour
         move = Vector3.ClampMagnitude(transform.right * x + transform.forward * z, 1f);
     }
 
-    void Slide()
+    void Crouch()
     {
-        isSliding = isGrounded && Input.GetKey(crouch) && slideDuration > 0f;
-        if (slideDuration < 0f) slideDuration = 0f;
-        if (slideDuration > maxSlideDuration) slideDuration = maxSlideDuration;
 
-        if (isSliding)
-        {
-            CharacterController.Move(slideDir * slideSpeed * Time.deltaTime);
-            CharacterController.height = crouchHeight;
-            slideDuration -= Time.deltaTime;
-        }
-        else
-        {
-            CharacterController.height = unCrouchHeight;
-            slideDuration += Time.deltaTime;
-            slideX = Input.GetAxisRaw("Horizontal");
-            slideZ = Input.GetAxisRaw("Vertical");
-            slideDir = Vector3.ClampMagnitude(transform.forward * slideZ + transform.right * slideX, 1f);
-        }
     }
 
     void Jump()

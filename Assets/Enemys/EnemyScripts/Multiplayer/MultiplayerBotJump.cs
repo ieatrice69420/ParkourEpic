@@ -73,7 +73,7 @@ public class MultiplayerBotJump : BotClass
     public IEnumerator Jump(float duration, float delay)
     {
         OffMeshLinkData data = multiplayerBotStateManager.agent.currentOffMeshLinkData;
-        jumpDir = new Vector3((data.endPos - data.startPos).normalized.x, 0f, (data.endPos - data.startPos).normalized.z);
+        jumpDir = new Vector3((data.endPos - data.startPos).x, 0f, (data.endPos - data.startPos).z).normalized;
         isGrounded = false;
         multiplayerBotStateManager.agent.enabled = false;
 
@@ -100,10 +100,17 @@ public class MultiplayerBotJump : BotClass
     {
         if (!controller.isGrounded && touchingWall)
         {
-            wallRun.wallRunDir = transform.forward * (multiplayerBotStateManager.agent.speed >= 0 ? 1 : 0);
+            wallRun.wallRunDir = jumpDir;
             multiplayerBotStateManager.moveState = MoveState.WallRunning;
         }
     }
 
     void OnCollisionEnter() => touchingWall = true;
+
+    public void Roll() => multiplayerBotStateManager.moveState = MoveState.Rolling;
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.collider.CompareTag("Zipline")) multiplayerBotStateManager.moveState = MoveState.Ziplining;
+    }
 }

@@ -2,9 +2,9 @@
 
 public class mouselooking : MonoBehaviour
 {
-    public float mouseSensetivity = 100f, recoilSlowTimer, currentRecoil, decaySpeed;
+    public float mouseSensetivity = 100f;
     public Movement playerbody;
-    float Xrotation = 0, beforeRecoil;
+    float Xrotation = 0;
 
     void Update() => Look();
 
@@ -19,23 +19,6 @@ public class mouselooking : MonoBehaviour
         Xrotation -= MouseY;
         Xrotation = Mathf.Clamp(Xrotation, -90f, 90f);
 
-        if (Xrotation - currentRecoil < -90f) transform.localRotation = Quaternion.Euler(Xrotation, 0f, 0f);
-        else transform.localRotation = Quaternion.Euler(Xrotation - currentRecoil, 0f, 0f);
-    }
-
-    public void StartRecoil(float max, float timerIncrease)
-    {
-        currentRecoil += max;
-        recoilSlowTimer += timerIncrease;
-    }
-
-    public void Recoil(float slowSpeed)
-    {
-        if (currentRecoil > 0f)
-        {
-            currentRecoil -= slowSpeed * Time.deltaTime;
-            Xrotation -= slowSpeed * Time.deltaTime;
-        }
-        if (currentRecoil < 0f) currentRecoil = 0f;
+        transform.localRotation = Quaternion.Euler(Xrotation, 0f, 0f);
     }
 }

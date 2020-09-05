@@ -29,7 +29,7 @@ TagManager:
   - Rope
   - Weapon
   - CollideWithGroundOnly
-  - 
+  - ZiplineStopper
   - 
   - 
   - 

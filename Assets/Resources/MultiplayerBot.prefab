@@ -20,6 +20,9 @@ GameObject:
   - component: {fileID: 8969442286166340015}
   - component: {fileID: 6945908976383113735}
   - component: {fileID: 4314069691280060868}
+  - component: {fileID: 5884504353292360706}
+  - component: {fileID: 4205438189281868843}
+  - component: {fileID: 6104638366522095353}
   - component: {fileID: 2131299500968454263}
   m_Layer: 13
   m_Name: MultiplayerBot
@@ -137,7 +140,9 @@ MonoBehaviour:
   moveScripts:
   - {fileID: 9200221750916814958}
   - {fileID: 4314069691280060868}
-  - {fileID: 0}
+  - {fileID: 4205438189281868843}
+  - {fileID: 5884504353292360706}
+  - {fileID: 6104638366522095353}
   pathFindScripts:
   - {fileID: 8969442286166340015}
   - {fileID: 750348923613042157}
@@ -163,7 +168,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8848808006112464166}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47a84bcfe5ce8354f8d660d2701a5192, type: 3}
   m_Name: 
@@ -193,7 +198,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8848808006112464166}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d870bdf71da569140b973d69658c8f69, type: 3}
   m_Name: 
@@ -244,6 +249,56 @@ MonoBehaviour:
   wallRunSpeed: 10
   velocity: {x: 0, y: 0, z: 0}
   multiplayerBotStateManager: {fileID: 7985932255333703964}
+  gravity: -10
+--- !u!114 &5884504353292360706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8848808006112464166}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65e7d753760c28949bb7278de20f8451, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 8848808006112464160}
+  duration: 0.1
+  multiplayerBotStateManager: {fileID: 7985932255333703964}
+  speed: 30
+  defaultSpeed: 6
+--- !u!114 &4205438189281868843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8848808006112464166}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b748ea7d8451e2c43bf3a617dc275339, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 8848808006112464160}
+  multiplayerBotStateManager: {fileID: 7985932255333703964}
+  defaultSpeed: 6
+--- !u!114 &6104638366522095353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8848808006112464166}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1de82d380942ea4c942d61840a45f0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isZipLining: 0
+  zipLineSpeed: 10
+  controller: {fileID: 8848808006112464172}
+  multiplayerBotStateManager: {fileID: 7985932255333703964}
+  gravity: -10
 --- !u!54 &2131299500968454263
 Rigidbody:
   m_ObjectHideFlags: 0

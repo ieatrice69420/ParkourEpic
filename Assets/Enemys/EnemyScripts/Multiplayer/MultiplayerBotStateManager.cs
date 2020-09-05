@@ -39,24 +39,32 @@ public class MultiplayerBotStateManager : BotClass
         data = agent.currentOffMeshLinkData;
         triggerState = SetTriggerState();
 
-        for (int i = 0; i < moveScripts.Length - 1; i++)
+        if (moveState != MoveState.Ziplining)
         {
-            if (moveScripts[i] != null)
+            for (int i = 0; i < moveScripts.Length - 1; i++)
             {
-                if (moveScripts[i] == null)
+                if (moveScripts[i] != null)
                 {
-                    Debug.LogError(moveScripts[i] + "doesnt exist!");
-                    break;
+                    if (moveScripts[i] == null)
+                    {
+                        Debug.LogError(moveScripts[i] + "doesnt exist!");
+                        break;
+                    }
+                    moveScripts[i].enabled = i == (int)moveState;
                 }
-                moveScripts[i].enabled = i == (int)moveState;
             }
+        }
+        else
+        {
+            foreach (Behaviour b in moveScripts) b.enabled = false;
+            moveScripts[4].enabled = true;
         }
 
         for (int i = 0; i < pathFindScripts.Length - 1; i++)
         {
             if (pathFindScripts[i] == null)
             {
-                Debug.LogError(pathFindScripts[i] + "doesnt exist!");
+                // Debug.LogError(pathFindScripts[i] + "doesnt exist!");
                 break;
             }
             pathFindScripts[i].enabled = i == (int)pathFindState;
@@ -66,7 +74,7 @@ public class MultiplayerBotStateManager : BotClass
         {
             if (shootScripts[i] == null)
             {
-                Debug.LogError(shootScripts[i] + "doesnt exist!");
+                // Debug.LogError(shootScripts[i] + "doesnt exist!");
                 break;
             }
             shootScripts[i].enabled = i == (int)shootState;

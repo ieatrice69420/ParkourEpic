@@ -38,7 +38,6 @@ public class GunScript : MonoBehaviour
         Fire();
         ReloadInput();
         UpdateAmmoIcon();
-        ml.Recoil(10f);
         if (moveSpeed > 0f)
         {
             moveSpeed -= slowSpeed * Time.deltaTime;
@@ -80,16 +79,18 @@ public class GunScript : MonoBehaviour
     void Shoot()
     {
         currentMagSize--;
-        if (ml.currentRecoil < maxRecoil) ml.StartRecoil(recoil, timerIncreaser);
-        Vector3 shootDir = cam.forward + (cam.right * Random.Range(-inAccuracy, inAccuracy) * ml.currentRecoil) / 4f + cam.up * Random.Range(-inAccuracy, inAccuracy);
+        Vector3 shootDir = cam.forward /* + (cam.right * Random.Range(-inAccuracy, inAccuracy)) + cam.up * Random.Range(-inAccuracy, inAccuracy) */;
         RaycastHit[] hits = Physics.RaycastAll(cam.position, shootDir, maxRange);
         foreach (RaycastHit hit in hits)
         {
             target = hit.collider.GetComponent<Health>();
+            Debug.Log(hit.transform.name);
             if (target != null)
             {
+                Debug.Log(1);
                 if (target != ownHealth)
                 {
+                    Debug.Log(2);
                     fallOffDis = (hit.point - transform.position).magnitude;
                     damage = baseDamage - fallOffDis * fallOff;
                     target.TakeDamage(damage, hit.point, headShotMultiplier);
@@ -99,32 +100,10 @@ public class GunScript : MonoBehaviour
             }
             else
             {
-                if (hit.transform.gameObject.layer != lm)
-                    objPooler.SpawnBulletHole("Bullet Hole", hit.point, hit.normal);
-                break;
+                Debug.Log(3);
+                if (hit.transform.gameObject.layer != lm) objPooler.SpawnBulletHole("Bullet Hole", hit.point, hit.normal);
             }
         }
-        /* if (Physics.Raycast(cam.position, shootDir, out hit, maxRange))
-        {
-            target = hit.transform.gameObject.GetComponent<Health>();
-            if (target != null)
-            {
-                if (target != ownHealth)
-                {
-                    fallOffDis = (hit.point - transform.position).magnitude;
-                    damage = baseDamage - fallOffDis * fallOff;
-                    target.TakeDamage(damage, hit.point, headShotMultiplier);
-                    Debug.Log(target.transform.name);
-                }
-            }
-            else
-            {
-                Debug.Log("missed");
-                RaycastHit bulletHoleHit;
-                if (Physics.Raycast(cam.position, shootDir, out bulletHoleHit, maxRange))
-                    objPooler.SpawnBulletHole("Bullet Hole", hit.point, hit.normal);
-            }
-        }*/
     }
 
     public IEnumerator Reload(float duration)
