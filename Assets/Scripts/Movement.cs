@@ -95,7 +95,7 @@ public class Movement : MonoBehaviour
 
     void Crouch()
     {
-        
+
     }
 
     void Jump()
