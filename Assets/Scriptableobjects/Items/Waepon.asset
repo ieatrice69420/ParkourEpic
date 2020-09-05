@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fadb2769015a6e043bc511f39676b08c, type: 3}
+  m_Name: Waepon
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 4857754575679146445, guid: fb29a284796c53c4d947dce8f01a3513, type: 3}
+  type: 1
+  description: adad

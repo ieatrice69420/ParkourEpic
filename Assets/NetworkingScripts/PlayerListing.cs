@@ -66,6 +66,11 @@ public class PlayerListing : MonoBehaviourPunCallbacks
 
     }
 
+    public override void OnJoinedLobby()
+    {
+        Debug.Log("joined lobby");
+    }
+
 
 
 }

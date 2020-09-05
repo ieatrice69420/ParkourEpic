@@ -94,7 +94,8 @@
         </member>
         <member name="M:ExitGames.Client.Photon.ByteArraySlice.Release">
             <summary>
-            If this item was fetched from a ByteArraySlicePool, this will return it.
+            If this 
+            was fetched from a ByteArraySlicePool, this will return it.
             </summary>
             <returns>
             True if this was a pooled item and it successfully was returned.

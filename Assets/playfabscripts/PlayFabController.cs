@@ -127,7 +127,7 @@ public class PlayFabController : MonoBehaviourPunCallbacks
         PlayerPrefs.Save();
         GetStats();
         myID = result.PlayFabId;
-        GetPlayerData();
+        //GetPlayerData();
         menuCanvas.SetActive(true);
         connectCanvas.SetActive(false);
     }
@@ -142,9 +142,9 @@ public class PlayFabController : MonoBehaviourPunCallbacks
         LoginPanel.SetActive(false);
         PlayFabClientAPI.UpdateUserTitleDisplayName(new UpdateUserTitleDisplayNameRequest { DisplayName = username }, Ondisplaylogin, OnLoginFailure);
         GetStats();
-        GetPlayerData();
+        //GetPlayerData();
         //myID = result.PlayFabId;
-        GetPlayerData();
+        //GetPlayerData();
         menuCanvas.SetActive(true);
         connectCanvas.SetActive(false);
     }
@@ -292,6 +292,7 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
 
     #endregion Leaderboard
     #region playerdata
+    /*
     public void GetPlayerData()
     {
         PlayFabClientAPI.GetUserData(new GetUserDataRequest()
@@ -300,7 +301,6 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
             Keys = null
         }, UserDataSuccess, onErorrlederboard);
     }
-
     void UserDataSuccess(GetUserDataResult result)
     {
         // if (result.Data == null || !result.Data.ContainsKey("Skins")) Debug.Log("Skins not set");
@@ -317,7 +317,7 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
             }
         }, SetDataSuccess, onErorrlederboard);
     }
-
+    */
     void SetDataSuccess(UpdateUserDataResult result) => Debug.Log(result.DataVersion);
 
     #endregion
@@ -345,7 +345,7 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
         }, result =>
         {
             _friends = result.Friends;
-            GetPhotonFriends(_friends);
+            DisplayPlayfabFriends(_friends);
         }, DisplayPlayFabError);
     }
 
@@ -524,6 +524,7 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     {
         Debug.Log("Failed to create Photon room");
     }
+    /*
     private void GetPhotonFriends(List<PlayFab.ClientModels.FriendInfo> friends)
     {
         Debug.Log($"Got Playfab Friends: {friends.Count}");
@@ -543,6 +544,7 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
         if (friendList == null) return;
         DisplayFriendsPhoton(friendList);
     }
+
     private void DisplayFriendsPhoton(List<Photon.Realtime.FriendInfo> friends)
     {
         Debug.Log("Clear friends in UI");
@@ -556,6 +558,36 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
             UIFriend uifriend = Instantiate(uiPrefab, container);
             uifriend.Initialize(friend);
         }
+    }
+            */
+
+    List<PlayFab.ClientModels.FriendInfo> myfriends;
+    private void DisplayPlayfabFriends(List<PlayFab.ClientModels.FriendInfo> friendCache)
+    {
+        foreach (PlayFab.ClientModels.FriendInfo f in friendCache)
+        {
+            bool isfound = false;
+            if(myfriends != null)
+            {
+                foreach (PlayFab.ClientModels.FriendInfo g in myfriends)
+                {
+                    if (f.FriendPlayFabId == g.FriendPlayFabId)
+                    {
+                        isfound = true;
+                    }
+                }
+            }
+            if(isfound == false)
+            {
+                UIFriend listing = Instantiate(uiPrefab, container);
+                if(listing != null)
+                {
+                    listing.Initialize(f);
+                    listing.friendNameText.text = f.TitleDisplayName;
+                }
+            }
+        }
+        myfriends = friendCache;
     }
     #endregion
 }

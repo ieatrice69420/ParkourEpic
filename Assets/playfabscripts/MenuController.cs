@@ -28,7 +28,7 @@ public class MenuController : MonoBehaviour
 	public void UnlockedSkin(int index)
 	{
 		Prescictentdtata.PD.allskins[index] = true;
-		PlayFabController.PFC.SetUserData(Prescictentdtata.PD.SkinsDataToString());
+		//PlayFabController.PFC.SetUserData(Prescictentdtata.PD.SkinsDataToString());
 		SetUpStore();
 	}
 
