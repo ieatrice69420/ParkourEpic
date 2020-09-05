@@ -36,7 +36,7 @@ public class MultiplayerBotZipline : BotClass
         }
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (isZipLining)
         {

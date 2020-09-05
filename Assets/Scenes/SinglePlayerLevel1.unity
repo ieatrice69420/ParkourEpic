@@ -5370,6 +5370,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MultiplayerBot
       objectReference: {fileID: 0}
+    - target: {fileID: 8848808006112464166, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8848808006112464167, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
         type: 3}
       propertyPath: player
