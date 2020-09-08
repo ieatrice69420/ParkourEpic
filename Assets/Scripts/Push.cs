@@ -77,7 +77,7 @@ public class Push : MonoBehaviour
 		}
 		if (move.isGrounded) jumpSpeed = 0f;
 
-		if (isZipLining && Input.GetKeyDown(KeyCode.Space)) isZipLining = false;
+		if (isZipLining && Input.GetKeyDown(KeyCode.Space)) StartCoroutine(DetachZipline());
 
 		if (isZipLining && isSwinging)
 		{
@@ -121,9 +121,10 @@ public class Push : MonoBehaviour
 
 	public IEnumerator DetachZipline()
 	{
-		for (float f = 0f; f < 1f; f += Time.deltaTime)
+		for (float f = 0f; f < 3f; f += Time.deltaTime)
 		{
 			isZipLining = false;
+			yield return null;
 		}
 	}
 }

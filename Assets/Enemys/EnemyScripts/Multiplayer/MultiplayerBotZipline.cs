@@ -70,7 +70,7 @@ public class MultiplayerBotZipline : BotClass
     {
         velocity.y = actualJumpHeight;
 
-        for (float f = 0f; f < 1f; f += Time.deltaTime)
+        for (float f = 0f; f < 3f; f += Time.deltaTime)
         {
             isZipLining = false;
             yield return null;
