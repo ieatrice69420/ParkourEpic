@@ -19,6 +19,7 @@ public class MultiplayerBotJump : BotClass
     bool touchingWall;
     [SerializeField]
     MultiplayerBotWallRun wallRun;
+    bool stillTouchingWall;
 
     void Start() => actualJumpHeight = (float)Sqrt((double)(jumpHeight * -2f * gravity));
 
@@ -105,7 +106,28 @@ public class MultiplayerBotJump : BotClass
         }
     }
 
-    void OnCollisionEnter() => touchingWall = true;
+    IEnumerator OnCollisionEnter()
+    {
+        yield return new WaitForSeconds
+        (
+            Mathf.Clamp
+            (
+                multiplayerBotStateManager.stats.wallRunDelay + Random.Range
+                (
+                    multiplayerBotStateManager.stats.wallRunDelayMinModifier,
+                    multiplayerBotStateManager.stats.wallRunDelayMaxModifier
+                ),
+                0f,
+                Mathf.Infinity
+            )
+        );
+
+        if (stillTouchingWall) touchingWall = true;
+    }
+
+    private void OnCollisionStay() => stillTouchingWall = true;
+
+    private void OnCollisionExit(Collision other) => stillTouchingWall = false;
 
     public void Roll() => multiplayerBotStateManager.moveState = MoveState.Rolling;
 
