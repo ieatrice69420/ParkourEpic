@@ -29,4 +29,9 @@ public class MultiplayerBotStats : ScriptableObject
     public float wallRunDelayMinModifier;
     [Range(0f, 1f)]
     public float wallRunDelayMaxModifier;
+    public float ropeJumpDelay;
+    [Range(-2f, 0f)]
+    public float ropeJumpDelayMinModifier;
+    [Range(0f, 2f)]
+    public float ropeJumpDelayMaxModifier;
 }

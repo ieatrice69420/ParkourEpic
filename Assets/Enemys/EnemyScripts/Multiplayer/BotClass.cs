@@ -23,7 +23,8 @@ namespace UnityEngine.AI
             WallRunning = 1,
             Still = 2,
             Rolling = 3,
-            Ziplining = 4
+            Ziplining = 4,
+            Roping = 5
         }
 
         /// <summary>

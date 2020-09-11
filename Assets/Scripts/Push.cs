@@ -14,8 +14,6 @@ public class Push : MonoBehaviour
     public bool isSwinging;
     public Transform player, rope, ropeTip;
     [SerializeField]
-    CharacterController CharacterController;
-    [SerializeField]
     Movement move;
     [SerializeField]
     GameObject letGo;

@@ -20,6 +20,8 @@ public class MultiplayerBotJump : BotClass
     [SerializeField]
     MultiplayerBotWallRun wallRun;
     bool stillTouchingWall;
+    [SerializeField]
+    MultiplayerBotRope rope;
 
     void Start() => actualJumpHeight = (float)Sqrt((double)(jumpHeight * -2f * gravity));
 
@@ -133,6 +135,20 @@ public class MultiplayerBotJump : BotClass
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        if (hit.collider.CompareTag("Rope"))
+            if (!rope.isSwinging)
+            {
+                Rigidbody rb = hit.transform.parent.gameObject.GetComponent<Rigidbody>();
+                Vector3 dir = rb.transform.position - transform.position;
+                float fl = Mathf.Max(dir.x, dir.z);
+                Vector3 pushDir = new Vector3(dir.x / Mathf.Abs(fl), 0f, dir.z / Mathf.Abs(fl));
+                rb.AddForce(pushDir * rope.ropeSpeed);
+                rope.rope = rb.transform;
+                rope.hitOffset = hit.point - rope.rope.position;
+                rope.rope.GetChild(0).GetComponent<CapsuleCollider>().enabled = false;
+                rope.isSwinging = true;
+                multiplayerBotStateManager.moveState = MoveState.Roping;
+            }
         if (hit.collider.CompareTag("Zipline")) multiplayerBotStateManager.moveState = MoveState.Ziplining;
     }
 }
