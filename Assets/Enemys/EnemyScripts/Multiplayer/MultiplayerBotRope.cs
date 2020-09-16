@@ -24,27 +24,34 @@ public class MultiplayerBotRope : BotClass
     [SerializeField]
     NavMeshAgent agent;
     List<Transform> ropeTips = new List<Transform>();
+    Vector3 velocity;
 
     private void OnEnable()
     {
         agent.enabled = false;
         isSwinging = true;
+        ShareVelocity(multiplayerBotStateManager.velocity, out velocity);
+
+        StartCoroutine(CallUpdate());
     }
 
-    private IEnumerator Start()
+    IEnumerator CallUpdate()
     {
-        ropeTips = RopeManager.ropeTips;
-        while (true)
+        while (enabled)
         {
             RunAlways();
             yield return null;
         }
     }
 
+    private void Start()
+    {
+        ropeTips = RopeManager.ropeTips;
+    }
+
     void RunAlways()
     {
         Debug.Log("AAAAAAAAA");
-        rope = FindClosest(ropeTips).transform;
 
         Debug.Log(isSwinging);
         if (isSwinging)
@@ -56,14 +63,14 @@ public class MultiplayerBotRope : BotClass
         else
         {
             alreadyCalledOnSwing = false;
-            controller.Move(ropeNewPos * jumpSpeed * Time.deltaTime);
+            controller.Move((ropeNewPos * jumpSpeed + velocity) * Time.deltaTime);
         }
 
         if (controller.isGrounded) multiplayerBotStateManager.moveState = MoveState.Jumping;
         Debug.Log("AAAAAAAAA");
     }
 
-    void Swing() => transform.position = rope.position;
+    void Swing() => transform.position = rope.GetChild(0).GetChild(0).position;
 
     void OnTriggerEnter()
     {
@@ -74,8 +81,8 @@ public class MultiplayerBotRope : BotClass
     {
         if (isSwinging)
         {
-            ropeNewPos = rope.position - ropeOldPos;
-            ropeOldPos = rope.position;
+            ropeNewPos = rope.GetChild(0).position - ropeOldPos;
+            ropeOldPos = rope.GetChild(0).position;
         }
     }
 
@@ -97,6 +104,7 @@ public class MultiplayerBotRope : BotClass
             )
         );
 
+        isSwinging = false;
         Detach();
     }
 
@@ -104,7 +112,6 @@ public class MultiplayerBotRope : BotClass
     {
         jumpSpeed = maxJumpSpeed;
         rope.GetChild(0).GetComponent<CapsuleCollider>().enabled = true;
-        isSwinging = false;
         controller.enabled = true;
     }
 }
