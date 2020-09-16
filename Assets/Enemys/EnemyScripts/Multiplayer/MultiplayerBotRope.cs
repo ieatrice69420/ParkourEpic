@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MultiplayerBotRope : BotClass
 {
@@ -22,14 +23,21 @@ public class MultiplayerBotRope : BotClass
     CharacterController controller;
     [SerializeField]
     NavMeshAgent agent;
+    List<Transform> ropeTips = new List<Transform>();
 
     private void OnEnable()
     {
         agent.enabled = false;
+        isSwinging = true;
     }
+
+    private void Start() => ropeTips = RopeManager.ropeTips;
 
     void Update()
     {
+        rope = FindClosest(ropeTips).transform;
+
+        Debug.Log(isSwinging);
         if (isSwinging)
         {
             Swing();

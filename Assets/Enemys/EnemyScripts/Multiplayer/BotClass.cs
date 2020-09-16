@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace UnityEngine.AI
 {
     public class BotClass : MonoBehaviour
@@ -52,6 +54,36 @@ namespace UnityEngine.AI
         public virtual void ShareVelocity(Vector3 inputVelocity, out Vector3 outputVelocity)
         {
             outputVelocity = inputVelocity;
+        }
+
+        public virtual GameObject FindClosest(IEnumerable<Transform> gameObjects)
+        {
+            float lastDistance = Mathf.Infinity;
+            Transform closest = null;
+
+            foreach (Transform g in gameObjects)
+                if (Vector3.SqrMagnitude(transform.position - g.position) < lastDistance)
+                {
+                    lastDistance = Vector3.SqrMagnitude(transform.position - g.position);
+                    closest = g;
+                }
+
+            return closest.gameObject;
+        }
+
+        public virtual GameObject FindClosest(IEnumerable<Transform> gameObjects, GameObject origin)
+        {
+            float lastDistance = Mathf.Infinity;
+            Transform closest = null;
+
+            foreach (Transform g in gameObjects)
+                if (Vector3.SqrMagnitude(g.transform.position - origin.transform.position) < lastDistance)
+                {
+                    lastDistance = Vector3.SqrMagnitude(origin.transform.position - g.position);
+                    closest = g;
+                }
+
+            return closest.gameObject;
         }
     }
 }
