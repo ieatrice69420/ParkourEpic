@@ -33,8 +33,9 @@ public class MultiplayerBotRope : BotClass
 
     private void Start() => ropeTips = RopeManager.ropeTips;
 
-    void Update()
+    public override void Update()
     {
+        Debug.Log("AAAAAAAAA");
         rope = FindClosest(ropeTips).transform;
 
         Debug.Log(isSwinging);
@@ -51,6 +52,7 @@ public class MultiplayerBotRope : BotClass
         }
 
         if (controller.isGrounded) multiplayerBotStateManager.moveState = MoveState.Jumping;
+        Debug.Log("AAAAAAAAA");
     }
 
     void Swing() => transform.position = rope.GetChild(0).GetChild(0).position;
