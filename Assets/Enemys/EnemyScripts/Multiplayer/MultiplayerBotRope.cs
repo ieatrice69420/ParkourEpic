@@ -31,9 +31,17 @@ public class MultiplayerBotRope : BotClass
         isSwinging = true;
     }
 
-    private void Start() => ropeTips = RopeManager.ropeTips;
+    private IEnumerator Start()
+    {
+        ropeTips = RopeManager.ropeTips;
+        while (true)
+        {
+            RunAlways();
+            yield return null;
+        }
+    }
 
-    void Update()
+    void RunAlways()
     {
         Debug.Log("AAAAAAAAA");
         rope = FindClosest(ropeTips).transform;
@@ -55,7 +63,7 @@ public class MultiplayerBotRope : BotClass
         Debug.Log("AAAAAAAAA");
     }
 
-    void Swing() => transform.position = rope.GetChild(0).GetChild(0).position;
+    void Swing() => transform.position = rope.position;
 
     void OnTriggerEnter()
     {
@@ -66,8 +74,8 @@ public class MultiplayerBotRope : BotClass
     {
         if (isSwinging)
         {
-            ropeNewPos = rope.GetChild(0).position - ropeOldPos;
-            ropeOldPos = rope.GetChild(0).position;
+            ropeNewPos = rope.position - ropeOldPos;
+            ropeOldPos = rope.position;
         }
     }
 
