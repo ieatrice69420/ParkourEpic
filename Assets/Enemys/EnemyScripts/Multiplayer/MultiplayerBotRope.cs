@@ -33,7 +33,7 @@ public class MultiplayerBotRope : BotClass
 
     private void Start() => ropeTips = RopeManager.ropeTips;
 
-    public override void Update()
+    void Update()
     {
         Debug.Log("AAAAAAAAA");
         rope = FindClosest(ropeTips).transform;

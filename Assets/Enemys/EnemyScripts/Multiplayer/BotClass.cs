@@ -56,11 +56,6 @@ namespace UnityEngine.AI
             outputVelocity = inputVelocity;
         }
 
-        public virtual void Update()
-        {
-            
-        }
-
         public virtual GameObject FindClosest(IEnumerable<Transform> gameObjects)
         {
             float lastDistance = Mathf.Infinity;
