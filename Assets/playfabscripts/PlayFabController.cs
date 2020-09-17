@@ -1,8 +1,8 @@
 ﻿using Photon.Pun;
-using Photon.Realtime;
 using PlayFab;
 using PlayFab.ClientModels;
 using PlayFab.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +10,9 @@ using UnityEngine;
 using UnityEngine.UI;
 public class PlayFabController : MonoBehaviourPunCallbacks
 {
+    #region veribales
+    public static Action getphotonfriends = delegate { };
+
     [SerializeField]
     private InputField InputFieldemail;
     [SerializeField]
@@ -27,6 +30,8 @@ public class PlayFabController : MonoBehaviourPunCallbacks
     public GameObject lobbypanel;
     public GameObject lederboardpanel;
 
+    public PrefabFriedsController prefabFrieds;
+
     [SerializeField] private EntityTokenResponse playfabToken;
     [SerializeField] private GetAccountInfoResult playfabInfo;
 
@@ -36,6 +41,7 @@ public class PlayFabController : MonoBehaviourPunCallbacks
 
     public PlayerListing PlayerListing;
 
+    public PrefabFriedsController PrefabFriedsController;
     private string userEmail
     {
         get
@@ -84,14 +90,36 @@ public class PlayFabController : MonoBehaviourPunCallbacks
     public GameObject registerpanel;
 
     public GameObject lobby;
-    void DisplayPlayFabError(PlayFabError error) => Debug.Log(error.GenerateErrorReport());
+	#endregion
+	#region errors calls
+	void DisplayPlayFabError(PlayFabError error) => Debug.Log(error.GenerateErrorReport());
 
-    private void Awake()
+    private void OnRegistereFailure(PlayFabError error) => Debug.LogError(error.GenerateErrorReport());
+
+    public void Ondisplaylogin(UpdateUserTitleDisplayNameResult result) => Debug.Log(result.DisplayName + "is your new displayer name");
+
+    private void OnLoginFailure(PlayFabError error)
+    {
+        Debug.Log(error.GenerateErrorReport());
+        //var registerRequest = new RegisterPlayFabUserRequest { Email = userEmail, Password = UserPassword,Username = username };
+        //PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSucsess, OnRegistereFailure);
+    }
+    private static void OnErrorShared(PlayFabError error) => Debug.Log(error.GenerateErrorReport());
+
+    private void OnAPIFailure(PlayFabError error)
+    {
+        Debug.Log($"Errored: {error.GenerateErrorReport()}");
+    }
+	#endregion
+
+	#region uniyMethods
+	private void Awake()
     {
         if (PlayFabController.PFC == null) PlayFabController.PFC = this;
         else
     if (PlayFabController.PFC != this) Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
+
     }
 
     private void Start()
@@ -113,10 +141,16 @@ public class PlayFabController : MonoBehaviourPunCallbacks
         Debug.Log(PlayerPrefs.GetString("EMAIL"));
 
 
+
+
+
+
         //var request = new LoginWithCustomIDRequest { CustomId = "GettingStartedGuide", CreateAccount = true };
         //PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccess, OnLoginFailure);
 
     }
+
+    #endregion
 
     #region login
     private void OnLoginSuccess(LoginResult result)
@@ -149,21 +183,13 @@ public class PlayFabController : MonoBehaviourPunCallbacks
         connectCanvas.SetActive(false);
     }
 
-    public void Ondisplaylogin(UpdateUserTitleDisplayNameResult result) => Debug.Log(result.DisplayName + "is your new displayer name");
 
-    private void OnLoginFailure(PlayFabError error)
-    {
-        Debug.Log(error.GenerateErrorReport());
-        //var registerRequest = new RegisterPlayFabUserRequest { Email = userEmail, Password = UserPassword,Username = username };
-        //PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSucsess, OnRegistereFailure);
-    }
     public void OnclickRegisterButton()
     {
         var registerRequest = new RegisterPlayFabUserRequest { Email = userEmail, Password = UserPassword, Username = username };
         PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSucsess, OnRegistereFailure);
     }
 
-    private void OnRegistereFailure(PlayFabError error) => Debug.LogError(error.GenerateErrorReport());
 
     //public void GetUserEmail(string emailIn) => userEmail = emailIn;
 
@@ -252,7 +278,6 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
         Debug.Log((string)messageValue);
     }
 
-    private static void OnErrorShared(PlayFabError error) => Debug.Log(error.GenerateErrorReport());
 
     // OnCloudHelloWorld defined in the next code block
     #endregion playerstats
@@ -324,17 +349,16 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
 
     #region friends
 
-
+    /*
     public IEnumerator WaitForFriend()
     {
         yield return new WaitForSeconds(2);
         GetFriends();
     }
-
     public void RunWaitFuction() => StartCoroutine(WaitForFriend());
 
     List<PlayFab.ClientModels.FriendInfo> _friends = null;
-
+    /*
     public void GetFriends()
     {
         PlayFabClientAPI.GetFriendsList(new GetFriendsListRequest
@@ -348,7 +372,7 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
             DisplayPlayfabFriends(_friends);
         }, DisplayPlayFabError);
     }
-
+    */
 
 
     enum FriendIdType { PlayFabId, Username, Email, DisplayName };
@@ -450,14 +474,12 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
         playfabToken = result.EntityToken;
         var request = new GetAccountInfoRequest { PlayFabId = result.PlayFabId };
         PlayFabClientAPI.GetAccountInfo(request, OnAccountInfoSucess, OnAPIFailure);
+        Debug.Log("f"); 
     }
 
 
 
-    private void OnAPIFailure(PlayFabError error)
-    {
-        Debug.Log($"Errored: {error.GenerateErrorReport()}");
-    }
+
     private void OnAccountInfoSucess(GetAccountInfoResult accountInfo)
     {
         playfabInfo = accountInfo;
@@ -511,7 +533,7 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     }
     public override void OnJoinedLobby()
     {
-        GetFriends();
+        getphotonfriends?.Invoke();
         Debug.Log($"Connected to Photon Lobby: {PhotonNetwork.CurrentLobby}");
     }
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -561,7 +583,7 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
     }
             */
 
-    List<PlayFab.ClientModels.FriendInfo> myfriends;
+    /*List<PlayFab.ClientModels.FriendInfo> myfriends;
     private void DisplayPlayfabFriends(List<PlayFab.ClientModels.FriendInfo> friendCache)
     {
         foreach (PlayFab.ClientModels.FriendInfo f in friendCache)
@@ -589,5 +611,8 @@ error => { Debug.LogError(error.GenerateErrorReport()); });
         }
         myfriends = friendCache;
     }
+    */
+
+
     #endregion
 }

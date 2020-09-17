@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d83ee2df360b0d34b80aa53e3961b2b2, type: 3}
   m_Name: Invetroy
   m_EditorClassIdentifier: 
+  savepath: /Invetory.exe
   Container: []
+  ItemDataBaseObject: {fileID: 11400000, guid: c70886a8c623745469b8bbce3af07b5b, type: 2}

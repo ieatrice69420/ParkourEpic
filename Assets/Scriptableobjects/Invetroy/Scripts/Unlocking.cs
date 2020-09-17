@@ -10,9 +10,21 @@ public class Unlocking : MonoBehaviour
 		var item = other.GetComponent<ItemScript>();
 		if (item)
 		{
+			Debug.Log("Item to collect has found");
 			Invetory.AddItem(item.item, 1);
 			Destroy(other.gameObject);
 
+		}
+	}
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			Invetory.Save();
+		}
+		if (Input.GetKeyDown(KeyCode.Return))
+		{
+			Invetory.Load();
 		}
 	}
 	private void OnApplicationQuit()
