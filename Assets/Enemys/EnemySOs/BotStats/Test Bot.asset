@@ -23,3 +23,6 @@ MonoBehaviour:
   changeTargetTime: 4
   wayPointInnaccuracy: 2
   wayPointDisableDistance: 3
+  wallRunDelay: 0.05
+  wallRunDelayMinModifier: -0.1
+  wallRunDelayMaxModifier: 0.1

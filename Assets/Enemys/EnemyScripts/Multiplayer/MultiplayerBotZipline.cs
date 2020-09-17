@@ -70,10 +70,16 @@ public class MultiplayerBotZipline : BotClass
     {
         velocity.y = actualJumpHeight;
 
-        for (float f = 0f; f < 1f; f += Time.deltaTime)
+        SphereCollider col = zipLineCarrier.GetComponent<SphereCollider>();
+
+        col.enabled = false;
+
+        for (float f = 0f; f < 3f; f += Time.deltaTime)
         {
             isZipLining = false;
             yield return null;
         }
+
+        col.enabled = true;
     }
 }

@@ -39,7 +39,7 @@ public class MultiplayerBotStateManager : BotClass
         data = agent.currentOffMeshLinkData;
         triggerState = SetTriggerState();
 
-        if (moveState != MoveState.Ziplining)
+        if (moveState != MoveState.Ziplining && moveState != MoveState.Roping)
         {
             for (int i = 0; i < moveScripts.Length - 1; i++)
             {
@@ -54,7 +54,12 @@ public class MultiplayerBotStateManager : BotClass
                 }
             }
         }
-        else
+        else if (moveState == MoveState.Roping)
+        {
+            foreach (Behaviour b in moveScripts) b.enabled = false;
+            moveScripts[5].enabled = true;
+        }
+        else if (moveState == MoveState.Ziplining)
         {
             foreach (Behaviour b in moveScripts) b.enabled = false;
             moveScripts[4].enabled = true;

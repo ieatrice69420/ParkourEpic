@@ -24,4 +24,14 @@ public class MultiplayerBotStats : ScriptableObject
     public float wayPointInnaccuracy;
     [Range(3f, 5f)]
     public float wayPointDisableDistance;
+    public float wallRunDelay;
+    [Range(-1f, 0f)]
+    public float wallRunDelayMinModifier;
+    [Range(0f, 1f)]
+    public float wallRunDelayMaxModifier;
+    public float ropeJumpDelay;
+    [Range(-2f, 0f)]
+    public float ropeJumpDelayMinModifier;
+    [Range(0f, 2f)]
+    public float ropeJumpDelayMaxModifier;
 }

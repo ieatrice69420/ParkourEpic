@@ -19,6 +19,9 @@ public class MultiplayerBotJump : BotClass
     bool touchingWall;
     [SerializeField]
     MultiplayerBotWallRun wallRun;
+    bool stillTouchingWall;
+    [SerializeField]
+    MultiplayerBotRope rope;
 
     void Start() => actualJumpHeight = (float)Sqrt((double)(jumpHeight * -2f * gravity));
 
@@ -105,12 +108,47 @@ public class MultiplayerBotJump : BotClass
         }
     }
 
-    void OnCollisionEnter() => touchingWall = true;
+    IEnumerator OnCollisionEnter()
+    {
+        yield return new WaitForSeconds
+        (
+            Mathf.Clamp
+            (
+                multiplayerBotStateManager.stats.wallRunDelay + Random.Range
+                (
+                    multiplayerBotStateManager.stats.wallRunDelayMinModifier,
+                    multiplayerBotStateManager.stats.wallRunDelayMaxModifier
+                ),
+                0f,
+                Mathf.Infinity
+            )
+        );
+
+        if (stillTouchingWall) touchingWall = true;
+    }
+
+    private void OnCollisionStay() => stillTouchingWall = true;
+
+    private void OnCollisionExit(Collision other) => stillTouchingWall = false;
 
     public void Roll() => multiplayerBotStateManager.moveState = MoveState.Rolling;
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        if (hit.collider.CompareTag("Rope"))
+            if (!rope.isSwinging)
+            {
+                Rigidbody rb = hit.transform.parent.gameObject.GetComponent<Rigidbody>();
+                Vector3 dir = rb.transform.position - transform.position;
+                float fl = Mathf.Max(dir.x, dir.z);
+                Vector3 pushDir = new Vector3(dir.x / Mathf.Abs(fl), 0f, dir.z / Mathf.Abs(fl));
+                rb.AddForce(pushDir * rope.ropeSpeed);
+                rope.rope = rb.transform;
+                rope.hitOffset = hit.point - rope.rope.position;
+                rope.rope.GetChild(0).GetComponent<CapsuleCollider>().enabled = false;
+                rope.isSwinging = true;
+                multiplayerBotStateManager.moveState = MoveState.Roping;
+            }
         if (hit.collider.CompareTag("Zipline")) multiplayerBotStateManager.moveState = MoveState.Ziplining;
     }
 }

@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 4205438189281868843}
   - component: {fileID: 6104638366522095353}
   - component: {fileID: 2131299500968454263}
+  - component: {fileID: 8105276853771708661}
   m_Layer: 13
   m_Name: MultiplayerBot
   m_TagString: Player
@@ -143,6 +144,7 @@ MonoBehaviour:
   - {fileID: 4205438189281868843}
   - {fileID: 5884504353292360706}
   - {fileID: 6104638366522095353}
+  - {fileID: 8105276853771708661}
   pathFindScripts:
   - {fileID: 8969442286166340015}
   - {fileID: 750348923613042157}
@@ -191,6 +193,7 @@ MonoBehaviour:
   gravity: -10
   multiplayerBotStateManager: {fileID: 7985932255333703964}
   wallRun: {fileID: 4314069691280060868}
+  rope: {fileID: 8105276853771708661}
 --- !u!114 &4043485771179170529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,6 +318,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &8105276853771708661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8848808006112464166}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27d8b1aa540b9cf489e75b8e8cb6169b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  maxJumpSpeed: 40
+  ropeSpeed: 50
+  jumpSpeed: 0
+  ropeTip: {fileID: 0}
+  ropeNewPos: {x: 0, y: 0, z: 0}
+  multiplayerBotStateManager: {fileID: 7985932255333703964}
+  ropeOldPos: {x: 0, y: 0, z: 0}
+  controller: {fileID: 8848808006112464172}
+  agent: {fileID: 8848808006112464160}
 --- !u!1001 &8848808007515358839
 PrefabInstance:
   m_ObjectHideFlags: 0
