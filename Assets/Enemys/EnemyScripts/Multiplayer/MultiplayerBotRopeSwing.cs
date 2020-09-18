@@ -29,10 +29,10 @@ public class MultiplayerBotRopeSwing : BotClass
     private void OnEnable()
     {
         agent.enabled = false;
-        isSwinging = true;
         ShareVelocity(multiplayerBotStateManager.velocity, out velocity);
 
         StartCoroutine(CallUpdate());
+        isSwinging = true;
     }
 
     IEnumerator CallUpdate()
@@ -102,15 +102,15 @@ public class MultiplayerBotRopeSwing : BotClass
                 0f,
                 Mathf.Infinity
             ) */
-            0.7f
+            0.2f
         );
 
-        isSwinging = false;
         Detach();
     }
 
     void Detach()
     {
+        isSwinging = false;
         jumpSpeed = maxJumpSpeed;
         rope.GetChild(0).GetComponent<CapsuleCollider>().enabled = true;
         controller.enabled = true;

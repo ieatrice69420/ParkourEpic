@@ -146,7 +146,6 @@ public class MultiplayerBotJump : BotClass
                 rope.rope = rb.transform;
                 rope.hitOffset = hit.point - rope.rope.position;
                 rope.rope.GetChild(0).GetComponent<CapsuleCollider>().enabled = false;
-                rope.isSwinging = true;
                 multiplayerBotStateManager.moveState = MoveState.Roping;
             }
         if (hit.collider.CompareTag("Zipline")) multiplayerBotStateManager.moveState = MoveState.Ziplining;
