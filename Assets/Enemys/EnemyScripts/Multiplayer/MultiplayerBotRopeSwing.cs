@@ -3,10 +3,10 @@ using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class MultiplayerBotRope : BotClass
+public class MultiplayerBotRopeSwing : BotClass
 {
     public Transform rope { get; set; }
-    public bool isSwinging { get; set; }
+    public bool isSwinging;
     [SerializeField]
     float speed, maxJumpSpeed;
     public float ropeSpeed;
@@ -92,7 +92,7 @@ public class MultiplayerBotRope : BotClass
 
         yield return new WaitForSeconds
         (
-            Mathf.Clamp
+/*             Mathf.Clamp
             (
                 multiplayerBotStateManager.stats.ropeJumpDelay + Random.Range
                 (
@@ -101,7 +101,8 @@ public class MultiplayerBotRope : BotClass
                 ),
                 0f,
                 Mathf.Infinity
-            )
+            ) */
+            0.7f
         );
 
         isSwinging = false;

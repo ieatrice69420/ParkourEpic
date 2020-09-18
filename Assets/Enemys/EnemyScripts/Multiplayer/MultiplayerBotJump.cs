@@ -21,7 +21,7 @@ public class MultiplayerBotJump : BotClass
     MultiplayerBotWallRun wallRun;
     bool stillTouchingWall;
     [SerializeField]
-    MultiplayerBotRope rope;
+    MultiplayerBotRopeSwing rope;
 
     void Start() => actualJumpHeight = (float)Sqrt((double)(jumpHeight * -2f * gravity));
 
