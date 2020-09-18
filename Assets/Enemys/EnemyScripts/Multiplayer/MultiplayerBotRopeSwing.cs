@@ -63,7 +63,7 @@ public class MultiplayerBotRopeSwing : BotClass
         else
         {
             alreadyCalledOnSwing = false;
-            controller.Move((ropeNewPos * jumpSpeed + velocity) * Time.deltaTime);
+            controller.Move(ropeNewPos * jumpSpeed * Time.deltaTime);
         }
 
         if (controller.isGrounded) multiplayerBotStateManager.moveState = MoveState.Jumping;
