@@ -51,7 +51,9 @@ public class MultiplayerBotRopeSwing : BotClass
 
     void RunAlways()
     {
-        Debug.Log("AAAAAAAAA");
+        if (jumpSpeed > 0f) jumpSpeed -= Time.deltaTime * 2.5f;
+
+        if (jumpSpeed < 0f) jumpSpeed = 0f;
 
         Debug.Log(isSwinging);
         if (isSwinging)
@@ -60,14 +62,10 @@ public class MultiplayerBotRopeSwing : BotClass
             if (!alreadyCalledOnSwing) StartCoroutine(OnSwing());
             controller.enabled = false;
         }
-        else
-        {
-            alreadyCalledOnSwing = false;
-            controller.Move(ropeNewPos * jumpSpeed * Time.deltaTime);
-        }
+        else alreadyCalledOnSwing = false;
 
+        controller.Move(ropeNewPos * jumpSpeed * (isSwinging ? 0f : 1f) * Time.deltaTime);
         if (controller.isGrounded) multiplayerBotStateManager.moveState = MoveState.Jumping;
-        Debug.Log("AAAAAAAAA");
     }
 
     void Swing() => transform.position = rope.GetChild(0).GetChild(0).position;
@@ -90,20 +88,7 @@ public class MultiplayerBotRopeSwing : BotClass
     {
         alreadyCalledOnSwing = true;
 
-        yield return new WaitForSeconds
-        (
-/*             Mathf.Clamp
-            (
-                multiplayerBotStateManager.stats.ropeJumpDelay + Random.Range
-                (
-                    multiplayerBotStateManager.stats.ropeJumpDelayMinModifier,
-                    multiplayerBotStateManager.stats.ropeJumpDelayMaxModifier
-                ),
-                0f,
-                Mathf.Infinity
-            ) */
-            0.2f
-        );
+        yield return new WaitForSeconds(0.2f);
 
         Detach();
     }

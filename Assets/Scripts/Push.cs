@@ -33,6 +33,7 @@ public class Push : MonoBehaviour
             Vector3 pushDir = new Vector3(dir.x, 0f, dir.x);
             rb.AddForce(pushDir * speed);
         }
+
         if (Input.GetKey(interact))
         {
             if (hit.collider.CompareTag("Rope"))
@@ -73,6 +74,7 @@ public class Push : MonoBehaviour
                 letGo.SetActive(false);
             }
         }
+
         if (move.isGrounded) jumpSpeed = 0f;
 
         if (isZipLining && Input.GetKeyDown(KeyCode.Space)) StartCoroutine(DetachZipline());
@@ -96,6 +98,7 @@ public class Push : MonoBehaviour
     void LateUpdate()
     {
         if (isSwinging) Swing();
+
         if (isZipLining) ZipLine();
 
         if (isSwinging || isZipLining) move.velocity = new Vector3(0f, -2f, 0f);
