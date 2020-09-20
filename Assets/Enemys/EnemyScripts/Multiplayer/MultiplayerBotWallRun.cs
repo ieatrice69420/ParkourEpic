@@ -14,8 +14,11 @@ public class MultiplayerBotWallRun : BotClass
     [SerializeField]
     float gravity;
     float defaultSpeed;
+    WallJumpManager wallJumpManager;
 
     void Awake() => defaultSpeed = wallRunSpeed;
+
+    private void Start() => wallJumpManager = WallJumpManager.instance;
 
     void OnEnable()
     {
@@ -35,6 +38,11 @@ public class MultiplayerBotWallRun : BotClass
     {
         velocity.y += gravity * Time.deltaTime;
         controller.Move(((wallRunDir * wallRunSpeed) + velocity) * Time.deltaTime);
+
+        foreach (Transform wallJumpTriggere in wallJumpManager.WallJumpTriggers)
+        {
+            
+        }
     }
 
     void OnCollisionExit()

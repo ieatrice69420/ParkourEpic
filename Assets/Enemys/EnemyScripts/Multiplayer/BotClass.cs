@@ -56,7 +56,7 @@ namespace UnityEngine.AI
             outputVelocity = inputVelocity;
         }
 
-        public virtual GameObject FindClosest(IEnumerable<Transform> gameObjects)
+        public virtual ClosestObject FindClosest(IEnumerable<Transform> gameObjects)
         {
             float lastDistance = Mathf.Infinity;
             Transform closest = null;
@@ -68,10 +68,10 @@ namespace UnityEngine.AI
                     closest = g;
                 }
 
-            return closest.gameObject;
+            return new ClosestObject(closest.gameObject, Vector3.SqrMagnitude(closest.position - transform.position));
         }
 
-        public virtual GameObject FindClosest(IEnumerable<Transform> gameObjects, GameObject origin)
+        public virtual ClosestObject FindClosest(IEnumerable<Transform> gameObjects, GameObject origin)
         {
             float lastDistance = Mathf.Infinity;
             Transform closest = null;
@@ -83,7 +83,19 @@ namespace UnityEngine.AI
                     closest = g;
                 }
 
-            return closest.gameObject;
+            return new ClosestObject(closest.gameObject, Vector3.SqrMagnitude(closest.position - transform.position));
+        }
+    }
+
+    public struct ClosestObject
+    {
+        public GameObject closest;
+        public float sqrDistance;
+
+        public ClosestObject(GameObject closestObj, float dis)
+        {
+            closest = closestObj;
+            sqrDistance = dis;
         }
     }
 }
