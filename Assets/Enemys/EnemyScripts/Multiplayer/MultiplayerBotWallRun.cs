@@ -15,11 +15,16 @@ public class MultiplayerBotWallRun : BotClass
     float gravity;
     float defaultSpeed;
     WallJumpManager wallJumpManager;
+    [SerializeField]
+    float minDis;
 
     void Awake() => defaultSpeed = wallRunSpeed;
 
-    private void Start() => wallJumpManager = WallJumpManager.instance;
-
+    private void Start()
+    {
+        wallJumpManager = WallJumpManager.instance;
+        minDis *= minDis;
+    }
     void OnEnable()
     {
         ShareVelocity(multiplayerBotStateManager.velocity, out velocity);
@@ -39,10 +44,15 @@ public class MultiplayerBotWallRun : BotClass
         velocity.y += gravity * Time.deltaTime;
         controller.Move(((wallRunDir * wallRunSpeed) + velocity) * Time.deltaTime);
 
-        foreach (Transform wallJumpTriggere in wallJumpManager.WallJumpTriggers)
+        if (FindClosest(wallJumpManager.wallJumpTriggers).sqrDistance <= minDis)
         {
-            
+            WallJump();
         }
+    }
+
+    void WallJump()
+    {
+
     }
 
     void OnCollisionExit()

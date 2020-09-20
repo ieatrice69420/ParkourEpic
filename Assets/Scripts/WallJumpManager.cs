@@ -6,15 +6,15 @@ namespace UnityEngine.AI
     {
         public static WallJumpManager instance;
         [SerializeField]
-        public Transform[] WallJumpTriggers { get; private set; }
+        public Transform[] wallJumpTriggers { get; private set; }
 
         private void Awake() => instance = this;
 
         private void Start()
         {
-            if (WallJumpTriggers.Contains<Transform>(null))
-                for (var i = 0; i < WallJumpTriggers.Length; i++)
-                    WallJumpTriggers[i] = transform.GetChild(i);
+            if (wallJumpTriggers.Contains<Transform>(null))
+                for (var i = 0; i < wallJumpTriggers.Length; i++)
+                    wallJumpTriggers[i] = transform.GetChild(i);
         }
     }
 }
