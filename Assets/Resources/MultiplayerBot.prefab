@@ -253,6 +253,10 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   multiplayerBotStateManager: {fileID: 7985932255333703964}
   gravity: -10
+  minDis: 2
+  wallJumpSpeed: 0
+  wallJumpDir: {x: 0, y: 0, z: 0}
+  jump: {fileID: 9200221750916814958}
 --- !u!114 &5884504353292360706
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public class MultiplayerBotJump : BotClass
     public Vector3 velocity;
     [SerializeField]
     float jumpHeight, gravity;
-    float actualJumpHeight;
+    public float actualJumpHeight { get; private set; }
     bool isGrounded = true;
     Vector3 jumpDir;
     [SerializeField]
@@ -104,11 +104,12 @@ public class MultiplayerBotJump : BotClass
         if (!controller.isGrounded && touchingWall)
         {
             wallRun.wallRunDir = jumpDir;
+            wallRun.wallJumpSpeed = 0f;
             multiplayerBotStateManager.moveState = MoveState.WallRunning;
         }
     }
 
-    IEnumerator OnCollisionEnter()
+    IEnumerator OnCollisionEnter(Collision other)
     {
         yield return new WaitForSeconds
         (
@@ -125,6 +126,7 @@ public class MultiplayerBotJump : BotClass
         );
 
         if (stillTouchingWall) touchingWall = true;
+        wallRun.other = other;
     }
 
     private void OnCollisionStay() => stillTouchingWall = true;

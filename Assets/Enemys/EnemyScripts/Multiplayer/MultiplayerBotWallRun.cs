@@ -17,6 +17,13 @@ public class MultiplayerBotWallRun : BotClass
     WallJumpManager wallJumpManager;
     [SerializeField]
     float minDis;
+    public float wallJumpSpeed;
+    public Vector3 wallJumpDir;
+    bool isWallJumping;
+    bool isWallRunning;
+    public Collision other;
+    [SerializeField]
+    MultiplayerBotJump jump;
 
     void Awake() => defaultSpeed = wallRunSpeed;
 
@@ -31,20 +38,38 @@ public class MultiplayerBotWallRun : BotClass
         controller.enabled = true;
         multiplayerBotStateManager.agent.enabled = false;
         wallRunSpeed = defaultSpeed;
+        isWallRunning = true;
     }
 
     void Update()
     {
-        WallRun();
-        if (controller.isGrounded) multiplayerBotStateManager.moveState = MoveState.Jumping;
+        if (isWallRunning) WallRun();
+
+        // if (controller.isGrounded) multiplayerBotStateManager.moveState = MoveState.Jumping;
+
+        controller.Move(((wallRunDir * wallRunSpeed) + velocity) * Time.deltaTime);
     }
 
     void WallRun()
     {
         velocity.y += gravity * Time.deltaTime;
-        controller.Move(((wallRunDir * wallRunSpeed) + velocity) * Time.deltaTime);
 
         if (FindClosest(wallJumpManager.wallJumpTriggers).sqrDistance <= minDis)
+        {
+            wallJumpSpeed = 7f;
+            velocity.y = jump.actualJumpHeight;
+
+            #region WallJumpVectorCalc
+
+            wallJumpDir = Vector3.Reflect(wallRunDir, other.GetContact(0).normal).normalized;
+
+            #endregion
+
+            isWallJumping = true;
+            isWallRunning = false;
+        }
+
+        if (isWallJumping)
         {
             WallJump();
         }
@@ -52,12 +77,26 @@ public class MultiplayerBotWallRun : BotClass
 
     void WallJump()
     {
+        controller.Move(wallJumpDir * wallJumpSpeed * Time.deltaTime);
 
+        if (wallJumpSpeed > 0f) wallJumpSpeed -= 4f * Time.deltaTime;
+        else
+        {
+            wallJumpSpeed = 0f;
+            isWallJumping = false;
+        }
+    }
+
+    private void OnCollisionEnter()
+    {
+        wallRunDir = transform.forward;
+        isWallRunning = true;
     }
 
     void OnCollisionExit()
     {
         wallRunSpeed = 0;
+        isWallRunning = true;
     }
 
     void OnDisable() => ShareVelocity(velocity, out multiplayerBotStateManager.velocity);
