@@ -5,8 +5,7 @@ namespace UnityEngine.AI
     public class WallJumpManager : MonoBehaviour
     {
         public static WallJumpManager instance;
-        [SerializeField]
-        public Transform[] wallJumpTriggers { get; private set; }
+        public Transform[] wallJumpTriggers;
 
         private void Awake() => instance = this;
 
