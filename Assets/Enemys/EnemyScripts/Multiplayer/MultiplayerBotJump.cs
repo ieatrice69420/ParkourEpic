@@ -88,6 +88,8 @@ public class MultiplayerBotJump : BotClass
 
         while (!controller.isGrounded)
         {
+            if (!enabled) break;
+
             isGrounded = true;
             multiplayerBotStateManager.agent.enabled = true;
             yield return null;

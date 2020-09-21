@@ -2,7 +2,7 @@
 
 public class BoneLook : MonoBehaviour
 {
-	[SerializeField]
+    [SerializeField]
     Transform target;
 
     void LateUpdate()
@@ -12,6 +12,6 @@ public class BoneLook : MonoBehaviour
 
     void Look()
     {
-        transform.rotation = target.rotation;
+        if (target != null) transform.rotation = target.rotation;
     }
 }

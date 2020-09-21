@@ -14,6 +14,7 @@ public class MultiplayerBotWallRun : BotClass
     [SerializeField]
     float gravity;
     float defaultSpeed;
+    [SerializeField]
     WallJumpManager wallJumpManager;
     [SerializeField]
     float minDis;
@@ -37,6 +38,7 @@ public class MultiplayerBotWallRun : BotClass
         ShareVelocity(multiplayerBotStateManager.velocity, out velocity);
         controller.enabled = true;
         multiplayerBotStateManager.agent.enabled = false;
+        // Destroy(multiplayerBotStateManager.agent);
         wallRunSpeed = defaultSpeed;
         isWallRunning = true;
     }
@@ -45,29 +47,17 @@ public class MultiplayerBotWallRun : BotClass
     {
         if (isWallRunning) WallRun();
 
-        // if (controller.isGrounded) multiplayerBotStateManager.moveState = MoveState.Jumping;
-
-        controller.Move(((wallRunDir * wallRunSpeed) + velocity) * Time.deltaTime);
+        if (controller.isGrounded)
+        {
+            velocity.y = -2f;
+            multiplayerBotStateManager.moveState = MoveState.Jumping;
+        }
+        else controller.Move(velocity * Time.deltaTime);
     }
 
     void WallRun()
     {
         velocity.y += gravity * Time.deltaTime;
-
-        if (FindClosest(wallJumpManager.wallJumpTriggers).sqrDistance <= minDis)
-        {
-            wallJumpSpeed = 7f;
-            velocity.y = jump.actualJumpHeight;
-
-            #region WallJumpVectorCalc
-
-            wallJumpDir = Vector3.Reflect(wallRunDir, other.GetContact(0).normal).normalized;
-
-            #endregion
-
-            isWallJumping = true;
-            isWallRunning = false;
-        }
 
         if (isWallJumping)
         {
@@ -93,11 +83,39 @@ public class MultiplayerBotWallRun : BotClass
         isWallRunning = true;
     }
 
+    private void OnCollisionStay(Collision other)
+    {
+        if (Input.GetKey(KeyCode.P))
+        {
+            wallJumpSpeed = 7f;
+
+            #region WallJumpVectorCalc
+
+            wallJumpDir = Vector3.Reflect(wallRunDir, other.GetContact(0).normal).normalized;
+
+            velocity = new Vector3
+            (
+                wallJumpDir.x,
+                jump.actualJumpHeight,
+                wallJumpDir.z
+            );
+
+            #endregion
+
+            isWallJumping = true;
+            isWallRunning = false;
+        }
+    }
+
     void OnCollisionExit()
     {
         wallRunSpeed = 0;
         isWallRunning = true;
     }
 
-    void OnDisable() => ShareVelocity(velocity, out multiplayerBotStateManager.velocity);
+    void OnDisable()
+    {
+        ShareVelocity(velocity, out multiplayerBotStateManager.velocity);
+        multiplayerBotStateManager.agent.enabled = true;
+    }
 }

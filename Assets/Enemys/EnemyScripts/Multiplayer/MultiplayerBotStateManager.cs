@@ -37,7 +37,8 @@ public class MultiplayerBotStateManager : BotClass
 
     void Update()
     {
-        data = agent.currentOffMeshLinkData;
+        if (moveState == MoveState.Jumping) data = agent.currentOffMeshLinkData;
+
         triggerState = SetTriggerState();
 
         if (moveState != MoveState.Ziplining && moveState != MoveState.Roping)
