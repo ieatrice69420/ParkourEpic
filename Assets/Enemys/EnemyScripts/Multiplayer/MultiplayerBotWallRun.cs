@@ -22,7 +22,6 @@ public class MultiplayerBotWallRun : BotClass
     public Vector3 wallJumpDir;
     bool isWallJumping;
     bool isWallRunning;
-    public Collision other;
     [SerializeField]
     MultiplayerBotJump jump;
 
@@ -117,5 +116,6 @@ public class MultiplayerBotWallRun : BotClass
     {
         ShareVelocity(velocity, out multiplayerBotStateManager.velocity);
         multiplayerBotStateManager.agent.enabled = true;
+        // multiplayerBotStateManager.pathFindState = PathFindState.Objective;
     }
 }

@@ -128,7 +128,6 @@ public class MultiplayerBotJump : BotClass
         );
 
         if (stillTouchingWall) touchingWall = true;
-        wallRun.other = other;
     }
 
     private void OnCollisionStay() => stillTouchingWall = true;
