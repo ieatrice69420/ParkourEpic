@@ -5,11 +5,11 @@ using static UnityEngine.Mathf;
 public class MultiplayerBotObjective : MonoBehaviour
 {
     public MultiplayerBotStateManager stateManager;
-    Transform objective;
+    Objective objective;
 
     void Start()
     {
-        objective = Objective.instance.transform;
+        objective = Objective.instance;
         StartCoroutine(ChangeTarget());
     }
 
@@ -19,9 +19,9 @@ public class MultiplayerBotObjective : MonoBehaviour
         {
             float distance = Infinity;
 
-            for (int i = 0; i < objective.childCount; i++)
+            for (int i = 0; i < objective.wayPoints.Length; i++)
             {
-                Vector3 objectivePos = objective.GetChild(i).position;
+                Vector3 objectivePos = objective.wayPoints[i];
                 float currentDis = (transform.position - objectivePos).sqrMagnitude;
 
                 if (currentDis < distance)
