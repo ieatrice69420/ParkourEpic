@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 6104638366522095353}
   - component: {fileID: 2131299500968454263}
   - component: {fileID: 8105276853771708661}
+  - component: {fileID: 1293528821754372858}
   m_Layer: 13
   m_Name: MultiplayerBot
   m_TagString: Player
@@ -209,6 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateManager: {fileID: 7985932255333703964}
+  objective: {fileID: 1293528821754372858}
 --- !u!114 &8969442286166340015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,6 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateManager: {fileID: 7985932255333703964}
+  wayPoints: {fileID: 1293528821754372858}
   disabledWayPoint: {x: 0, y: 0, z: 0}
 --- !u!136 &6945908976383113735
 CapsuleCollider:
@@ -255,11 +258,11 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   multiplayerBotStateManager: {fileID: 7985932255333703964}
   gravity: -10
+  wallJumpManager: {fileID: 0}
   minDis: 2
   wallJumpSpeed: 0
   wallJumpDir: {x: 0, y: 0, z: 0}
   jump: {fileID: 9200221750916814958}
-  follow: {fileID: 750348923613042157}
 --- !u!114 &5884504353292360706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,6 +351,19 @@ MonoBehaviour:
   ropeOldPos: {x: 0, y: 0, z: 0}
   controller: {fileID: 8848808006112464172}
   agent: {fileID: 8848808006112464160}
+--- !u!114 &1293528821754372858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8848808006112464166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 171fa2b0b2fd39a4c94c23716ed08280, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wayPointList: []
 --- !u!1001 &8848808007515358839
 PrefabInstance:
   m_ObjectHideFlags: 0
