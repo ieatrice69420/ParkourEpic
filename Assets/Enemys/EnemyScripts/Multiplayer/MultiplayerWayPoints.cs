@@ -5,6 +5,8 @@ using System.Linq;
 public class MultiplayerWayPoints : MonoBehaviour
 {
     public List<Vector3> wayPointList = new List<Vector3>();
+    [SerializeField]
+    List<Vector3> disabledWayPointList = new List<Vector3>();
 
     private void Start()
     {
