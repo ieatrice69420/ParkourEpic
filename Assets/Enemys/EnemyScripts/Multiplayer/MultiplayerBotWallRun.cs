@@ -33,8 +33,7 @@ public class MultiplayerBotWallRun : BotClass
 
     private void Start()
     {
-        WallJumpManager tempManager = WallJumpManager.instance;
-        if (tempManager != null) wallJumpManager = tempManager;
+        wallJumpManager = WallJumpManager.instance;
         minDis *= minDis;
     }
     void OnEnable()
@@ -91,7 +90,7 @@ public class MultiplayerBotWallRun : BotClass
     private void OnCollisionStay(Collision other)
     {
         if (wallJumpManager != null)
-            if (FindClosest(wallJumpManager.wallJumpTriggers).sqrDistance <= minDis || Input.GetKey(KeyCode.P))
+            if (FindClosest(wallJumpManager.wallJumpTriggers).sqrDistance <= minDis)
             {
                 wallJumpSpeed = 7f;
 
