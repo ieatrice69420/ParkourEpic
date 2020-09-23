@@ -164,6 +164,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   groundDistance: 0.1
+  wayPoints: {fileID: 1293528821754372858}
 --- !u!114 &750348923613042157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,6 +264,7 @@ MonoBehaviour:
   wallJumpSpeed: 0
   wallJumpDir: {x: 0, y: 0, z: 0}
   jump: {fileID: 9200221750916814958}
+  wayPoints: {fileID: 1293528821754372858}
 --- !u!114 &5884504353292360706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,6 +366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wayPointList: []
+  disabledWayPointList: []
 --- !u!1001 &8848808007515358839
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace UnityEngine.AI
@@ -71,6 +72,22 @@ namespace UnityEngine.AI
             return new ClosestObject(closest.gameObject, Vector3.SqrMagnitude(closest.position - transform.position));
         }
 
+        public virtual ClosestVector FindClosest(IEnumerable<Vector3> gameObjects)
+        {
+            float lastDistance = Mathf.Infinity;
+            Vector3 closest = Vector3.zero;
+
+            foreach (Vector3 g in gameObjects)
+                if (Vector3.SqrMagnitude(transform.position - g) < lastDistance)
+                {
+                    lastDistance = Vector3.SqrMagnitude(transform.position - g);
+                    closest = g;
+                }
+
+            if (closest == Vector3.zero) throw new ArgumentOutOfRangeException();
+            else return new ClosestVector(closest, Vector3.SqrMagnitude(closest - transform.position));
+        }
+
         public virtual ClosestObject FindClosest(IEnumerable<Transform> gameObjects, GameObject origin)
         {
             float lastDistance = Mathf.Infinity;
@@ -92,10 +109,22 @@ namespace UnityEngine.AI
         public GameObject closest;
         public float sqrDistance;
 
-        public ClosestObject(GameObject closestObj, float dis)
+        public ClosestObject(GameObject closest, float sqrDistance)
         {
-            closest = closestObj;
-            sqrDistance = dis;
+            this.closest = closest;
+            this.sqrDistance = sqrDistance;
+        }
+    }
+
+    public struct ClosestVector
+    {
+        public Vector3 closest;
+        public float sqrDistance;
+
+        public ClosestVector(Vector3 closest, float sqrDistance)
+        {
+            this.closest = closest;
+            this.sqrDistance = sqrDistance;
         }
     }
 }

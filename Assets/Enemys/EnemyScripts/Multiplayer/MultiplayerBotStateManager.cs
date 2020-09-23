@@ -34,6 +34,8 @@ public class MultiplayerBotStateManager : BotClass
     public LayerMask groundMask;
 
     public float groundDistance = 0.1f;
+    [SerializeField]
+    MultiplayerWayPoints wayPoints;
 
     void Update()
     {
@@ -85,6 +87,11 @@ public class MultiplayerBotStateManager : BotClass
                 break;
             }
             shootScripts[i].enabled = i == (int)shootState;
+        }
+
+        if (wayPoints.wayPointList.Count < 2)
+        {
+            pathFindState = PathFindState.Objective;
         }
     }
 

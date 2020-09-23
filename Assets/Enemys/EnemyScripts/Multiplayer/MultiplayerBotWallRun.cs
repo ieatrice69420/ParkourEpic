@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using System.Linq.Move;
 
 public class MultiplayerBotWallRun : BotClass
 {
@@ -24,6 +25,8 @@ public class MultiplayerBotWallRun : BotClass
     bool isWallRunning;
     [SerializeField]
     MultiplayerBotJump jump;
+    [SerializeField]
+    MultiplayerWayPoints wayPoints;
 
     void Awake() => defaultSpeed = wallRunSpeed;
 
@@ -40,6 +43,7 @@ public class MultiplayerBotWallRun : BotClass
         // Destroy(multiplayerBotStateManager.agent);
         wallRunSpeed = defaultSpeed;
         isWallRunning = true;
+        wayPoints.wayPointList.Move(wayPoints.disabledWayPointList, FindClosest(wayPoints.wayPointList).closest);
     }
 
     void Update()
