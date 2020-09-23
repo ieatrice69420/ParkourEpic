@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using System.Linq.Move;
+using System;
 
 public class MultiplayerBotWallRun : BotClass
 {
@@ -89,26 +90,27 @@ public class MultiplayerBotWallRun : BotClass
 
     private void OnCollisionStay(Collision other)
     {
-        if (FindClosest(wallJumpManager.wallJumpTriggers).sqrDistance <= minDis || Input.GetKey(KeyCode.P))
-        {
-            wallJumpSpeed = 7f;
+        if (wallJumpManager != null)
+            if (FindClosest(wallJumpManager.wallJumpTriggers).sqrDistance <= minDis || Input.GetKey(KeyCode.P))
+            {
+                wallJumpSpeed = 7f;
 
-            #region WallJumpVectorCalc
+                #region WallJumpVectorCalc
 
-            wallJumpDir = Vector3.Reflect(wallRunDir, other.GetContact(0).normal).normalized;
+                wallJumpDir = Vector3.Reflect(wallRunDir, other.GetContact(0).normal).normalized;
 
-            velocity = new Vector3
-            (
-                wallJumpDir.x,
-                jump.actualJumpHeight,
-                wallJumpDir.z
-            );
+                velocity = new Vector3
+                (
+                    wallJumpDir.x,
+                    jump.actualJumpHeight,
+                    wallJumpDir.z
+                );
 
-            #endregion
+                #endregion
 
-            isWallJumping = true;
-            isWallRunning = false;
-        }
+                isWallJumping = true;
+                isWallRunning = false;
+            }
     }
 
     void OnCollisionExit()
