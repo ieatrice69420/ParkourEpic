@@ -1903,7 +1903,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh8088
+  m_Name: pb_Mesh8090
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -3433,7 +3433,7 @@ PrefabInstance:
     - target: {fileID: 7985932255333703964, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
         type: 3}
       propertyPath: pathFindState
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7985932255333703964, guid: a8e12f1f5b3d8cf41aa54deec7781fa3,
         type: 3}
