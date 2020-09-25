@@ -6,9 +6,11 @@ public class MultiplayerBotFollow : BotClass
     public Transform target;
     [SerializeField]
     NavMeshAgent agent;
+    [SerializeField]
+    MultiplayerBotStateManager stateManager;
 
     void Update()
     {
-        agent.SetDestination(target.position);
+        stateManager.desiredPosition = target.position;
     }
 }

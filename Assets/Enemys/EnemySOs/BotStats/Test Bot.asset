@@ -26,3 +26,6 @@ MonoBehaviour:
   wallRunDelay: 0.05
   wallRunDelayMinModifier: -0.1
   wallRunDelayMaxModifier: 0.1
+  ropeJumpDelay: 0
+  ropeJumpDelayMinModifier: 0
+  ropeJumpDelayMaxModifier: 0

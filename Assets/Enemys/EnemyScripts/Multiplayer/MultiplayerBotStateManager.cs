@@ -36,6 +36,8 @@ public class MultiplayerBotStateManager : BotClass
     public float groundDistance = 0.1f;
     [SerializeField]
     MultiplayerWayPoints wayPoints;
+    [SerializeField]
+    MultiplayerBotFollow follow;
 
     void Update()
     {
@@ -105,6 +107,18 @@ public class MultiplayerBotStateManager : BotClass
 
     void CheckForVisiblePlayers()
     {
-        throw new NotImplementedException();
+        Transform[] targets = PlayersInSight(stats.fieldOfView, transform);
+        ClosestObject closest = FindClosest(targets);
+
+        if (closest.closest != null)
+        {
+            Transform closestPlayer = closest.closest.transform;
+
+            if (closestPlayer != null)
+            {
+                pathFindState = PathFindState.Following;
+                follow.target = closestPlayer;
+            }
+        }
     }
 }

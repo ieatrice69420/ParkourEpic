@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 2131299500968454263}
   - component: {fileID: 8105276853771708661}
   - component: {fileID: 1293528821754372858}
+  - component: {fileID: 3325911852545798322}
   m_Layer: 13
   m_Name: MultiplayerBot
   m_TagString: Player
@@ -165,6 +166,7 @@ MonoBehaviour:
     m_Bits: 0
   groundDistance: 0.1
   wayPoints: {fileID: 1293528821754372858}
+  follow: {fileID: 750348923613042157}
 --- !u!114 &750348923613042157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 8848808006112464161}
   agent: {fileID: 8848808006112464160}
+  stateManager: {fileID: 7985932255333703964}
 --- !u!114 &9200221750916814958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,6 +370,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wayPointList: []
   disabledWayPointList: []
+--- !u!114 &3325911852545798322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8848808006112464166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f4ed487c3fa50543bf9a720485ea4d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8848808007515358839
 PrefabInstance:
   m_ObjectHideFlags: 0

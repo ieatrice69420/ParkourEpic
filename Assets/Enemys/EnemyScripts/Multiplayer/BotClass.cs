@@ -60,17 +60,21 @@ namespace UnityEngine.AI
 
         public virtual ClosestObject FindClosest(IEnumerable<Transform> gameObjects)
         {
-            float lastDistance = Mathf.Infinity;
-            Transform closest = null;
+            if (gameObjects.Count<Transform>() > 0)
+            {
+                float lastDistance = Mathf.Infinity;
+                Transform closest = null;
 
-            foreach (Transform g in gameObjects)
-                if (Vector3.SqrMagnitude(transform.position - g.position) < lastDistance)
-                {
-                    lastDistance = Vector3.SqrMagnitude(transform.position - g.position);
-                    closest = g;
-                }
+                foreach (Transform g in gameObjects)
+                    if (Vector3.SqrMagnitude(transform.position - g.position) < lastDistance)
+                    {
+                        lastDistance = Vector3.SqrMagnitude(transform.position - g.position);
+                        closest = g;
+                    }
 
-            return new ClosestObject(closest.gameObject, Vector3.SqrMagnitude(closest.position - transform.position));
+                return new ClosestObject(closest.gameObject, Vector3.SqrMagnitude(closest.position - transform.position));
+            }
+            else return new ClosestObject(null, Single.NaN);
         }
 
         public virtual ClosestVector FindClosest(IEnumerable<Vector3> gameObjects)
@@ -117,6 +121,25 @@ namespace UnityEngine.AI
                 if (angle < fieldOfView && !Physics.Raycast(transform.position, player.transform.position - transform.position, LayerMask.NameToLayer("Ground")))
                     players.Add(player);
             }
+
+            return players.ToArray<Transform>();
+        }
+
+        public virtual Transform[] PlayersInSight(float fieldOfView, Transform ignoredTransform)
+        {
+            MultiplayerPlayerManager manager = MultiplayerPlayerManager.instance;
+            List<Transform> players = new List<Transform>();
+
+            foreach (Transform player in manager.players)
+            {
+                Vector3 playerDir = player.position - transform.position;
+                float angle = Vector3.Angle(playerDir, transform.forward);
+
+                if (angle < fieldOfView && /* !Physics.Raycast(transform.position, player.transform.position - transform.position, LayerMask.NameToLayer("Ground")) && */ player != ignoredTransform)
+                    players.Add(player);
+            }
+
+            if (players.ToArray<Transform>().Length > 0) Debug.Log(players.ToArray<Transform>()[0]);
 
             return players.ToArray<Transform>();
         }
