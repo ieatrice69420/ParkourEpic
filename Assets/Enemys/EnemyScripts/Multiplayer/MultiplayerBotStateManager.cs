@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public class MultiplayerBotStateManager : BotClass
 {
@@ -92,11 +93,18 @@ public class MultiplayerBotStateManager : BotClass
         {
             pathFindState = PathFindState.Objective;
         }
+
+        if (pathFindState != PathFindState.Following) CheckForVisiblePlayers();
     }
 
     TriggerState SetTriggerState()
     {
         if (data.valid) return TriggerState.Jump;
         return TriggerState.WallRun;
+    }
+
+    void CheckForVisiblePlayers()
+    {
+        throw new NotImplementedException();
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace UnityEngine.AI
 {
@@ -101,6 +102,23 @@ namespace UnityEngine.AI
                 }
 
             return new ClosestObject(closest.gameObject, Vector3.SqrMagnitude(closest.position - transform.position));
+        }
+
+        public virtual Transform[] PlayersInSight(float fieldOfView)
+        {
+            MultiplayerPlayerManager manager = MultiplayerPlayerManager.instance;
+            List<Transform> players = new List<Transform>();
+
+            foreach (Transform player in manager.players)
+            {
+                Vector3 playerDir = player.position - transform.position;
+                float angle = Vector3.Angle(playerDir, transform.forward);
+
+                if (angle < fieldOfView && !Physics.Raycast(transform.position, player.transform.position - transform.position, LayerMask.NameToLayer("Ground")))
+                    players.Add(player);
+            }
+
+            return players.ToArray<Transform>();
         }
     }
 
