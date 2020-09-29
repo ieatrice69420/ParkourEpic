@@ -38,8 +38,7 @@ public class MultiplayerBotStateManager : BotClass
     MultiplayerWayPoints wayPoints;
     [SerializeField]
     MultiplayerBotFollow follow;
-    [SerializeField]
-    Transform heading;
+    public Transform heading;
 
     void Update()
     {

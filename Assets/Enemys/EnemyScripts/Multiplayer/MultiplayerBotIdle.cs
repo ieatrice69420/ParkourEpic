@@ -4,10 +4,10 @@ using UnityEngine.AI;
 public class MultiplayerBotIdle : BotClass
 {
     [SerializeField]
-    Transform heading;
+    MultiplayerBotStateManager stateManager;
 
     private void Update()
     {
-
+        // transform.rotation = Quaternion.RotateTowards();
     }
 }
