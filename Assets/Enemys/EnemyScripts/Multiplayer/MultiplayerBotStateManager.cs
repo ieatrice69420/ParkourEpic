@@ -38,6 +38,8 @@ public class MultiplayerBotStateManager : BotClass
     MultiplayerWayPoints wayPoints;
     [SerializeField]
     MultiplayerBotFollow follow;
+    [SerializeField]
+    Transform heading;
 
     void Update()
     {
@@ -97,6 +99,8 @@ public class MultiplayerBotStateManager : BotClass
         }
 
         if (pathFindState != PathFindState.Following) CheckForVisiblePlayers();
+
+        if (agent.enabled) heading.LookAt(transform.position + agent.velocity);
     }
 
     TriggerState SetTriggerState()

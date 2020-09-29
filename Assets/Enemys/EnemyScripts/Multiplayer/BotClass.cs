@@ -47,8 +47,7 @@ namespace UnityEngine.AI
         public enum ShootState
         {
             Idle = 0,
-            Spraying = 1,
-            Precise = 2
+            Shooting = 2
         }
 
         #endregion
